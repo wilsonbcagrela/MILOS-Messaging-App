@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  border: 0;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #313131;
+  color: white;
+}
+
+header {
+  background-color: #121212;
+  color: white;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+/*# sourceMappingURL=style.css.map */

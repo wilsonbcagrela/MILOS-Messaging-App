@@ -1,0 +1,19 @@
+
+* {
+    margin: 0;
+    border: 0;
+    font-family: sans-serif;
+}
+body{
+    background-color: #313131;
+    color: white;
+}
+
+header{
+    background-color: #121212;
+    color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+}
