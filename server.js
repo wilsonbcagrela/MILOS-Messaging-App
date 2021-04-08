@@ -12,4 +12,15 @@ app.get('/', (req, res) =>{
     res.render('index.ejs')
 })
 
-app.listen(port)
+app.get('/login',(req, res) =>{
+
+    res.render('login.ejs')
+})
+
+app.get('/registo',(req, res) =>{
+
+    res.render('registo.ejs')
+})
+app.listen(port, () => {
+    console.log(`listening at port ${port}`)
+})

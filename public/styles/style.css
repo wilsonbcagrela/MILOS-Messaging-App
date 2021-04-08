@@ -7,6 +7,7 @@
 body {
   background-color: #313131;
   color: white;
+  height: 100vh;
 }
 
 header {
@@ -22,5 +23,32 @@ header {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
+}
+
+.loginForm {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.loginForm input {
+  padding: 5px;
+  border: solid 1px black;
+  margin: 5px;
+}
+
+.loginForm a {
+  color: blanchedalmond;
 }
 /*# sourceMappingURL=style.css.map */

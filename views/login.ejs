@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>MILOS</title>
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <div class="loginForm">
+        <h4>Por favor faça login</h4>
+        <form action="#">
+            <label for="emailUser"></label>
+            <input type="email" placeholder="Email..." name="emailUser" required><br>
+            <input type="password" placeholder="Password..." name="passwordUser" required><br>
+            <input type="submit" name="submit">
+        </form>
+        <h4>Não tem conta? registe-se aqui <a href="/registo">Registe-se</a></h4>
+    </div>
+</body>
+</html>
