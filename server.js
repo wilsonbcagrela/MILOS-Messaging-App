@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoConfigs = require('./models/mongoConfigs');
 const app = express()
 const port = 3000
 
@@ -21,6 +22,13 @@ app.get('/registo',(req, res) =>{
 
     res.render('registo.ejs')
 })
-app.listen(port, () => {
-    console.log(`listening at port ${port}`)
+
+mongoConfigs.connect(function(err){
+    if(!err){
+        app.listen(port, () => {
+            console.log(`listening at port ${port}`)
+        })
+    }else{
+        console.log(err)
+    }
 })
