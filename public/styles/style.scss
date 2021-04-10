@@ -17,7 +17,36 @@ header{
     height: 60px;
     display: flex;
     align-items: center;
-    justify-content:space-evenly;
+    // justify-content:space-evenly;
+    padding: 2px;
+    .logo{
+        position: relative;
+        left: 10px;
+    }
+}
+.maingrid{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 20 colunas
+    height: 100vh;
+
+    .conversas{
+        background-color: red;
+        grid-column: span 2;
+        padding: 10px;
+    }
+    .content-mensagens{
+        
+        // display: flex;
+        // justify-content:center;
+        padding: 10px;
+        background-color: chocolate;
+        grid-column: span 8;
+    }
+    .pessoasOnline{
+        grid-column: span 2;
+        background-color: blue;
+        padding: 10px;
+    }
 }
 .loginForm{
     height: 100vh;

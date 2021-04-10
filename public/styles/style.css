@@ -20,9 +20,38 @@ header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  padding: 2px;
+}
+
+header .logo {
+  position: relative;
+  left: 10px;
+}
+
+.maingrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  height: 100vh;
+}
+
+.maingrid .conversas {
+  background-color: red;
+  grid-column: span 2;
+  padding: 10px;
+}
+
+.maingrid .content-mensagens {
+  padding: 10px;
+  background-color: chocolate;
+  grid-column: span 8;
+}
+
+.maingrid .pessoasOnline {
+  grid-column: span 2;
+  background-color: blue;
+  padding: 10px;
 }
 
 .loginForm {
