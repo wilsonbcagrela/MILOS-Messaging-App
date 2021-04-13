@@ -1,0 +1,54 @@
+// Aqui fica o css das paginas login e registo
+@mixin flexCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
+}
+
+.container{
+    height: 100vh;
+    @include flexCenter();
+    .loginForm, .registrationForm{
+        @include flexCenter();
+        form{
+            @include flexCenter();
+            input{
+                padding: 5px;
+                border: solid 1px black;
+                margin: auto;
+                margin: 5px;
+              
+            }
+            .inputfile{
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: -1;
+
+         
+            }
+            .inputfile + label {
+                border-radius: 25px;
+                padding: 10px;
+                font-size: 1.25em;
+                font-weight: 700;
+                color: white;
+                background-color: black;
+                display: inline-block;
+                cursor: pointer;
+
+                &:hover{
+                    background-color:aliceblue;
+                    color: black;
+                }
+            }
+        }
+        
+        a{
+            color: blanchedalmond;
+        }
+    }
+}

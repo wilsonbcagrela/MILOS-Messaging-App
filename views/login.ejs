@@ -1,14 +1,15 @@
 <%- include('partials/header.ejs') %>
-
+<div class="container">
     <div class="loginForm">
         <h4>Por favor faça login</h4>
         <form action="#">
-            <label for="emailUser"></label>
-            <input type="email" placeholder="Email..." name="emailUser" required><br>
-            <input type="password" placeholder="Password..." name="passwordUser" required><br>
-            <input type="submit" name="submit">
+            <input type="text" placeholder="Nome de utilizador..." name="userName" required><br>
+            <label for="userName"></label>
+            <input type="password" placeholder="Password..." name="userPassword" required><br>
+            <label for="userPassword"></label>
+            <input type="submit" name="submit" value="Log In"  />
         </form>
         <h4>Não tem conta? registe-se aqui <a href="/registo">Registe-se</a></h4>
     </div>
-
+</div>
 <%- include('partials/footer.ejs') %>

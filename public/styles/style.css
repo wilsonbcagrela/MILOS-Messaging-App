@@ -1,3 +1,88 @@
+.container {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .loginForm, .container .registrationForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .loginForm form, .container .registrationForm form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.container .loginForm form input, .container .registrationForm form input {
+  padding: 5px;
+  border: solid 1px black;
+  margin: auto;
+  margin: 5px;
+}
+
+.container .loginForm form .inputfile, .container .registrationForm form .inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.container .loginForm form .inputfile + label, .container .registrationForm form .inputfile + label {
+  border-radius: 25px;
+  padding: 10px;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: black;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.container .loginForm form .inputfile + label:hover, .container .registrationForm form .inputfile + label:hover {
+  background-color: aliceblue;
+  color: black;
+}
+
+.container .loginForm a, .container .registrationForm a {
+  color: blanchedalmond;
+}
+
 * {
   margin: 0;
   border: 0;
@@ -52,32 +137,5 @@ header .logo {
   grid-column: span 2;
   background-color: blue;
   padding: 10px;
-}
-
-.loginForm {
-  height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.loginForm input {
-  padding: 5px;
-  border: solid 1px black;
-  margin: 5px;
-}
-
-.loginForm a {
-  color: blanchedalmond;
 }
 /*# sourceMappingURL=style.css.map */

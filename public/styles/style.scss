@@ -1,5 +1,9 @@
+@import "./loginRegisto";
+
 $corCorpo: #313131;
-$corHeader: #121212;
+$corHeader: #121212;  
+
+
 * {
     margin: 0;
     border: 0;
@@ -26,7 +30,7 @@ header{
 }
 .maingrid{
     display: grid;
-    grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 20 colunas
+    grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
     height: 100vh;
 
     .conversas{
@@ -48,18 +52,5 @@ header{
         padding: 10px;
     }
 }
-.loginForm{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-    input{
-        padding: 5px;
-        border: solid 1px black;
-        margin: 5px;
-    }
-    a{
-        color: blanchedalmond;
-    }
-}
+
+
