@@ -1,0 +1,1 @@
+var mongoConfigs = require('./mongoConfigs');

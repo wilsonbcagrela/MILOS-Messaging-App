@@ -13,5 +13,6 @@ module.exports = {
     getDB:function(){
         return db;
     }
-
+    //mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=admin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true
+    //mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false
 }
