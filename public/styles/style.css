@@ -69,7 +69,7 @@
   font-size: 1.25em;
   font-weight: 700;
   color: white;
-  background-color: black;
+  background-color: #1212FF;
   display: inline-block;
   cursor: pointer;
 }
@@ -90,13 +90,13 @@
 }
 
 body {
-  background-color: #313131;
+  background-color: #121212;
   color: white;
   height: 100vh;
 }
 
 header {
-  background-color: #121212;
+  background-color: #000000;
   color: white;
   height: 60px;
   display: -webkit-box;
@@ -122,20 +122,20 @@ header .logo {
 }
 
 .maingrid .conversas {
-  background-color: red;
+  background-color: #1a1a1a;
   grid-column: span 2;
   padding: 10px;
 }
 
 .maingrid .content-mensagens {
   padding: 10px;
-  background-color: chocolate;
+  background-color: #121212;
   grid-column: span 8;
 }
 
 .maingrid .pessoasOnline {
   grid-column: span 2;
-  background-color: blue;
+  background-color: #1a1a1a;
   padding: 10px;
 }
 /*# sourceMappingURL=style.css.map */

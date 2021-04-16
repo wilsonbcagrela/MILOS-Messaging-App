@@ -1,7 +1,7 @@
 @import "./loginRegisto";
-
-$corCorpo: #313131;
-$corHeader: #121212;  
+// #313131;
+$corCorpo: #121212;
+$corHeader: #000000;  
 
 
 * {
@@ -34,7 +34,7 @@ header{
     height: 100vh;
 
     .conversas{
-        background-color: red;
+        background-color: #1a1a1a;
         grid-column: span 2;
         padding: 10px;
     }
@@ -43,12 +43,12 @@ header{
         // display: flex;
         // justify-content:center;
         padding: 10px;
-        background-color: chocolate;
+        background-color: $corCorpo;
         grid-column: span 8;
     }
     .pessoasOnline{
         grid-column: span 2;
-        background-color: blue;
+        background-color: #1a1a1a;
         padding: 10px;
     }
 }
