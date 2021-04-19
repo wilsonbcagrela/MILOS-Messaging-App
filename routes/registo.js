@@ -1,84 +1,54 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
-var fs = require('fs-extra');
+const http = require("http");
+const path = require("path");
+const fs = require("fs.extra");
+const multer  = require('multer');
 const { v4: uuidv4 } = require('uuid');
+const tempFolder = './tmp/'; // folder for temporary files, must exist
+const upload = multer({ dest: tempFolder });
+
+const router = express.Router();
 
 
-var router = express.Router();
+if (!fs.existsSync(tempFolder)){
+    fs.mkdirSync(tempFolder)
+}
+
 
 router.get('/',(req, res, next) =>{
-    
     res.render('registo.ejs')
-    
 })
 
-router.post('/submit', (req, res, next) =>{
+
+router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
     try {
         // const hashedPassword = bcrypt.hash( req.body.userPassword, 10)
         // bcrypt.compare(req.body.userConfirmedPassword, hashedPassword)
-        let name = req.body.userName;
+        let name = req.body.userName
+        let file = req.file.path
+        let fileName = req.file.originalname;
 
-        const uuid = uuidv4();
+        let uuid = uuidv4()
+        const uploadsFolder =  './uploads/users/'+uuid+'/'+name+'/'; 
 
-        var fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
-
-            //Path where image will be uploaded
-            fstream = fs.createWriteStream(__dirname + "/users/" + uuid + "/" + name);
-            file.pipe(fstream);
-            fstream.on('close', function () {    
-                console.log("Upload Finished of " + filename);              
-                res.redirect('back');           //where to go next
-            });
-        });
-
-       /* var fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
-
-            //Path where image will be uploaded
-            fstream = fs.createWriteStream(__dirname + '/img/' + filename);
-            file.pipe(fstream);
-            fstream.on('close', function () {    
-                console.log("Upload Finished of " + filename);              
-                res.redirect('back');           //where to go next
-            });
-        });*/
-
+        if (!fs.existsSync(uploadsFolder)){
+            fs.mkdirRecursiveSync(uploadsFolder)
+        }
         
-/*
-        fs.readFile(req.files.image.path, function (err, data) {
+        fs.move(file, uploadsFolder + fileName, function (err) {
+        if (err) {
+            console.log(err);
+            res.json({success:false, message: err});
+            return;
+        }
 
-            var imageName = req.files.image.name
-    
-            /// If there's an error
-            if(!imageName){
-    
-                console.log("There was an error")
-                res.redirect("/");
-                res.end();
-    
-            } else {
-    
-            var newPath = __dirname + "/users/" + uuid + "/" + name;
-    
-              /// write file to uploads/fullsize folder
-              fs.writeFile(newPath, data, function (err) {
-    
-                /// let's see it
-                res.redirect("/login");
-    
-              });
-            }
-        });*/
-
-        // res.redirect('/login')
+        res.json({success:true, message: 'File uploaded successfully', fileName: fileName});
+        });
         
     } catch (error) {
         res.redirect('/registo', error)
     }
 })
+
 module.exports = router;
