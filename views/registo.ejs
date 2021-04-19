@@ -2,7 +2,7 @@
 <div class="container">
     <div class="registrationForm">
         <h4>Por favor registe-se</h4>
-        <form method = "post" action="#" enctype="multipart/form-data">
+        <form action="/registo/submit" method = "post"  >
             <label for="userName"></label>
             <input type="text" placeholder="Nome de utilizador..." name="userName" id="userName" required><br>
 
@@ -12,14 +12,13 @@
             <label for="userConfirmedPassword"></label>
             <input type="password" placeholder="Confirme a password..." name="userConfirmedPassword" id="userConfirmedPassword" required><br>
             
-            
             <input class="inputfile" name = "UserPicture" type ="file" id="UserPicture">
             <label for="UserPicture">Escolha uma foto de perfil</label><br>
             
 
             <input type="submit" name="submit" value="Registe-se" />
         </form>
-        
     </div>
 </div>
+
 <%- include('partials/footer.ejs') %>

@@ -1,19 +1,20 @@
 const express = require('express')
 const mongoConfigs = require('./models/mongoConfigs');
-const app = express()
+
 const port = 3000
-// var path = require('path');
-// const user = require('./models/utilizadores')
+const app = express()
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const indexRouter = require("./routes/index.js")
 const indexLogin = require("./routes/login.js")
-const indexRegisto = require("./routes/registo.js")
-
+const indexRegisto = require("./routes/registo")
 
 //isto serve para usar css
 app.use(express.static('public'))
 app.use('/styles', express.static(__dirname + 'public/styles'))
 
-// app.set('views', path.join(__dirname, 'views'));
 app.set('view-engine', 'ejs')
 
 app.use('/', indexRouter)
