@@ -123,19 +123,13 @@ header .logo {
 
 .maingrid .conversas {
   background-color: #1a1a1a;
-  grid-column: span 2;
+  grid-column: span 3;
   padding: 10px;
 }
 
 .maingrid .content-mensagens {
   padding: 10px;
   background-color: #121212;
-  grid-column: span 8;
-}
-
-.maingrid .pessoasOnline {
-  grid-column: span 2;
-  background-color: #1a1a1a;
-  padding: 10px;
+  grid-column: span 9;
 }
 /*# sourceMappingURL=style.css.map */

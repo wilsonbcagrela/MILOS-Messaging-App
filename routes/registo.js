@@ -9,13 +9,13 @@ router.get('/',(req, res, next) =>{
 })
 
 router.post('/submit', (req, res, next) =>{
-    // try {
-    //     const hashedPassword = await bcrypt.hash( req.body.userPassword, 10)
-    //     bcrypt.compare(req.body.userConfirmedPassword, hashedPassword)
-    //     req.body.userName
-    // } catch (error) {
-    //     res.redirect('/registo')
-    // }
-    
+    try {
+        const hashedPassword = bcrypt.hash( req.body.userPassword, 10)
+        bcrypt.compare(req.body.userConfirmedPassword, hashedPassword)
+        res.redirect('/login')
+        
+    } catch (error) {
+        res.redirect('/registo')
+    }
 })
 module.exports = router;
