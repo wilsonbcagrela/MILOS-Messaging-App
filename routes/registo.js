@@ -23,8 +23,12 @@ router.get('/',(req, res, next) =>{
 
 router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
     try {
-        // const hashedPassword = bcrypt.hash( req.body.userPassword, 10)
-        // bcrypt.compare(req.body.userConfirmedPassword, hashedPassword)
+        if(req.body.userPassword == req.body.userConfirmedPassword){
+            var hashedPassword = bcrypt.hash( req.body.userPassword, 10)
+        }else{
+            return res.redirect('/registo')
+        }
+        
         let name = req.body.userName
         let file = req.file.path
         let fileName = req.file.originalname;
@@ -37,17 +41,19 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
         }
         
         fs.move(file, uploadsFolder + fileName, function (err) {
-        if (err) {
-            console.log(err);
-            res.json({success:false, message: err});
-            return;
-        }
 
-        res.json({success:true, message: 'File uploaded successfully', fileName: fileName});
+            if (err) {
+                console.log(err);
+                res.json({success:false, message: err});
+                return;
+            }
+
+            res.json({success:true, message: 'File uploaded successfully', fileName: fileName});
         });
-        
+
+        // return res.redirect('/login')
     } catch (error) {
-        res.redirect('/registo', error)
+        return res.redirect('/registo')
     }
 })
 
