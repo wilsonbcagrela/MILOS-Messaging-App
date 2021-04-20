@@ -7,7 +7,7 @@ const multer  = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const tempFolder = './tmp/'; // folder for temporary files, must exist
 const upload = multer({ dest: tempFolder });
-
+const registoUser = require('../models/utilizadores')
 const router = express.Router();
 
 
@@ -35,6 +35,8 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
 
         let uuid = uuidv4()
         const uploadsFolder =  './uploads/users/'+uuid+'/'+name+'/'; 
+
+        registoUser.insertUtilizador(name, hashedPassword, uploadsFolder + fileName)
 
         if (!fs.existsSync(uploadsFolder)){
             fs.mkdirRecursiveSync(uploadsFolder)

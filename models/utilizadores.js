@@ -13,6 +13,9 @@ function insertUtilizador(nome,password,img,callback){
     });
   });
 }
+module.exports = {
+  insertUtilizador
+};
 
 // MongoClient.connect(url, function(err, db) {
 //   if (err) throw err;
