@@ -10,6 +10,7 @@ const modelUtilizador = require('./models/utilizadores');
 const port = 3000;
 const app = express();
 
+
 //melhor criar um ficheiro env para criar uma variavel secret
 app.use(session({
     secret: "secret",
@@ -20,35 +21,35 @@ app.use(session({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(passport.initialize());
-app.use(passport.session()); // mantem a sessão aberta
+// app.use(passport.initialize());
+// app.use(passport.session()); // mantem a sessão aberta
 
-passport.serializeUser((user, done) =>{
-    done(null, user.id);
-});
+// passport.serializeUser((user, done) =>{
+//     done(null, user.id);
+// });
 
-passport.deserializeUser(function (id, done){
-    modelUtilizador.utilizador.findById(id, function(err, user){
-        done(err, user);
-    });
-});
+// passport.deserializeUser(function (id, done){
+//     modelUtilizador.utilizador.findById(id, function(err, user){
+//         done(err, user);
+//     });
+// });
 
-passport.use(new localStrategy((userName, userPassword, done) => {
-    modelUtilizador.utilizador.findOne({ name: userName }, (err, user) => {
-        if(err) return done(err);
+// passport.use(new localStrategy((userName, userPassword, done) => {
+//     modelUtilizador.utilizador.findOne({ name: userName }, (err, user) => {
+//         if(err) return done(err);
 
-        if(!user){
-            return done(null, false, {message: "O nome que introduziu não existe"});
-        }
+//         if(!user){
+//             return done(null, false, {message: "O nome que introduziu não existe"});
+//         }
 
-        bcrypt.compare(userPassword,user.password, (err, res) => {
-            if(err) return done(err);
-            if(res === false) return done(null, false, {message: "A password que introduziu esta incorreta"});
+//         bcrypt.compare(userPassword,user.password, (err, res) => {
+//             if(err) return done(err);
+//             if(res === false) return done(null, false, {message: "A password que introduziu esta incorreta"});
 
-            return done(null, user);
-        });
-    });
-}));
+//             return done(null, user);
+//         });
+//     });
+// }));
 
 const indexRouter = require("./routes/index.js");
 const indexLogin = require("./routes/login.js");

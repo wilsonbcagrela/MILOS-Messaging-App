@@ -1,27 +1,27 @@
 var MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 var url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=admin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true";
 
-mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+// mongoose.connect(url, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// })
 
-const utilizadorSchema = new mongoose.Schema({
-  name:{
-    type: String,
-    required: true
-  },
-  password:{
-    type: String,
-    required: true
-  },
-  image:{
-    type: String,
-    required: true
-  }
-});
-
+// const utilizadorSchema = new mongoose.Schema({
+//   name:{
+//     type: String,
+//     required: true
+//   },
+//   password:{
+//     type: String,
+//     required: true
+//   },
+//   image:{
+//     type: String,
+//     required: true
+//   }
+// });
 
 function insertUtilizador(nome,password,img,callback){
   MongoClient.connect(url, function(err, db) {
@@ -34,23 +34,48 @@ function insertUtilizador(nome,password,img,callback){
     });
   });
 }
-// function loginUser(nome, password){
-//   MongoClient.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db("G8");
+async function verificaSeExisteUser(nome){
+  MongoClient.connect(url, async function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("G8");
+    const existeUSer = await dbo.collection("Utilizadores").countDocuments({name : nome});
+    console.log(existeUSer);
+    return existeUSer;
+    // if(existeUSer >= 0){
+      
 
-//     dbo.collection("Utilizadores").findOne({}, function(err, result) {
-//       if (err) throw err;
-//       console.log(result);
-//       db.close();
-//     });
-//   });
-// }
-const utilizador = mongoose.model('utilizador', utilizadorSchema);
+    // }else{
+    //   (result) => {
+    //     result.name = "";
+    //     result.password = "";
+
+    //     callback(result);
+    //   }
+    // }
+  });
+}
+function loginUser(nome, password, callback){
+  MongoClient.connect(url,  async function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("G8");
+    let existeUSer = await dbo.collection("Utilizadores").countDocuments({name : nome});
+      dbo.collection("Utilizadores").findOne({name : nome}, function(err, result) {
+        if (err){
+          console.log(err);
+          return
+        }
+        console.log(result);
+
+        callback(result);
+        db.close();
+      });
+  });
+}
+// const utilizador = mongoose.model('Utilizadores', utilizadorSchema);
 
 module.exports = {
   insertUtilizador,
-  utilizador
-  // loginUser
-  
+  loginUser
+  // utilizador
+
 };
