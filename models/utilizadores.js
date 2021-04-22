@@ -34,31 +34,11 @@ function insertUtilizador(nome,password,img,callback){
     });
   });
 }
-async function verificaSeExisteUser(nome){
-  MongoClient.connect(url, async function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("G8");
-    const existeUSer = await dbo.collection("Utilizadores").countDocuments({name : nome});
-    console.log(existeUSer);
-    return existeUSer;
-    // if(existeUSer >= 0){
-      
 
-    // }else{
-    //   (result) => {
-    //     result.name = "";
-    //     result.password = "";
-
-    //     callback(result);
-    //   }
-    // }
-  });
-}
 function loginUser(nome, password, callback){
   MongoClient.connect(url,  async function(err, db) {
     if (err) throw err;
     var dbo = db.db("G8");
-    let existeUSer = await dbo.collection("Utilizadores").countDocuments({name : nome});
       dbo.collection("Utilizadores").findOne({name : nome}, function(err, result) {
         if (err){
           console.log(err);
