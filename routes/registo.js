@@ -1,5 +1,5 @@
-const express = require('express')
-const bcrypt = require('bcrypt')
+const express = require('express');
+const bcrypt = require('bcrypt');
 const http = require("http");
 const path = require("path");
 const fs = require("fs.extra");
@@ -7,9 +7,9 @@ const multer  = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const tempFolder = './tmp/'; // folder for temporary files, must exist
 const upload = multer({ dest: tempFolder });
-const registoUser = require('../models/utilizadores')
+const registoUser = require('../models/utilizadores');
 const router = express.Router();
-
+const saltRounds = 10;
 
 if (!fs.existsSync(tempFolder)){
     fs.mkdirSync(tempFolder)
@@ -23,12 +23,6 @@ router.get('/',(req, res, next) =>{
 
 router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
     try {
-        if(req.body.userPassword == req.body.userConfirmedPassword){
-            var hashedPassword = bcrypt.hash( req.body.userPassword, 10)
-        }else{
-            return res.redirect('/registo')
-        }
-        
         let name = req.body.userName
         let file = req.file.path
         let fileName = req.file.originalname;
@@ -36,7 +30,17 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
         let uuid = uuidv4()
         const uploadsFolder =  './uploads/users/'+uuid+'/'+name+'/'; 
 
-        registoUser.insertUtilizador(name, hashedPassword, uploadsFolder + fileName)
+        if(req.body.userPassword == req.body.userConfirmedPassword){
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                bcrypt.hash(req.body.userPassword, salt, function(err, hash) {
+                    registoUser.insertUtilizador(name, hash, uploadsFolder + fileName)
+                });
+            });
+            // var hashedPassword = bcrypt.hash( req.body.userPassword, 10)
+        }else{
+            return res.redirect('/registo')
+        }
+        
 
         if (!fs.existsSync(uploadsFolder)){
             fs.mkdirRecursiveSync(uploadsFolder)
