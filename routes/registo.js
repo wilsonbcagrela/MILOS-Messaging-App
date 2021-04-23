@@ -15,9 +15,17 @@ if (!fs.existsSync(tempFolder)){
     fs.mkdirSync(tempFolder)
 }
 
+let redirectHome = (req, res, next) =>{
+    if(req.session.userId) {
+        // next()
+        res.redirect('/')
+    }
+    else next()
+}
 
-router.get('/',(req, res, next) =>{
+router.get('/', redirectHome, (req, res, next) =>{
     res.render('registo.ejs')
+    // console.log(req.session)
 })
 
 

@@ -10,13 +10,23 @@ const modelUtilizador = require('./models/utilizadores');
 const port = 3000;
 const app = express();
 
+app.use(
+    session({
+        secret: "secret",
+        resave: false,
+        saveUninitialized: false
+    })
+);
 
+
+// session.userId = 1;
+// console.log(session)
 //melhor criar um ficheiro env para criar uma variavel secret
-app.use(session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     secret: "secret",
+//     resave: false,
+//     saveUninitialized: false
+// }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -64,6 +74,7 @@ app.set('view-engine', 'ejs');
 app.use('/', indexRouter);
 app.use('/login', indexLogin);
 app.use('/registo', indexRegisto);
+
 
 
 mongoConfigs.connect(function(err){

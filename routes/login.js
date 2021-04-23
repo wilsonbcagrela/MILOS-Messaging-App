@@ -5,9 +5,19 @@ const localStrategy   = require("passport-local").Strategy;
 const loginUser = require('../models/utilizadores');
 const bcrypt = require('bcrypt');
 
-router.get('/',(req, res, next) =>{
+let redirectHome = (req, res, next) =>{
+    if(req.session.userId) {
+        // next()
+        res.redirect('/')
+    }
+    else next()
+}
 
+router.get('/', redirectHome, (req, res, next) =>{
+    // req.session.userId = 1;
+    // console.log(req.session)
     res.render('login.ejs')
+
 })
 router.post('/',(req, res, next) =>{
 
@@ -16,7 +26,7 @@ router.post('/',(req, res, next) =>{
         let nomeUtilizador;
         let passwordUtilizador;
         //esta parte esta scuffed
-        if(result === null){
+        if(result === null){ //se o user não existir, o nome e a senha ficam vazios, e como não pode existir nomes vazios, não da erro
             nomeUtilizador = "";
             passwordUtilizador = "";
         }else{
@@ -32,6 +42,7 @@ router.post('/',(req, res, next) =>{
             if (err) console.log(err);
 
             console.log("palavra passe certa")
+            req.session.userId = 1;
             return res.redirect("/")
         });
         // console.log(result);
