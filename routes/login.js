@@ -15,7 +15,7 @@ let redirectHome = (req, res, next) =>{
 
 router.get('/', redirectHome, (req, res, next) =>{
     // req.session.userId = 1;
-    // console.log(req.session)
+    console.log(req.session)
     res.render('login.ejs')
 
 })
@@ -32,6 +32,8 @@ router.post('/',(req, res, next) =>{
         }else{
             nomeUtilizador = result.name;
             passwordUtilizador = result.password;
+            imagemUtilizador = result.image;
+            idUtilizador = result._id;
         }
 
         if(req.body.userName != nomeUtilizador){
@@ -42,7 +44,10 @@ router.post('/',(req, res, next) =>{
             if (err) console.log(err);
 
             console.log("palavra passe certa")
-            req.session.userId = 1;
+            // req.session.userId = 1;
+            req.session.userId = idUtilizador;
+            req.session.userName = nomeUtilizador;
+            req.session.imagem = imagemUtilizador;
             return res.redirect("/")
         });
         // console.log(result);
