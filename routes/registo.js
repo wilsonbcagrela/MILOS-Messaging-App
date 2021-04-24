@@ -31,20 +31,35 @@ router.get('/', redirectHome, (req, res, next) =>{
 
 router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
     try {
-        let name = req.body.userName
-        let file = req.file.path
-        let fileName = req.file.originalname;
 
+        let name = req.body.userName
         let uuid = uuidv4()
-        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'; 
 
         if(req.body.userPassword == req.body.userConfirmedPassword){
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 bcrypt.hash(req.body.userPassword, salt, function(err, hash) {
-                    registoUser.insertUtilizador(name, hash, uploadsFolder + fileName)
+                    if (!req.file) {
+                        registoUser.insertUtilizador(name, hash, null)
+                    } else {
+                        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'; 
+                        let fileName = req.file.originalname;
+                        let file = req.file.path
+
+                        registoUser.insertUtilizador(name, hash, uploadsFolder + fileName)
+
+                        fs.move(file, uploadsFolder + fileName, function (err) {
+
+                            if (err) {
+                                console.log(err);
+                                res.json({success:false, message: err})
+                                return;
+                            }
+
+                            return res.redirect('/login')
+                        });
+                    }
                 });
             });
-            // var hashedPassword = bcrypt.hash( req.body.userPassword, 10)
         }else{
             return res.redirect('/registo')
         }
@@ -54,16 +69,7 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
             fs.mkdirRecursiveSync(uploadsFolder)
         }
         
-        fs.move(file, uploadsFolder + fileName, function (err) {
-
-            if (err) {
-                console.log(err);
-                res.json({success:false, message: err});
-                return;
-            }
-
-            res.json({success:true, message: 'File uploaded successfully', fileName: fileName});
-        });
+        
 
         // return res.redirect('/login')
     } catch (error) {

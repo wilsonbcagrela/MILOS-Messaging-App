@@ -5,14 +5,12 @@ const bcrypt = require('bcrypt');
 
 let redirectHome = (req, res, next) =>{
     if(req.session.userId) {
-        // next()
         res.redirect('/')
     }
     else next()
 }
 
 router.get('/', redirectHome, (req, res, next) =>{
-    // req.session.userId = 1;
     console.log(req.session)
     var erro = 0;
     res.render('login.ejs', { erro : erro });
@@ -20,7 +18,6 @@ router.get('/', redirectHome, (req, res, next) =>{
 })
 router.post('/',(req, res, next) =>{
 
-    // loginUser.loginUser(req.body.userName, req.body.userPassword);
     loginUser.loginUser(req.body.userName, req.body.userPassword, function(result){
         
         let nomeUtilizador;
@@ -56,9 +53,4 @@ router.post('/',(req, res, next) =>{
    
 })
 
-
-// router.post('/', passport.authenticate('local',{
-//     successRedirect: '/',
-//     failureRedirect: '/login?error=true'
-// }));
 module.exports = router;

@@ -12,7 +12,10 @@ let verificaUtilizadorFezLogin = (req, res, next) =>{
 router.get('/', verificaUtilizadorFezLogin, (req, res, next) =>{
 
     console.log(req.session)
-    res.render('index.ejs', {UserName : req.session.userName, UserImage : req.session.imagem})
+    if(req.session.imagem == null)
+        res.render('index.ejs', {UserName : req.session.userName, UserImage : 'public/uploads/milos.jpg'})
+    else
+        res.render('index.ejs', {UserName : req.session.userName, UserImage : req.session.imagem})
    
 })
 

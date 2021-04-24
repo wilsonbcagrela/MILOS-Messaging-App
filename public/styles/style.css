@@ -1,3 +1,4 @@
+/*
 .container {
   height: 100vh;
   display: -webkit-box;
@@ -132,4 +133,15 @@ header .logo {
   background-color: #121212;
   grid-column: span 9;
 }
+
+
+
+.chat {
+  height: 825;
+  width: 130;
+  text-align: center;  padding: 20px 20px;
+  text-align: center; 
+}
 /*# sourceMappingURL=style.css.map */
+
+*/

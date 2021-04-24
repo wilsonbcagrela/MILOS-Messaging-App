@@ -1,20 +1,71 @@
 <%- include('partials/header.ejs') %>
-<div class="maingrid">
-
-    <div class="conversas">
-        <div class="perfilUtilizador">
-            <img src="<%-UserImage.slice(7)%>" alt="imagem de perfil" width="30" height="30">
-            <%- UserName %>
+<div class="container ">
+   <div class="row"  >
+      <div class="col-sm-4" style="border: 3px solid rgb(8, 8, 8); ">
+         <div class="card" >
+            <div class="card-body">
+               <h3>CHATS CRIADOS</h3>
+               <div class="list-group" >
+                  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                     <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small>3 days ago</small>
+                     </div>
+                     <p class="mb-1">Some placeholder content in a paragraph.</p>
+                     <small>And some small print.</small>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                     <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small class="text-muted">3 days ago</small>
+                     </div>
+                     <p class="mb-1">Some placeholder content in a paragraph.</p>
+                     <small class="text-muted">And some muted small print.</small>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                     <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small class="text-muted">3 days ago</small>
+                     </div>
+                     <p class="mb-1">Some placeholder content in a paragraph.</p>
+                     <small class="text-muted">And some muted small print.</small>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                       <h5 class="mb-1">List group item heading</h5>
+                       <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some placeholder content in a paragraph.</p>
+                    <small class="text-muted">And some muted small print.</small>
+                 </a>
+                 <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                       <h5 class="mb-1">List group item heading</h5>
+                       <small class="text-muted">3 days ago</small>
+                    </div>
+                    <p class="mb-1">Some placeholder content in a paragraph.</p>
+                    <small class="text-muted">And some muted small print.</small>
+                 </a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-sm-8" style="max-height: 100%;">
+        <div class="card" style="border: 3px solid black; height: 75%;">
+           <div class="card-body">
+           </div>
         </div>
-        <h4>Aqui ficarão as conversas</h4> 
-    </div>
-    <div class="content-mensagens">
-        <h4>(estas cores são apenas para demonstrar o layout da pagina) </h4>
-        ficariam aqui o conteudo da conversa
-        
-    </div>
-    <!-- <div class="pessoasOnline">
-        Aqui ficarão as pessoas que se encontram online
-    </div> -->
+        <div class="card" style="border: 3px solid black; ">
+           <div class="card-body row" style="height:25%">
+              <div class="col-sm-10">
+                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+              <div class="col-sm-2">
+                 <button type="button" class="btn btn-primary btn-lg" style="height: 100%;">ENVIAR</button>
+              </div>
+           </div>
+        </div>
+     </div>
+   </div>
 </div>
 <%- include('partials/footer.ejs') %>
