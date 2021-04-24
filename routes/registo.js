@@ -36,7 +36,7 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
         let fileName = req.file.originalname;
 
         let uuid = uuidv4()
-        const uploadsFolder =  './uploads/users/'+uuid+'/'+name+'/'; 
+        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'; 
 
         if(req.body.userPassword == req.body.userConfirmedPassword){
             bcrypt.genSalt(saltRounds, function(err, salt) {

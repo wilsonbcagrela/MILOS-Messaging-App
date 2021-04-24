@@ -4,7 +4,7 @@ var router = express.Router();
 let verificaUtilizadorFezLogin = (req, res, next) =>{
     if(!req.session.userId) {
         // next()
-        res.redirect('/login')
+        res.redirect('/login') 
     }
     else next()
 }
@@ -12,7 +12,7 @@ let verificaUtilizadorFezLogin = (req, res, next) =>{
 router.get('/', verificaUtilizadorFezLogin, (req, res, next) =>{
 
     console.log(req.session)
-    res.render('index.ejs')
+    res.render('index.ejs', {UserName : req.session.userName, UserImage : req.session.imagem})
    
 })
 
