@@ -1,7 +1,5 @@
 const express = require('express');
 var router = express.Router();
-const passport        = require("passport");
-const localStrategy   = require("passport-local").Strategy;
 const loginUser = require('../models/utilizadores');
 const bcrypt = require('bcrypt');
 
@@ -16,20 +14,21 @@ let redirectHome = (req, res, next) =>{
 router.get('/', redirectHome, (req, res, next) =>{
     // req.session.userId = 1;
     console.log(req.session)
-    res.render('login.ejs')
+    var erro = 0;
+    res.render('login.ejs', { erro : erro });
 
 })
 router.post('/',(req, res, next) =>{
 
     // loginUser.loginUser(req.body.userName, req.body.userPassword);
     loginUser.loginUser(req.body.userName, req.body.userPassword, function(result){
+        
         let nomeUtilizador;
         let passwordUtilizador;
-        //esta parte esta scuffed
-        if(result === null){ //se o user não existir, o nome e a senha ficam vazios, e como não pode existir nomes vazios, não da erro
-            nomeUtilizador = "";
-            passwordUtilizador = "";
-        }else{
+        let imagemUtilizador;
+        let idUtilizador;
+        
+        if(result !== null){ 
             nomeUtilizador = result.name;
             passwordUtilizador = result.password;
             imagemUtilizador = result.image;
@@ -38,8 +37,10 @@ router.post('/',(req, res, next) =>{
 
         if(req.body.userName != nomeUtilizador){
           console.log("nome não existe")
-          return res.redirect("/login")
+          var erro = 1;
+          return res.render('login.ejs', { erro : erro });
         }
+
         bcrypt.compare(req.body.userPassword, passwordUtilizador, function(err, result) {
             if (err) console.log(err);
 

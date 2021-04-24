@@ -1,5 +1,11 @@
 <%- include('partials/header.ejs') %>
 <div class="container">
+
+    <%if (erro == 1) { %>
+        erro !!!
+    <% } %>
+
+
     <div class="loginForm">
         <h4>Por favor faça login</h4>
         <form action="/login" method = "post"  >
@@ -12,4 +18,12 @@
         <h4>Não tem conta? registe-se aqui <a href="/registo">Registe-se</a></h4>
     </div>
 </div>
+
+<script>
+
+
+
+
+</script>
+
 <%- include('partials/footer.ejs') %>
