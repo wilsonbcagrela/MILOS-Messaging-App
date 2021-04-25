@@ -1,5 +1,5 @@
-const express = require('express');
-var router = express.Router();
+const express = require('express')
+var router = express.Router()
 
 let verificaUtilizadorFezLogin = (req, res, next) =>{
     if(!req.session.userId) {
@@ -30,4 +30,4 @@ router.get('/logout',verificaUtilizadorFezLogin, (req, res, next) =>{
     })
 
 })
-module.exports = router;
+module.exports = router
