@@ -12,6 +12,7 @@ const app = express();
 
 app.use(
     session({
+        name: "sessionMilos",
         secret: "secret",
         resave: false,
         saveUninitialized: false

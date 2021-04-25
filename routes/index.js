@@ -19,4 +19,15 @@ router.get('/', verificaUtilizadorFezLogin, (req, res, next) =>{
    
 })
 
+router.get('/logout',verificaUtilizadorFezLogin, (req, res, next) =>{
+    req.session.destroy(err => {
+        if(err) return res.redirect('/')
+        
+        res.clearCookie("sessionMilos")
+        console.log("o user fez logout")
+        return res.redirect('/login')
+        
+    })
+
+})
 module.exports = router;
