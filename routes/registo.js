@@ -30,27 +30,22 @@ router.get('/', redirectHome, (req, res, next) =>{
 })
 
 
-router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
-    try {
+router.post('/', upload.single('UserPicture'), (req, res, next)  => {
+
 
         let name = req.body.userName
         let uuid = uuidv4()
+        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'; 
+
 
         if(req.body.userPassword == req.body.userConfirmedPassword){
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 bcrypt.hash(req.body.userPassword, salt, function(err, hash) {
                     if (!req.file) {
-                        registoUser.insertUtilizador(name, hash, null, function(result){
-                            console.log("wilson é gay" + result)
-                            if(result === null){
-                                var erro = 1;
-                                return res.render('registo.ejs', { erro : erro });
-                            } else {
-                                return res.return("/index");
-                            }
-                        })
+
+                        return registoUser.insertUtilizador(name, hash, null,res)
+                        
                     } else {
-                        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'; 
                         let fileName = req.file.originalname;
                         let file = req.file.path
 
@@ -86,9 +81,7 @@ router.post('/submit', upload.single('UserPicture'), (req, res, next) => {
         
 
         // return res.redirect('/login')
-    } catch (error) {
-        return res.redirect('/registo')
-    }
+    
 })
 
 module.exports = router;
