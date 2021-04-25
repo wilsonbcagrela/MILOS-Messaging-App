@@ -1,4 +1,3 @@
-/*
 .container {
   height: 100vh;
   display: -webkit-box;
@@ -76,7 +75,7 @@
 }
 
 .container .loginForm form .inputfile + label:hover, .container .registrationForm form .inputfile + label:hover {
-  background-color: aliceblue;
+  background-color: blue;
   color: black;
 }
 
@@ -91,7 +90,7 @@
 }
 
 body {
-  background-color: #121212;
+  background-color: #121212 !important;
   color: white;
   height: 100vh;
 }
@@ -113,35 +112,4 @@ header .logo {
   position: relative;
   left: 10px;
 }
-
-.maingrid {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[12];
-      grid-template-columns: repeat(12, 1fr);
-  height: 100vh;
-}
-
-.maingrid .conversas {
-  background-color: #1a1a1a;
-  grid-column: span 3;
-  padding: 10px;
-}
-
-.maingrid .content-mensagens {
-  padding: 10px;
-  background-color: #121212;
-  grid-column: span 9;
-}
-
-
-
-.chat {
-  height: 825;
-  width: 130;
-  text-align: center;  padding: 20px 20px;
-  text-align: center; 
-}
 /*# sourceMappingURL=style.css.map */
-
-*/

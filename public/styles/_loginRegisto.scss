@@ -7,6 +7,7 @@
 }
 
 .container{
+    
     height: 100vh;
     @include flexCenter();
     .loginForm, .registrationForm{
@@ -41,7 +42,7 @@
                 cursor: pointer;
 
                 &:hover{
-                    background-color:aliceblue;
+                    background-color:blue;
                     color: black;
                 }
             }

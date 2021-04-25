@@ -10,7 +10,7 @@ $corHeader: #000000;
     font-family: sans-serif;
 }
 body{
-    background-color: $corCorpo;
+    background-color: $corCorpo !important;
     color: white;
     height: 100vh;
 }
@@ -28,24 +28,24 @@ header{
         left: 10px;
     }
 }
-.maingrid{
-    display: grid;
-    grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
-    height: 100vh;
+// .maingrid{
+//     display: grid;
+//     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
+//     height: 100vh;
 
-    .conversas{
-        background-color: #1a1a1a;
-        grid-column: span 3;
-        padding: 10px;
-    }
-    .content-mensagens{
+//     .conversas{
+//         background-color: #1a1a1a;
+//         grid-column: span 3;
+//         padding: 10px;
+//     }
+//     .content-mensagens{
         
-        // display: flex;
-        // justify-content:center;
-        padding: 10px;
-        background-color: $corCorpo;
-        grid-column: span 9;
-    }
+//         // display: flex;
+//         // justify-content:center;
+//         padding: 10px;
+//         background-color: $corCorpo;
+//         grid-column: span 9;
+//     }
 
     
     // .pessoasOnline{
@@ -53,6 +53,6 @@ header{
     //     background-color: #1a1a1a;
     //     padding: 10px;
     // }
-}
+// }
 
 
