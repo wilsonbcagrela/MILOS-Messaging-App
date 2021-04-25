@@ -91,7 +91,7 @@
 
 body {
   background-color: #121212 !important;
-  color: white;
+  color: white !important;
   height: 100vh;
 }
 

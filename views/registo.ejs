@@ -1,5 +1,9 @@
 <%- include('partials/header.ejs') %>
 <div class="container">
+    
+    <%if (erro == 1) { %>
+        erro o user ja existe
+    <% } %>
     <div class="registrationForm">
         <h4>Por favor registe-se</h4>
         <form action="/registo/submit" method = "post" enctype="multipart/form-data" >

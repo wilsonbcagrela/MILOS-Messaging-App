@@ -23,15 +23,27 @@ var url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?aut
 //   }
 // });
 
-function insertUtilizador(nome,password,img,callback){
+ function insertUtilizador(nome,password,img,callback){
+
+  // let result;
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("G8");
-    dbo.collection("Utilizadores").insertOne({name:nome,password:password,image:img}, function(err, res) {
-      if (err) throw err;
-      console.log("Foi registado com sucesso :-D");
-      db.close();
+    dbo.collection("Utilizadores").findOne({name : nome}, function(err, result) {
+      //console.log("Result "+result)
+      //console.log("Erro "+ err)
+      if(result != null){
+        db.close();
+        return ;
+      }else{
+        dbo.collection("Utilizadores").insertOne({name:nome,password:password,image:img}, function(err, res) {
+          if (err) throw err;
+          console.log("Foi registado com sucesso :-D");
+          db.close();
+        });
+      }
     });
+    
   });
 }
 
