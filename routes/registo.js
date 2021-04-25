@@ -3,76 +3,89 @@ const bcrypt = require('bcrypt')
 const http = require("http")
 const path = require("path")
 const fs = require("fs.extra")
-const multer  = require('multer')
-const { v4: uuidv4 } = require('uuid')
+const multer = require('multer')
+const {v4: uuidv4} = require('uuid')
 const tempFolder = './tmp/' // folder for temporary files, must exist
-const upload = multer({ dest: tempFolder })
+const upload = multer({dest: tempFolder})
 const registoUser = require('../models/utilizadores')
 const router = express.Router()
 
-
-if (!fs.existsSync(tempFolder)){
+if (!fs.existsSync(tempFolder)) {
     fs.mkdirSync(tempFolder)
 }
 
-let redirectHome = (req, res, next) =>{
-    if(req.session.userId) {
+let redirectHome = (req, res, next) => {
+    if (req.session.userId) {
         res.redirect('/')
-    }
-    else next()
+    } else 
+        next()
 }
 
-router.get('/', redirectHome, (req, res, next) =>{
+router.get('/', redirectHome, (req, res, next) => {
     var erro = 0
-    res.render('registo.ejs', { erro : erro })
+    res.render('registo.ejs', {erro: erro})
 })
 
+router.post('/', upload.single('UserPicture'), (req, res, next) => {
 
-router.post('/', upload.single('UserPicture'), (req, res, next)  => {
+    let name = req.body.userName
+    let uuid = uuidv4()
+    const uploadsFolder = 'public/uploads/users/' + uuid + '/' + name + '/'
 
-        let name = req.body.userName
-        let uuid = uuidv4()
-        const uploadsFolder =  'public/uploads/users/'+uuid+'/'+name+'/'
-        
-        if (!fs.existsSync(uploadsFolder)){
-            fs.mkdirRecursiveSync(uploadsFolder)
-        }
+    if (!fs.existsSync(uploadsFolder)) {
+        fs.mkdirRecursiveSync(uploadsFolder)
+    }
 
-        if (!req.file) {
+    if (!req.file) {
 
-            registoUser.insertUtilizador(name, req.body.userPassword, req.body.userConfirmedPassword, null, function(result){
-                if(result){
+        registoUser.insertUtilizador(
+            name,
+            req.body.userPassword,
+            req.body.userConfirmedPassword,
+            null,
+            function (result) {
+                if (result) {
                     return res.redirect("/")
-                }else{
+                } else {
                     var erro = 1
-                    return res.render('registo.ejs', { erro : erro })
+                    return res.render('registo.ejs', {erro: erro})
                 }
-            })
-            
-        } else {
-            let fileName = req.file.originalname
-            let file = req.file.path
+            }
+        )
 
-            registoUser.insertUtilizador(name, req.body.userPassword, req.body.userConfirmedPassword, uploadsFolder + fileName, function(result){
-                if(!result){
-                    var erro = 1
-                    return res.render('registo.ejs', { erro : erro })
+    } else {
+        let fileName = req.file.originalname
+        let file = req
+            .file
+            .path
+
+            registoUser
+            .insertUtilizador(
+                name,
+                req.body.userPassword,
+                req.body.userConfirmedPassword,
+                uploadsFolder + fileName,
+                function (result) {
+                    if (!result) {
+                        var erro = 1
+                        return res.render('registo.ejs', {erro: erro})
+                    }
                 }
-            })
+            )
 
-            fs.move(file, uploadsFolder + fileName, function (err) {
+        fs.move(file, uploadsFolder + fileName, function (err) {
 
-                if (err) {
-                    console.log(err)
-                    res.json({success:false, message: err})
-                    return
-                }
+            if (err) {
+                console.log(err)
+                res.json({success: false, message: err})
+                return
+            }
 
-                return res.redirect('/login')
-            })
-                    
-        }
-    
+            return res.redirect('/login')
+        })
+
+    }
+
 })
 
 module.exports = router

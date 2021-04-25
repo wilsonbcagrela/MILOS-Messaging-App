@@ -3,25 +3,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
 }
 
-.container{
-    
+.container {
+
     height: 100vh;
     @include flexCenter();
-    .loginForm, .registrationForm{
+    .loginForm,
+    .registrationForm {
         @include flexCenter();
-        form{
+        form {
             @include flexCenter();
-            input{
+            input {
                 padding: 5px;
                 border: solid 1px black;
-                margin: auto;
                 margin: 5px;
-              
+
             }
-            .inputfile{
+            .inputfile {
                 width: 0.1px;
                 height: 0.1px;
                 opacity: 0;
@@ -29,7 +29,6 @@
                 position: absolute;
                 z-index: -1;
 
-         
             }
             .inputfile + label {
                 border-radius: 25px;
@@ -41,14 +40,14 @@
                 display: inline-block;
                 cursor: pointer;
 
-                &:hover{
-                    background-color:blue;
+                &:hover {
+                    background-color: blue;
                     color: black;
                 }
             }
         }
-        
-        a{
+
+        a {
             color: blanchedalmond;
         }
     }

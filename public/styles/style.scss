@@ -1,21 +1,20 @@
 @import "./loginRegisto";
 // #313131;
 $corCorpo: #121212;
-$corHeader: #000000;  
-
+$corHeader: #000000;
 
 * {
     margin: 0;
     border: 0;
     font-family: sans-serif;
 }
-body{
+body {
     background-color: $corCorpo !important;
     color: white;
     height: 100vh;
 }
 
-header{
+header {
     background-color: $corHeader;
     color: white;
     height: 60px;
@@ -23,7 +22,7 @@ header{
     align-items: center;
     // justify-content:space-evenly;
     padding: 2px;
-    .logo{
+    .logo {
         position: relative;
         left: 10px;
     }
@@ -39,7 +38,7 @@ header{
 //         padding: 10px;
 //     }
 //     .content-mensagens{
-        
+
 //         // display: flex;
 //         // justify-content:center;
 //         padding: 10px;
@@ -47,12 +46,9 @@ header{
 //         grid-column: span 9;
 //     }
 
-    
-    // .pessoasOnline{
-    //     grid-column: span 2;
-    //     background-color: #1a1a1a;
-    //     padding: 10px;
-    // }
+// .pessoasOnline{
+//     grid-column: span 2;
+//     background-color: #1a1a1a;
+//     padding: 10px;
 // }
-
-
+// }

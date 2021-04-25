@@ -1,28 +1,42 @@
 <%- include('partials/header.ejs') %>
-<div class="container">
-    
-    <%if (erro == 1) { %>
-        erro o user ja existe
-    <% } %>
-    <div class="registrationForm">
-        <h4>Por favor registe-se</h4>
-        <form action="/registo" method = "post" enctype="multipart/form-data" >
-            <label for="userName"></label>
-            <input type="text" placeholder="Nome de utilizador..." name="userName" id="userName" required><br>
+    <div class="container">
 
-            <label for="userPassword"></label>
-            <input type="password" placeholder="Password..." name="userPassword" id="userPassword" required><br>
+        <%if (erro == 1) { %>
+            erro o user ja existe
+        <% } %>
+        <div class="registrationForm">
+            <h4>Por favor registe-se</h4>
+            <form action="/registo" method="post" enctype="multipart/form-data">
+                <label for="userName"></label>
+                <input
+                    type="text"
+                    placeholder="Nome de utilizador..."
+                    name="userName"
+                    id="userName"
+                    required="required"><br>
 
-            <label for="userConfirmedPassword"></label>
-            <input type="password" placeholder="Confirme a password..." name="userConfirmedPassword" id="userConfirmedPassword" required><br>
-            
-            <input class="inputfile" name = "UserPicture" type ="file" id="UserPicture">
-            <label for="UserPicture">Escolha uma foto de perfil</label><br>
-            
+                <label for="userPassword"></label>
+                <input
+                    type="password"
+                    placeholder="Password..."
+                    name="userPassword"
+                    id="userPassword"
+                    required="required"><br>
 
-            <input type="submit" name="submit" value="Registe-se" />
-        </form>
+                <label for="userConfirmedPassword"></label>
+                <input
+                    type="password"
+                    placeholder="Confirme a password..."
+                    name="userConfirmedPassword"
+                    id="userConfirmedPassword"
+                    required="required"><br>
+
+                <input class="inputfile" name="UserPicture" type="file" id="UserPicture">
+                <label for="UserPicture">Escolha uma foto de perfil</label><br>
+
+                <input type="submit" name="submit" value="Registe-se"/>
+            </form>
+        </div>
     </div>
-</div>
 
-<%- include('partials/footer.ejs') %>
+    <%- include('partials/footer.ejs') %>
