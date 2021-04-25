@@ -68,7 +68,7 @@
   padding: 10px;
   font-size: 1.25em;
   font-weight: 700;
-  color: white;
+  color: white !important;
   background-color: #1212FF;
   display: inline-block;
   cursor: pointer;
