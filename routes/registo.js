@@ -23,7 +23,8 @@ let redirectHome = (req, res, next) => {
 
 router.get('/', redirectHome, (req, res, next) => {
     var erro = 0
-    res.render('registo.ejs', {erro: erro})
+    var mostraUSer = 0;
+    res.render('registo.ejs', {erro: erro, mostraUSer: mostraUSer})
 })
 
 router.post('/', upload.single('UserPicture'), (req, res, next) => {

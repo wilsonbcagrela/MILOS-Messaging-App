@@ -24,7 +24,15 @@ header {
     padding: 2px;
     .logo {
         position: relative;
-        left: 10px;
+        left: 15px;
+    }
+    h3{
+        position: relative;
+        left: 25px;
+    }
+    .mostraUtilizador{
+        position: absolute;
+        right: 20px;
     }
 }
 // .maingrid{

@@ -11,11 +11,20 @@
             integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
             crossorigin="anonymous">
         <title>MILOS</title>
+        <link rel="icon" href="uploads/milos.png">
     </head>
     <body>
         <header>
-            <img src="uploads/milos.png" alt="logo" width="100%" height="100%">
-            <h3>Welcome to MILOS - Messaging Interactive Link Online Session
-            </h3>
-            <a href="/logout">logout</a>
+            <div class="logo">
+                <img src="uploads/milos.png" alt="logo" width="55px" height="55px">
+            </div>
+
+            <h3>MILOS</h3>
+
+            <%if (mostraUSer != 0) { %>
+                <div class="mostraUtilizador">
+                    <a href="/logout">logout</a>
+                </div>
+            <% } %>
+           
         </header>

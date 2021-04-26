@@ -9,6 +9,7 @@
 .container {
 
     height: 100vh;
+    color: white !important;
     @include flexCenter();
     .loginForm,
     .registrationForm {

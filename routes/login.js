@@ -12,8 +12,9 @@ let redirectHome = (req, res, next) => {
 
 router.get('/', redirectHome, (req, res, next) => {
     console.log(req.session)
-    var erro = 0
-    res.render('login.ejs', {erro: erro})
+    var erro = 0;
+    var mostraUSer = 0;
+    res.render('login.ejs', {erro: erro, mostraUSer: mostraUSer })
 
 })
 router.post('/', (req, res, next) => {
