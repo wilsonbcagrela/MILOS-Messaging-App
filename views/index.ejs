@@ -4,7 +4,7 @@
             <div class="col-md-4" style="border: 3px solid rgb(8, 8, 8); ">
                 <div class="card " style="min-height: 100vh;">
                     <div class="card-body w-100">
-                        <h3>CHATS CRIADOS</h3>
+                        <h3>Chats criados</h3>
                         <div class="list-group">
                             <a
                                 href="#"
@@ -54,6 +54,9 @@
                 </div>
             </div>
             <div class="col-md-8" style="height: 100%;">
+                <% if(ProcuraUtilizadores){ %> 
+                    <%- include('partials/mostraUsers.ejs') %> 
+                <% }else{%> 
                 <div class="card" style="border: 3px solid black;">
                     <div class="card-body" style="min-height: 75vh;"></div>
                 </div>
@@ -67,6 +70,7 @@
                         </div>
                     </div>
                 </div>
+                <% } %> 
             </div>
         </div>
     </div>

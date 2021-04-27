@@ -32,3 +32,7 @@ async function criarCHAT(userID, nameCHAT, conversas, callback) {
             })
     })
 }
+
+module.exports = {
+    criarCHAT
+}
