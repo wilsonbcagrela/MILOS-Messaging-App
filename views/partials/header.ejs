@@ -23,6 +23,8 @@
 
             <%if (mostraUSer != 0) { %>
                 <div class="mostraUtilizador">
+                    <img src="<%-UserImage.slice(7)%>" alt="imagem de perfil" width="30" height="30">
+                    <%- UserName %> 
                     <a href="/logout">logout</a>
                 </div>
             <% } %>

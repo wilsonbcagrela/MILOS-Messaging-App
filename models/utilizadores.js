@@ -1,9 +1,9 @@
 var MongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-var url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a" +
-        "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
-        "=MongoDB%20Compass&retryWrites=true&ssl=true"
+const url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a" +
+            "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
+            "=MongoDB%20Compass&retryWrites=true&ssl=true"
 
 let dbo
 MongoClient.connect(url, {
@@ -70,27 +70,18 @@ async function loginUser(nome, password, callback) {
     }
 }
 
-function criarCHAT(userID, nameCHAT, conversas, callback) {
-    MongoClient.connect(url, function (err, db) {
-        if (err) 
-            throw err
-        var dbo = db.db("G8")
-        dbo
-            .collection("Utilizadores")
-            .insertOne({
-                name: nome,
-                password: password,
-                image: img
-            }, function (err, res) {
-                if (err) 
-                    throw err
-                console.log("Foi registado com sucesso :-D")
-                db.close()
-            })
-    })
+function buscaTodosOsUsers(callback) { 
+    dbo
+        .collection("Utilizadores")
+        .find({})
+        .toArray( function(err, result) {
+            // console.log(result);
+            return callback(result)
+        });
 }
 
 module.exports = {
     insertUtilizador,
-    loginUser
+    loginUser,
+    buscaTodosOsUsers
 }

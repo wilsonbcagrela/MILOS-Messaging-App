@@ -12,18 +12,19 @@ let verificaUtilizadorFezLogin = (req, res, next) => {
 router.get('/', verificaUtilizadorFezLogin, (req, res, next) => {
     var mostraUSer = 1;
     console.log(req.session)
-    if (req.session.imagem == null) 
+    if (req.session.imagem == null) {
         res.render('index.ejs', {
             UserName: req.session.userName,
-            UserImage: 'public/uploads/milos.jpg'
+            UserImage: 'public/uploads/milos.png',
+            mostraUSer : mostraUSer
         })
-    else 
+    }else {
         res.render('index.ejs', {
             UserName: req.session.userName,
             UserImage: req.session.imagem,
             mostraUSer : mostraUSer
         })
-
+    }
 })
 
 router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
