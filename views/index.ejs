@@ -37,7 +37,9 @@
                     <%- include('partials/mostraUsers.ejs') %>
                     <% }else{%>
                         <div class="card" style="border: 3px solid black;">
-                            <div id="messagens" class="card-body" style="min-height: 75vh;"></div>
+                            <div class="scrollable" style="overflow-y: auto; max-height: 75vh;">
+                                <div id="messagens" class="card-body" style="min-height: 75vh;"></div>
+                            </div> 
                         </div>
                         <div class="card" style="border: 3px solid black; min-height: 25vh; ">
                             <div class="card-body row" style="height:100%;">
@@ -110,27 +112,23 @@
                     })
                 }
                 let socket = io();
-                let messagens = document.getElementById('messagens');
-                let textarea = document.getElementById('exampleFormControlTextarea1');
-                let botao = document.getElementById('botao');
-                let utilizador = document.getElementById('Utilizador')
+            
                 /* $.post("./lista_chat", (data) => {
                     console.log(data)
                 })*/
-                botao.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (textarea.value) {
-                    socket.emit('chat message', textarea.value);
-                    textarea.value = '';
+
+                $("#botao").click(function (){
+                    let textArea = $("#exampleFormControlTextarea1").val();
+                    if(textArea){
+                        socket.emit('chat message', textArea);
+                        $("#exampleFormControlTextarea1").val("");
                     }
-                });
+                })
                 socket.on('chat message', function(msg) {
-                    var item = document.createElement('div');
-                    var item2 = document.createElement('div')
-                    item.textContent = msg;
-                    item2.textContent = utilizador.innerHTML
-                    messagens.appendChild(item2);
-                    messagens.appendChild(item);
+                    let scroll = document.querySelector(".scrollable")
+                    $("#messagens").append('<div>'+ utilizador.innerHTML +'</div><div>'+ msg+ '</div>')
+                    scroll.scrollTo(0,document.body.scrollHeight);
                 });
+
             </script>
-            <%- include('partials/footer.ejs') %>
+<%- include('partials/footer.ejs') %>
