@@ -2,10 +2,11 @@ var MongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a" +
-            "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
-            "=MongoDB%20Compass&retryWrites=true&ssl=true"
-
+        "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
+        "=MongoDB%20Compass&retryWrites=true&ssl=true" 
+        
 let dbo
+
 MongoClient.connect(url, {
     useUnifiedTopology: true
 }, function (err, db) {
@@ -18,6 +19,12 @@ async function findNAME(nome) {
     return await dbo
         .collection("Utilizadores")
         .findOne({name: nome})
+}
+
+async function findID(id, callback) {
+    let ObjectID = require('mongodb').ObjectID
+    let find = await dbo.collection("Utilizadores").findOne({_id: new ObjectID(id)})
+    return callback(find)
 }
 
 async function insertUtilizador(nome, password, conPassword, img, callback) {
@@ -35,7 +42,9 @@ async function insertUtilizador(nome, password, conPassword, img, callback) {
                         .insertOne({
                             name: nome,
                             password: hash,
-                            image: img
+                            image: img,
+                            chat: {},
+                            friends: {}
                         }, function (err, res) {
                             if (err) 
                                 throw err
@@ -70,11 +79,11 @@ async function loginUser(nome, password, callback) {
     }
 }
 
-function buscaTodosOsUsers(callback) { 
+function buscaTodosOsUsers(callback) {
     dbo
         .collection("Utilizadores")
         .find({})
-        .toArray( function(err, result) {
+        .toArray(function (err, result) {
             // console.log(result);
             return callback(result)
         });
@@ -83,5 +92,6 @@ function buscaTodosOsUsers(callback) {
 module.exports = {
     insertUtilizador,
     loginUser,
-    buscaTodosOsUsers
+    buscaTodosOsUsers,
+    findID
 }

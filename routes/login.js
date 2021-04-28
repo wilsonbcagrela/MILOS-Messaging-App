@@ -5,18 +5,19 @@ const bcrypt = require('bcrypt')
 
 let redirectHome = (req, res, next) => {
     if (req.session.userId) {
-        res.redirect('/')
-    } else 
-        next()
+        return res.redirect('/')
+    }
+    return next()
 }
 
 router.get('/', redirectHome, (req, res, next) => {
     console.log(req.session)
     var erro = 0;
     var mostraUSer = 0;
-    res.render('login.ejs', {erro: erro, mostraUSer: mostraUSer })
+    return res.render('login.ejs', {erro: erro, mostraUSer: mostraUSer })
 
 })
+
 router.post('/', (req, res, next) => {
 
     loginUser.loginUser(
@@ -36,7 +37,6 @@ router.post('/', (req, res, next) => {
 
         }
     )
-
 })
 
 module.exports = router
