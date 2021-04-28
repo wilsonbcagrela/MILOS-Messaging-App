@@ -84,7 +84,6 @@ function buscaTodosOsUsers(callback) {
         .collection("Utilizadores")
         .find({})
         .toArray(function (err, result) {
-            // console.log(result);
             return callback(result)
         });
 }
