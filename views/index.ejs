@@ -37,16 +37,16 @@
                     <%- include('partials/mostraUsers.ejs') %>
                     <% }else{%>
                         <div class="card" style="border: 3px solid black;">
-                            <div class="card-body" style="min-height: 75vh;"></div>
+                            <div id="messagens" class="card-body" style="min-height: 75vh;"></div>
                         </div>
                         <div class="card" style="border: 3px solid black; min-height: 25vh; ">
                             <div class="card-body row" style="height:100%;">
-                                <div class="col-lg-10">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-                                </div>
-                                <div class="col-lg-2">
-                                    <button type="button" class="btn btn-primary btn-lg" style="height: 100%;">ENVIAR</button>
-                                </div>
+                                    <div class="col-lg-10">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button type="button" id="botao" class="btn btn-primary btn-lg" style="height: 100%;">ENVIAR</button>
+                                    </div>
                             </div>
                         </div>
                     <% } %>
@@ -64,12 +64,16 @@
             <script
                 src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
                 integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-                crossorigin="anonymous"></script>
-            <script>
-               /* $.post("./lista_chat", (data) => {
-                    console.log(data)
-                })*/
+                crossorigin="anonymous">
+            </script>
 
+            <script 
+                src="https://cdn.socket.io/3.1.3/socket.io.min.js" 
+                integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" 
+                crossorigin="anonymous">
+            </script>
+
+            <script>                
                 lista_de_amigos()
 
                 function lista_de_amigos() {
@@ -98,14 +102,35 @@
                         if($('#procurar_amigos').val() != ""){
                             $.post("./find_friends", {friends: $('#procurar_amigos').val()}, (data) => {
                                 data.forEach(element => {
-                                    $("#_lista_amigos").append("<br>"+element.name+"<br>")
+                                    $("#_lista_amigos").append("<br>"+element.name + " ")
+                                    $('#_lista_amigos').append('<button type="button" class="btn btn-info" onclick="#">add</button><br>')
                                 });
-
                             })
                         }
                     })
                 }
-                
-
+                let socket = io();
+                let messagens = document.getElementById('messagens');
+                let textarea = document.getElementById('exampleFormControlTextarea1');
+                let botao = document.getElementById('botao');
+                let utilizador = document.getElementById('Utilizador')
+                /* $.post("./lista_chat", (data) => {
+                    console.log(data)
+                })*/
+                botao.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (textarea.value) {
+                    socket.emit('chat message', textarea.value);
+                    textarea.value = '';
+                    }
+                });
+                socket.on('chat message', function(msg) {
+                    var item = document.createElement('div');
+                    var item2 = document.createElement('div')
+                    item.textContent = msg;
+                    item2.textContent = utilizador.innerHTML
+                    messagens.appendChild(item2);
+                    messagens.appendChild(item);
+                });
             </script>
             <%- include('partials/footer.ejs') %>
