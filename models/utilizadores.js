@@ -36,27 +36,45 @@ async function findID(id, callback) {
 
 async function add_friends(id, nome, callback) {
     let amigos = []
-    await findID(id, function (result){
-        console.log(result.friends)
-        if(result.friends != [] && result.friends != {} )
-        amigos.push(result.friends)
+    await findID(id,async function (result) {
+        let erro = false
+        amigos = result.friends
+        var BreakException = {};
+
+        try {
+            await amigos.forEach(element => {
+                console.log(element.name +"=="+ nome)
+                if (element.name == nome) 
+                    throw BreakException
+            })
+
+            console.log("oiiii")
+
+            let item = {}
+            item["name"] = nome
+            amigos.push(item)
+
+            let ObjectID = require('mongodb').ObjectID
+            __id = new ObjectID(id)
+
+            return callback(dbo.collection("Utilizadores").updateOne({
+                _id: __id
+            }, {
+                $set: {
+                    "friends": amigos
+                }
+            }))
+
+        } catch (e) {
+                erro = true
+                return callback(erro)
+               
+        }
+
         
-        let item = {}
-        item ["name"] = nome
-        amigos.push(item)
 
     })
 
-    let ObjectID = require('mongodb').ObjectID
-    __id = new ObjectID(id)
-
-    return callback(dbo.collection("Utilizadores").updateOne({
-        _id: __id
-    }, {
-        $set: {
-            "friends": amigos
-        }
-    }))
 }
 
 async function insertUtilizador(nome, password, conPassword, img, callback) {
@@ -75,8 +93,8 @@ async function insertUtilizador(nome, password, conPassword, img, callback) {
                             name: nome,
                             password: hash,
                             image: img,
-                            chat: {},
-                            friends: {}
+                            chat: [],
+                            friends: []
                         }, function (err, res) {
                             if (err) 
                                 throw err

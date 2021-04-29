@@ -128,8 +128,10 @@
                         name: nome
                     }, (data) => {
                         console.log(data)
+                    }).always(function() {
+                        lista_de_amigos()
                     })
-                    lista_de_amigos()
+                    
                 }
 
                 function procurar_amigos_find() {

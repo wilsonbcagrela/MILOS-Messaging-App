@@ -73,8 +73,12 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaUtiizadores.add_friends(req.session.userId,req.body.name, function (result) {
-        return  res.json(result.result)
+    buscaUtiizadores.add_friends(req.session.userId,req.body.name, async function (result) {
+        let res1 = await result
+        if(res1)
+            return res.json({error: res1})
+        else
+            return res.json(res1.result)
     })
     
 })
@@ -83,16 +87,39 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 
     let nome = []
     buscaUtiizadores.buscaTodosOsUsers(async function (result) {
-        await result.forEach(element => {
-            if(element.name.includes(req.body.friends)){
-                let item = {}
-                item ["name"] = element.name
-                nome.push(item)
+
+        let amigos_ja_add = []
+        let item = {}
+
+        await buscaUtiizadores.findID(req.session.userId, async function (find) {
+            await find
+                .friends
+                .forEach(element => {
+                    amigos_ja_add.push(element.name)
+                })
+        })
+
+        await result.forEach(async element => {
+            if (element.name.includes(req.body.friends)) {
+
+                let find = amigos_ja_add.some(element2 => {
+                    if (element2 == element.name) 
+                        return true
+                })
+
+                if (!find) {
+                    item["name"] = element
+                        .name
+                        nome
+                        .push(item)
+                }
+
             }
         })
+
         return res.json(nome)
     })
-    
+
 })
 
 
