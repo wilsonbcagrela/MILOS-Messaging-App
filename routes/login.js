@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
                 return res.redirect("/")
             } else {
                 var erro = 1
-                return res.render('login.ejs', {erro: erro})
+                return res.render('login.ejs', {erro: erro,mostraUSer :0})
             }
 
         }
