@@ -100,20 +100,23 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
         })
 
         await result.forEach(async element => {
-            if (element.name.includes(req.body.friends)) {
+            
+            if(element._id != req.session.userId){
+                if (element.name.includes(req.body.friends) ) {
+                    
+                    let find1 = amigos_ja_add.some(element2 => {
+                        if (element2 == element.name) 
+                            return true
+                    })
 
-                let find = amigos_ja_add.some(element2 => {
-                    if (element2 == element.name) 
-                        return true
-                })
+                    if (!find1) {
+                        item["name"] = element
+                            .name
+                            nome
+                            .push(item)
+                    }
 
-                if (!find) {
-                    item["name"] = element
-                        .name
-                        nome
-                        .push(item)
                 }
-
             }
         })
 
