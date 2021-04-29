@@ -1,9 +1,11 @@
 const express = require('express')
+
 var router = express.Router()
 let buscaUtiizadores = require('../models/utilizadores')
 
 let mostraUSer //se utilizador estiver logged in ele mostra o link para fazer logout
 let ProcuraUtilizadores // quando esta variavel for 1, ira mostrar a card de todos os utilizadores
+
 
 let verificaUtilizadorFezLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -65,11 +67,16 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/lista_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
-
     buscaUtiizadores.findID(req.session.userId, function (find) {
         return res.json(find.friends)
     })    
+})
 
+router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
+    buscaUtiizadores.add_friends(req.session.userId,req.body.name, function (result) {
+        return  res.json(result.result)
+    })
+    
 })
 
 router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {

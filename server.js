@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoConfigs = require('./models/mongoConfigs');
 const session = require("express-session");
-
 const app = express();
+const port = 3000;
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+const {Server} = require("socket.io");
 const io = new Server(server);
-const port = 3000;
 
 app.use(
     session({name: "sessionMilos", secret: "secret", resave: false, saveUninitialized: false})
@@ -30,18 +29,21 @@ app.use('/login', indexLogin);
 app.use('/registo', indexRegisto);
 
 io.on('connection', (socket) => {
-    console.log('Um utilizador conectou-se ao socket');
-    socket.on('disconnect', () => {
-        console.log('O utilizador desconectou-se do socket');
+
+    socket.on('join', function (room) {
+        socket.join(room);
+        socket.room = room;
+        console.log("User Joined the room: " + socket.room);
     });
+
+    socket.on('message', function (data) {
+        io
+            .sockets
+            . in (data.room)
+            .emit('message', data)
+    });
+
 });
-
-io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
-    });
-  });
-
 mongoConfigs.connect(function (err) {
     if (!err) {
         server.listen(port, () => {

@@ -21,10 +21,42 @@ async function findNAME(nome) {
         .findOne({name: nome})
 }
 
+async function __findNAME(nome, callback) {
+    return await callback(dbo
+        .collection("Utilizadores")
+        .findOne({name: nome}))
+}
+
+
 async function findID(id, callback) {
     let ObjectID = require('mongodb').ObjectID
     let find = await dbo.collection("Utilizadores").findOne({_id: new ObjectID(id)})
     return callback(find)
+}
+
+async function add_friends(id, nome, callback) {
+    let amigos = []
+    await findID(id, function (result){
+        console.log(result.friends)
+        if(result.friends != [] && result.friends != {} )
+        amigos.push(result.friends)
+        
+        let item = {}
+        item ["name"] = nome
+        amigos.push(item)
+
+    })
+
+    let ObjectID = require('mongodb').ObjectID
+    __id = new ObjectID(id)
+
+    return callback(dbo.collection("Utilizadores").updateOne({
+        _id: __id
+    }, {
+        $set: {
+            "friends": amigos
+        }
+    }))
 }
 
 async function insertUtilizador(nome, password, conPassword, img, callback) {
@@ -92,5 +124,7 @@ module.exports = {
     insertUtilizador,
     loginUser,
     buscaTodosOsUsers,
-    findID
+    findID,
+    __findNAME,
+    add_friends
 }
