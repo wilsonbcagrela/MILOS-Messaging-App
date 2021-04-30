@@ -67,14 +67,7 @@
                             
                             <span class="lista_amigos"></span>
                         </div>
-                        <div class="card-footer bg-transparent border-success">
-                            <nav class="navbar navbar-light bg-light">
-                                <form class="form-inline">
-                                  <button class="btn btn-sm btn-outline-secondary" type="button">Pedidos pendentes</button>
-                                  <button class="btn btn-sm btn-outline-secondary" type="button">adicionar</button>
-                                </form>
-                              </nav>
-                        </div>
+                        <span id="btn_pendentes"></span>
                       </div>
                 </div>
             </div>
@@ -90,6 +83,14 @@
                 crossorigin="anonymous"></script>
 
             <script>
+                /*
+                window.setInterval(function(){
+                    //console.log("ola")
+                }, 500);
+                window.setInterval(function(){
+                   //console.log("yooo")
+                }, 500);
+                */
                 lista_de_amigos()
                 lista_de_chats()
 
@@ -102,20 +103,42 @@
                                 '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
                                 'k="procurar_amigos()">Adicionar amigos</button></div>'
                             )
-                        }
-                        else {
+                        } else {
                             console.log(data)
                             $('.lista_amigos').empty()
                             data.forEach(element => {
-                                $(".lista_amigos").append('<p>'+element.name+'</p>')
+                                $(".lista_amigos").append('<p>' + element.name + '</p>')
                             })
-                            
+
                             $(".lista_amigos").append(
                                 '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
                                 'k="procurar_amigos()">Adicionar amigos</button></div>'
                             )
                         }
                     })
+                    
+                    let pendentes_cont = 0
+                    window.setInterval(function () {
+                        $.post("./pedidos_pendentes")
+                        .always(function(data) {
+                            if(pendentes_cont != data.length) {
+                                pendentes_cont = data.length
+                                if(pendentes_cont != 0) {
+                                    console.log("ola")
+                                    $('#btn_pendentes').empty()
+                                    $("#btn_pendentes").append('<div class="card-footer bg-transparent border-success">')
+                                    $("#btn_pendentes").append('<nav class="navbar navbar-light bg-light">')
+                                    $("#btn_pendentes").append('<form class="form-inline" style="margin-left: auto; margin-right: auto; ">')
+                                    $("#btn_pendentes").append('<button class="btn btn-sm btn-outline-secondary" type="button">Pedidos pendentes <span class="badge bg-secondary">'+data.length+'</span></button>')
+                                    $("#btn_pendentes").append('</form>')
+                                    $("#btn_pendentes").append('</nav>')
+                                    $("#btn_pendentes").append('</div>')
+                                }
+                            }
+                        })
+
+                   }, 500);
+
                 }
 
                 function procurar_amigos() {

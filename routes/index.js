@@ -77,10 +77,15 @@ router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
         let res1 = await result
         if(res1)
             return res.json({error: res1})
-        else
-            return res.json(res1.result)
+        return res.json(res1.result)
     })
     
+})
+
+router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.findID(req.session.userId, function (find) {
+        res.json(find.friends.amigos_pendentes)
+    })
 })
 
 router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
