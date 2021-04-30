@@ -68,12 +68,12 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
 
 router.post('/lista_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaUtiizadores.findID(req.session.userId, function (find) {
-        return res.json(find.friends)
+        return res.json(find.friends.amigos)
     })    
 })
 
 router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaUtiizadores.add_friends(req.session.userId,req.body.name, async function (result) {
+    buscaUtiizadores.add_friends_req(req.session.userId,req.body.name, async function (result) {
         let res1 = await result
         if(res1)
             return res.json({error: res1})
@@ -93,7 +93,7 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 
         await buscaUtiizadores.findID(req.session.userId, async function (find) {
             await find
-                .friends
+                .friends.amigos
                 .forEach(element => {
                     amigos_ja_add.push(element.name)
                 })

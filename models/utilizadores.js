@@ -34,36 +34,37 @@ async function findID(id, callback) {
     return callback(find)
 }
 
-async function add_friends(id, nome, callback) {
-    let amigos = []
+async function add_friends_req(id_quem_pede, nome, callback) {
+    let amigos_pendentes = []
     await findID(id,async function (result) {
         let erro = false
-        amigos = result.friends
+        //amigos_pendentes = result.friends_pendentes
         var BreakException = {};
 
         try {
-            await amigos.forEach(element => {
-                console.log(element.name +"=="+ nome)
+            /*await amigos.forEach(element => {
                 if (element.name == nome) 
                     throw BreakException
-            })
-
-            console.log("oiiii")
+            })*/
+    
 
             let item = {}
-            item["name"] = nome
-            amigos.push(item)
+            item["name"] = nome,
+            item["status"] = "waiting_accepted"
+            console.log("ola "+ JSON.stringify(item))
+            amigos_pendentes.push(item)
 
             let ObjectID = require('mongodb').ObjectID
-            __id = new ObjectID(id)
+            __id = new ObjectID(id_quem_pede)
 
             return callback(dbo.collection("Utilizadores").updateOne({
                 _id: __id
             }, {
                 $set: {
-                    "friends": amigos
+                    "friends.amigos_pendentes": amigos_pendentes
+                    },
                 }
-            }))
+            ))
 
         } catch (e) {
                 erro = true
@@ -72,7 +73,7 @@ async function add_friends(id, nome, callback) {
         }
 
         
-
+    
     })
 
 }
@@ -94,7 +95,11 @@ async function insertUtilizador(nome, password, conPassword, img, callback) {
                             password: hash,
                             image: img,
                             chat: [],
-                            friends: []
+                            friends: {
+                                amigos: [],
+                                amigos_pendentes: [],
+                                amigos_bloqueados: []
+                            },
                         }, function (err, res) {
                             if (err) 
                                 throw err
@@ -144,5 +149,5 @@ module.exports = {
     buscaTodosOsUsers,
     findID,
     __findNAME,
-    add_friends
+    add_friends_req
 }
