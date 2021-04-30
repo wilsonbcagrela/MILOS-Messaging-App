@@ -129,4 +129,8 @@ header .mostraUtilizador {
   position: absolute;
   right: 20px;
 }
+
+.Mensagem:hover {
+  background: lightgrey;
+}
 /*# sourceMappingURL=style.css.map */

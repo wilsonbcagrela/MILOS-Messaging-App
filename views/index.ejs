@@ -4,7 +4,7 @@
             <div class="col-md-3" style="border: 3px solid rgb(8, 8, 8); ">
                 <div class="card " style="min-height: 100vh;">
                     <div class="card-body w-100">
-                        <h3>Chats criados</h3>
+                        <h3>Conversas</h3>
                         <span class="lista_chat"></span>
                         <!-- <div class="list-group"> <a href="#" class="list-group-item
                         list-group-item-action active" aria-current="true"> <div class="d-flex w-100
@@ -80,6 +80,7 @@
 
             <script>
                 lista_de_amigos()
+                lista_de_chats()
 
                 function lista_de_amigos() {
                     $.post("./lista_amigos", (data) => {
@@ -156,7 +157,42 @@
                     })
                 }
 
-                
+                function lista_de_chats(){
+                    $('.lista_chat').empty()
+                    $(".lista_chat").append('<p>NÃO TEM CONVERSAS</p>')
+                    $(".lista_chat").append(
+                        '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
+                        'k="cria_chats()">Criar conversa</button></div>'
+                    )
+                        
+                }
+                function cria_chats(){
+                    $('.lista_chat').empty()
+                    $(".lista_chat").append('<p>Nome da conversa:</p>')
+                    $(".lista_chat").append('<input type="text" id="cria_chats" placeholder="Nome da conversa" class="form-control" aria-label="Nome da' +
+                        'conversa" aria-describedby="button-addon2"><br>')
+                    $(".lista_chat").append('Amigos que quer convidar:')
+                    $.post("./lista_amigos", (data) => {
+                        if (JSON.stringify(data) == JSON.stringify({})) {
+                            $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
+                        }
+                        else {
+                            data.forEach(element => {
+                                $(".lista_chat").append("<br>" + element.name + " ")
+                                $('.lista_chat').append('<button type="button" class="btn btn-info" onclick="#">add</button>')
+                            })
+                        }
+                        $(".lista_chat").append(
+                        '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+                        'ck="lista_de_chats()">Criar conversa</button></div>'
+                        )
+                        $(".lista_chat").append(
+                        '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+                        'ck="lista_de_chats()">Back</button></div>'
+                        )
+                    })
+
+                }
 
                 let socket = io();
 
@@ -180,7 +216,7 @@
                     console.log(msg)
                     let scroll = document.querySelector(".scrollable")
                     $("#messagens").append(
-                        '<div>' + utilizador.innerHTML + '</div><div>' + msg.message + '</div>'
+                        '<div class= "Mensagem"><div>' + utilizador.innerHTML + '</div><div>' + msg.message + '</div></div>'
                     )
                     scroll.scrollTo(0, document.body.scrollHeight);
                 })

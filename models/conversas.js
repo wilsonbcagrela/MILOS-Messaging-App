@@ -13,24 +13,16 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function criarCHAT(userID, nameCHAT, conversas, callback) {
-    MongoClient.connect(url, function (err, db) {
-        if (err) 
-            throw err
-        var dbo = db.db("G8")
-        dbo
-            .collection("Conversas")
-            .insertOne({
-                name: nome,
-                password: password,
-                image: img
-            }, function (err, res) {
-                if (err) 
-                    throw err
-                console.log("Foi registado com sucesso :-D")
-                db.close()
-            })
-    })
+async function criarCHAT(userID, nameCHAT, userName, callback) {
+    dbo
+        .collection("Conversas")
+        .insertOne({
+            usersID: [userID],  //inicialmente fica so o user que cria o chat, depois os outros entram ao aceitar o convite 
+            nameCHAT: nameCHAT,
+            userName: [userName],
+            mensagens: []
+        })
+    return callback(true)
 }
 
 module.exports = {
