@@ -14,21 +14,17 @@
         <link rel="icon" href="uploads/milos.png">
     </head>
     <body>
+        
         <header>
+            
             <div class="logo">
                 <img src="uploads/milos.png" alt="logo" width="55px" height="55px">
             </div>
-
+            
             <h3>MILOS</h3>
             
             <%if (mostraUSer != 0) { %>
-                <div class="mostraUtilizador">
-                    <!-- <a href="/Utilizadores">Procure utilizadores</a> -->
-                    <img src="<%-UserImage.slice(7)%>" alt="imagem de perfil" width="30" height="30">
-                    <b id="utilizador"><%- UserName %> </b>
-                    <a href="/logout">logout</a>
-                </div>
-               
+                <%- include('dropdownUser.ejs') %>
             <% } %>
            
         </header>

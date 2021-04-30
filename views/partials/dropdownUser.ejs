@@ -1,0 +1,24 @@
+
+<link rel="stylesheet" href="styles/dropdownUser.css">
+<div class="action">
+    <div class="profile" onclick="menuToggle();">
+        <img src="uploads/milos.png"></img>
+    </div>
+    <div class = "menu">
+        <h3><%- UserName %></h3>
+        <ul>
+            <li><img src="uploads/milos.png"><a href="#">Profile</a></img></li>
+            <li><img src="uploads/milos.png"><a href="/logout">Logout</a></img></li>
+            
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    function menuToggle(){
+        const toggleMenu = document.querySelector('.menu');
+        toggleMenu.classList.toggle('active');
+    }
+</script>
+
