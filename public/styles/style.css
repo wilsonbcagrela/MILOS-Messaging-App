@@ -99,7 +99,7 @@
 body {
   background-color: #121212 !important;
   color: white;
-  height: 100vh;
+  height: 100%;
 }
 
 header {
@@ -127,5 +127,59 @@ header h3 {
 
 .Mensagem:hover {
   background: lightgrey;
+}
+
+.maingrid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)(12);
+      grid-template-columns: repeat(12, 1fr);
+  -webkit-column-gap: normal;
+          column-gap: normal;
+  -ms-grid-rows: 90vh;
+      grid-template-rows: 90vh;
+}
+
+.maingrid .conversas {
+  background-color: white;
+  grid-column: span 3;
+  padding: 10px;
+  margin: 5px;
+}
+
+.maingrid .content-mensagens {
+  padding: 10px;
+  background-color: white;
+  grid-column: span 7;
+  margin: 5px;
+}
+
+.maingrid .content-mensagens .scrollable {
+  overflow-y: auto;
+  max-height: 65vh;
+  margin-bottom: 10px;
+}
+
+.maingrid .content-mensagens .scrollable .mensagem {
+  border: 1px solid grey;
+  min-height: 65vh;
+}
+
+.maingrid .content-mensagens .writtinZone .textArea {
+  width: 80%;
+  float: left;
+}
+
+.maingrid .content-mensagens .writtinZone .send {
+  margin: 5px;
+  float: right;
+  width: 15%;
+}
+
+.maingrid .pessoasOnline {
+  grid-column: span 2;
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
 }
 /*# sourceMappingURL=style.css.map */

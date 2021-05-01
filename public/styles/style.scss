@@ -12,7 +12,7 @@ $corHeader: #000000;
 body {
     background-color: $corCorpo !important;
     color: white;
-    height: 100vh;
+    height: 100%;
 }
 
 header {
@@ -37,28 +37,52 @@ header {
 .Mensagem:hover{
     background: lightgrey;
 }
-// .maingrid{
-//     display: grid;
-//     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
-//     height: 100vh;
+.maingrid{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
+    column-gap: normal;
+    grid-template-rows: 90vh;
+    // grid-auto-rows: minmax(90vh, 100vh);
+    .conversas{
+        background-color: white;
+        grid-column: span 3;
+        padding: 10px;
+        margin: 5px;
+    }
+    .content-mensagens{
+        // display: flex;
+        // justify-content:center;
+        padding: 10px;
+        background-color: white;
+        grid-column: span 7;
+        margin: 5px;
+        .scrollable{
+            overflow-y: auto; 
+            max-height: 65vh;
+            margin-bottom: 10px;
+            .mensagem{
+                border: 1px solid grey;
+                min-height: 65vh;
+            }
+        }
+        .writtinZone{
+            .textArea{
+                width: 80%;
+                float: left;
+            }
+            .send{
+                margin: 5px;
+                float: right;
+                width: 15%;
+            }
+        }
 
-//     .conversas{
-//         background-color: #1a1a1a;
-//         grid-column: span 3;
-//         padding: 10px;
-//     }
-//     .content-mensagens{
+    }
 
-//         // display: flex;
-//         // justify-content:center;
-//         padding: 10px;
-//         background-color: $corCorpo;
-//         grid-column: span 9;
-//     }
-
-// .pessoasOnline{
-//     grid-column: span 2;
-//     background-color: #1a1a1a;
-//     padding: 10px;
-// }
-// }
+    .pessoasOnline{
+        grid-column: span 2;
+        background-color: white;
+        padding: 10px;
+        margin: 5px;
+    }
+}

@@ -1,71 +1,32 @@
 <%- include('partials/header.ejs') %>
-    <div class="container-fluid ">
-        <div class="row">
-            <div class="col-md-3" >
-                <div class="card " style="border: 3px solid rgb(8, 8, 8);height:100%;">
-                    <div class="card-body w-100">
-                        <h3>Conversas</h3>
-                        <span class="lista_chat"></span>
-                        <!-- <div class="list-group"> <a href="#" class="list-group-item
-                        list-group-item-action active" aria-current="true"> <div class="d-flex w-100
-                        justify-content-between"> <h5 class="mb-1">List group item heading</h5> <small>3
-                        days ago</small> </div> <p class="mb-1">Some placeholder content in a
-                        paragraph.</p> <small>And some small print.</small> </a> <a href="#"
-                        class="list-group-item list-group-item-action"> <div class="d-flex w-100
-                        justify-content-between"> <h5 class="mb-1">List group item heading</h5> <small
-                        class="text-muted">3 days ago</small> </div> <p class="mb-1">Some placeholder
-                        content in a paragraph.</p> <small class="text-muted">And some muted small
-                        print.</small> </a> <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between"> <h5 class="mb-1">List group
-                        item heading</h5> <small class="text-muted">3 days ago</small> </div> <p
-                        class="mb-1">Some placeholder content in a paragraph.</p> <small
-                        class="text-muted">And some muted small print.</small> </a> <a href="#"
-                        class="list-group-item list-group-item-action"> <div class="d-flex w-100
-                        justify-content-between"> <h5 class="mb-1">List group item heading</h5> <small
-                        class="text-muted">3 days ago</small> </div> <p class="mb-1">Some placeholder
-                        content in a paragraph.</p> <small class="text-muted">And some muted small
-                        print.</small> </a> <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 "> <h5 class="mb-1">List group item heading</h5> <small
-                        class="text-muted">3 days ago</small> </div> <p class="mb-1">Some placeholder
-                        content in a paragraph.</p> <small class="text-muted">And some muted small
-                        print.</small> </a> </div> -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-7" >
-                <div class="card" style="border: 3px solid black; height: 80%;">
-                    <div class="scrollable" style="overflow-y: auto; ">
-                        <div id="messagens" class="card-body" style="min-height: 75vh;"></div>
-                    </div>
-                </div>
-                <div class="card" style="border: 3px solid black; height: 20%; ">
-                    <div class="card-body row">
-                        <div class="col-xl-10">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                        <div class="col-xl-2">
-                            <button
-                                type="button"
-                                id="botao"
-                                class="btn btn-primary btn-lg"
-                                >ENVIAR
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card" style="border: 3px solid black; height: 100%;">
-                    <div class="card-body" >
-                        <h3>Amigos</h3>
-                        <span class="lista_amigos"></span>
-
-                    </div>
-                </div>
-            </div>
+<div class="maingrid">
+    <div class="conversas">
+        <h3>Conversas</h3>
+        <span class="lista_chat"></span>
+    </div>
+    <div class="content-mensagens">
+       
+        <div class="scrollable">
+            <div id="messagens" class="mensagem" ></div>
+        </div> 
+     
+        <div class="writtinZone">
+            <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            <button
+                type="button"
+                id="botao"
+                class="send btn btn-primary btn-lg"
+                >ENVIAR
+            </button>
         </div>
     </div>
 
+    <div class="pessoasOnline">
+        <h3>Amigos</h3>
+        <span class="lista_amigos"></span>
+
+    </div>
+</div>
 
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
