@@ -36,16 +36,18 @@ async function findID(id, callback) {
 
 async function add_friends_req(id_quem_pede, nome, callback) {
     let amigos_pendentes = []
-    await findID(id,async function (result) {
+    await findID(id_quem_pede,async function (result) {
         let erro = false
-        //amigos_pendentes = result.friends_pendentes
+        amigos_pendentes = await result.friends.amigos_pendentes
         var BreakException = {};
 
         try {
-            /*await amigos.forEach(element => {
+
+            await amigos.forEach(element => {
+                console.log(element.name +"=="+ nome)
                 if (element.name == nome) 
                     throw BreakException
-            })*/
+            })
     
 
             let item = {}

@@ -94,6 +94,7 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaUtiizadores.buscaTodosOsUsers(async function (result) {
 
         let amigos_ja_add = []
+        let amigos_pendentes = []
         let item = {}
 
         await buscaUtiizadores.findID(req.session.userId, async function (find) {
@@ -101,6 +102,11 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
                 .friends.amigos
                 .forEach(element => {
                     amigos_ja_add.push(element.name)
+                })
+            await find
+                .friends.amigos_pendentes
+                .forEach(element => {
+                    amigos_pendentes.push(element.name)
                 })
         })
 
@@ -114,7 +120,12 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
                             return true
                     })
 
-                    if (!find1) {
+                    let find2 = amigos_pendentes.some(element2 => {
+                        if (element2 == element.name) 
+                            return true
+                    })
+
+                    if (!find1 && !find2) {
                         item["name"] = element
                             .name
                             nome
