@@ -8,6 +8,7 @@ $corHeader: #000000;
     border: 0;
     font-family: sans-serif;
 }
+
 body {
     background-color: $corCorpo !important;
     color: white;
@@ -24,22 +25,27 @@ header {
     align-items: center;
     // justify-content:space-evenly;
     padding: 2px;
+
     .logo {
         position: relative;
         left: 15px;
     }
-    h3{
+
+    h3 {
         position: relative;
         left: 25px;
     }
-    .mostraUtilizador{
+
+    .mostraUtilizador {
         position: absolute;
         right: 20px;
     }
 }
-.Mensagem:hover{
+
+.Mensagem:hover {
     background: lightgrey;
 }
+
 // .maingrid{
 //     display: grid;
 //     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas

@@ -6,9 +6,8 @@ module.exports = {
     connect: function (callback) {
         MongoClient.connect(
             'mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a' +
-                    'dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname' +
-                    '=MongoDB%20Compass&retryWrites=true&ssl=true',
-            {
+            'dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname' +
+            '=MongoDB%20Compass&retryWrites=true&ssl=true', {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             },

@@ -1,45 +1,33 @@
 <%- include('partials/header.ejs') %>
-    <div class="container">
+<div class="container">
 
-        <%if (erro == 1) { %>
-            erro o user ja existe
-        <% } %>
-        <div class="registrationForm">
-            <h4>Por favor registe-se</h4>
-            <form action="/registo" method="post" enctype="multipart/form-data">
-                <label for="userName"></label>
-                <input
-                    type="text"
-                    placeholder="Nome de utilizador..."
-                    name="userName"
-                    id="userName"
-                    required="required"><br>
+    <%if (erro == 1) { %>
+    erro o user ja existe
+    <% } %>
+    <div class="registrationForm">
+        <h4>Por favor registe-se</h4>
+        <form action="/registo" method="post" enctype="multipart/form-data">
+            <label for="userName"></label>
+            <input type="text" placeholder="Nome de utilizador..." name="userName" id="userName"
+                required="required"><br>
 
-                <label for="userPassword"></label>
-                <input
-                    type="password"
-                    placeholder="Password..."
-                    name="userPassword"
-                    id="userPassword"
-                    required="required"><br>
+            <label for="userPassword"></label>
+            <input type="password" placeholder="Password..." name="userPassword" id="userPassword"
+                required="required"><br>
 
-                <label for="userConfirmedPassword"></label>
-                <input
-                    type="password"
-                    placeholder="Confirme a password..."
-                    name="userConfirmedPassword"
-                    id="userConfirmedPassword"
-                    required="required"><br>
+            <label for="userConfirmedPassword"></label>
+            <input type="password" placeholder="Confirme a password..." name="userConfirmedPassword"
+                id="userConfirmedPassword" required="required"><br>
 
-                <input class="inputfile" name="UserPicture" type="file" id="UserPicture">
-                <label for="UserPicture">Escolha uma foto de perfil</label><br>
+            <input class="inputfile" name="UserPicture" type="file" id="UserPicture">
+            <label for="UserPicture">Escolha uma foto de perfil</label><br>
 
-                <input type="submit" name="submit" value="Registe-se"/>
-                <h4>ja tem conta? faça login aqui:
-                    <a href="/login">login</a>
-                </h4>
-            </form>
-        </div>
+            <input type="submit" name="submit" value="Registe-se" />
+            <h4>ja tem conta? faça login aqui:
+                <a href="/login">login</a>
+            </h4>
+        </form>
     </div>
+</div>
 
-    <%- include('partials/footer.ejs') %>
+<%- include('partials/footer.ejs') %>

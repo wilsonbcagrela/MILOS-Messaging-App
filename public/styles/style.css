@@ -6,14 +6,14 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .container .loginForm,
@@ -23,14 +23,14 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .container .loginForm form,
@@ -40,14 +40,14 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .container .loginForm form input,
@@ -67,8 +67,8 @@
   z-index: -1;
 }
 
-.container .loginForm form .inputfile + label,
-.container .registrationForm form .inputfile + label {
+.container .loginForm form .inputfile+label,
+.container .registrationForm form .inputfile+label {
   border-radius: 25px;
   padding: 10px;
   font-size: 1.25em;
@@ -79,8 +79,8 @@
   cursor: pointer;
 }
 
-.container .loginForm form .inputfile + label:hover,
-.container .registrationForm form .inputfile + label:hover {
+.container .loginForm form .inputfile+label:hover,
+.container .registrationForm form .inputfile+label:hover {
   background-color: blue;
   color: black;
 }
@@ -110,8 +110,8 @@ header {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding: 2px;
 }
 
@@ -133,4 +133,5 @@ header .mostraUtilizador {
 .Mensagem:hover {
   background: lightgrey;
 }
+
 /*# sourceMappingURL=style.css.map */

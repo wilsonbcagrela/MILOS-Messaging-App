@@ -14,7 +14,10 @@ router.get('/', redirectHome, (req, res, next) => {
     console.log(req.session)
     var erro = 0;
     var mostraUSer = 0;
-    return res.render('login.ejs', {erro: erro, mostraUSer: mostraUSer })
+    return res.render('login.ejs', {
+        erro: erro,
+        mostraUSer: mostraUSer
+    })
 
 })
 
@@ -32,7 +35,10 @@ router.post('/', (req, res, next) => {
                 return res.redirect("/")
             } else {
                 var erro = 1
-                return res.render('login.ejs', {erro: erro,mostraUSer :0})
+                return res.render('login.ejs', {
+                    erro: erro,
+                    mostraUSer: 0
+                })
             }
 
         }

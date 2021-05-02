@@ -52,7 +52,7 @@ router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
     req
         .session
         .destroy(err => {
-            if (err) 
+            if (err)
                 return res.redirect('/')
             res.clearCookie("sessionMilos")
             console.log("o user fez logout")
@@ -61,7 +61,7 @@ router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
-    
+
     return res.json("ola")
 
 })
@@ -69,17 +69,16 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
 router.post('/lista_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaUtiizadores.findID(req.session.userId, function (find) {
         return res.json(find.friends.amigos)
-    })    
+    })
 })
 
 router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaUtiizadores.add_friends_req(req.session.userId,req.body.name, async function (result) {
-        let res1 = await result
-        if(res1)
-            return res.json({error: res1})
-        return res.json(res1.result)
+    buscaUtiizadores.add_friends_req(req.session.userId, req.body.name, async function (result) {
+        console.log("testessss")
+        console.log(result)
+        res.json(await result)
     })
-    
+
 })
 
 router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, next) => {
@@ -89,56 +88,29 @@ router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, n
 })
 
 router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
-
     let nome = []
     buscaUtiizadores.buscaTodosOsUsers(async function (result) {
-
-        let amigos_ja_add = []
-        let amigos_pendentes = []
-        let item = {}
-
-        await buscaUtiizadores.findID(req.session.userId, async function (find) {
-            await find
-                .friends.amigos
-                .forEach(element => {
-                    amigos_ja_add.push(element.name)
-                })
-            await find
-                .friends.amigos_pendentes
-                .forEach(element => {
-                    amigos_pendentes.push(element.name)
-                })
-        })
-
         await result.forEach(async element => {
-            
-            if(element._id != req.session.userId){
-                if (element.name.includes(req.body.friends) ) {
-                    
-                    let find1 = amigos_ja_add.some(element2 => {
-                        if (element2 == element.name) 
-                            return true
+            if (element._id != req.session.userId) {
+                if (element.name.includes(req.body.friends)) {
+
+                    let gravar = true
+                    element.friends.amigos_pendentes.forEach(element2 => {
+                        if (element2.id_origem == req.session.userId || element2.id_destinatario == req.session.userId)
+                            gravar = false
                     })
 
-                    let find2 = amigos_pendentes.some(element2 => {
-                        if (element2 == element.name) 
-                            return true
-                    })
-
-                    if (!find1 && !find2) {
-                        item["name"] = element
-                            .name
-                            nome
-                            .push(item)
+                    if (gravar) {
+                        let item = {}
+                        item["name"] = element.name
+                        nome.push(item)
                     }
 
                 }
             }
         })
-
         return res.json(nome)
     })
-
 })
 
 
