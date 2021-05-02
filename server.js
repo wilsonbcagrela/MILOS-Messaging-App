@@ -5,14 +5,23 @@ const app = express()
 const port = 3000
 const http = require('http')
 const server = http.createServer(app)
-const {Server} = require("socket.io")
+const {
+    Server
+} = require("socket.io")
 const io = new Server(server)
 
 app.use(
-    session({name: "sessionMilos", secret: "secret", resave: false, saveUninitialized: false})
+    session({
+        name: "sessionMilos",
+        secret: "secret",
+        resave: false,
+        saveUninitialized: false
+    })
 )
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({
+    extended: true
+}))
 app.use(express.json())
 
 const indexRouter = require("./routes/index.js")
@@ -39,7 +48,7 @@ io.on('connection', (socket) => {
     socket.on('message', function (data) {
         io
             .sockets
-            . in (data.room)
+            .in(data.room)
             .emit('message', data)
     })
 
