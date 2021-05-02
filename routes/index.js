@@ -95,7 +95,9 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
                 if (element.name.includes(req.body.friends)) {
 
                     let gravar = true
-                    element.friends.amigos_pendentes.forEach(element2 => {
+                    let temp = element.friends.amigos_pendentes
+
+                    temp.forEach(element2 => {
                         if (element2.id_origem == req.session.userId || element2.id_destinatario == req.session.userId)
                             gravar = false
                     })

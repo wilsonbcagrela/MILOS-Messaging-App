@@ -7,8 +7,29 @@ window.setInterval(function () {
                 if (pendentes_cont != 0) {
                     $('#btn_pendentes').removeClass('invisible')
                     $('#btn_pendentes_').text(data.length)
+
+                    console.log(data)
+                    $("#modal_ped_pend").empty()
+                    data.forEach(element => {
+                        if(element.status == "waiting_accepted") {
+                            $("#modal_ped_pend").append('<h5>PENDENTES DE SEREM ACEITES (:s) :</h5>')
+                            $("#modal_ped_pend").append(element.name)
+                        } else {
+                            $("#modal_ped_pend").append('<h5>POR ACEITAR:</h5>')
+                            $("#modal_ped_pend").append(element.name)
+                        }
+                        
+                    })
+                    
+
+                    
+
                 } else $('#btn_pendentes').addClass('invisible')
             }
+
+            
+
+           
 
         })
 
@@ -37,6 +58,10 @@ function lista_de_amigos() {
                 '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
                 'k="procurar_amigos()">Adicionar amigos</button></div>'
             )
+            
+                
+
+            
         }
     })
 
