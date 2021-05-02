@@ -41,8 +41,10 @@ header {
     display: grid;
     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
     column-gap: normal;
+    // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-template-rows: 90vh;
     // grid-auto-rows: minmax(90vh, 100vh);
+   
     .conversas{
         background-color: white;
         grid-column: span 3;
@@ -66,14 +68,21 @@ header {
             }
         }
         .writtinZone{
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            column-gap: 1rem;
+            // grid-auto-rows: 130px;
             .textArea{
-                width: 80%;
-                float: left;
+                grid-column: span 8;
+                grid-row: span 4 / auto;
+            }
+            .icons{
+                grid-column: span 4;
+                grid-row: span 3 / auto;
             }
             .send{
-                margin: 5px;
-                float: right;
-                width: 15%;
+                grid-column: span 4;
+                grid-row: span 1  / auto;
             }
         }
 
@@ -84,5 +93,19 @@ header {
         background-color: white;
         padding: 10px;
         margin: 5px;
+    }
+    @media screen and (max-width: 600px){
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        .writtinZone{
+            .textArea{
+                grid-column: span 10;
+                grid-row: span 1 / auto;
+            }
+            .send{
+                grid-column: span 2;
+                grid-row: span 1  ;
+            }
+        }
     }
 }
