@@ -1,7 +1,7 @@
 const express = require('express')
-
 var router = express.Router()
 let buscaUtiizadores = require('../models/utilizadores')
+crypto = require('crypto')
 
 let mostraUSer //se utilizador estiver logged in ele mostra o link para fazer logout
 let ProcuraUtilizadores // quando esta variavel for 1, ira mostrar a card de todos os utilizadores
@@ -82,8 +82,31 @@ router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        let _find = await find.friends.amigos_pendentes
+        let __result = []
+        for (let index = 0; index < _find.length; index++) {
+            await buscaUtiizadores.findID(_find[index].id, function (find) {
+                var img = (find.image == null) ? './uploads/milos.png':find.image
+                let item = {}
+                const salt = crypto.randomBytes(16).toString('hex'); 
+                console.log(crypto.pbkdf2Sync(_find[index].id, salt, 1000, 64, `sha512`).toString(`hex`))
+                item["id"] = "1",
+                item["name"] = find.name,
+                item["img"] = img,
+                item["status"] = _find[index].status
+                __result.push(item)
+            })
+        }
+        console.log(__result)
+        res.json(__result)
+    })   
+})
+
+router.post('/pedidos_pendentes_count', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaUtiizadores.findID(req.session.userId, function (find) {
-        res.json(find.friends.amigos_pendentes)
+        let _find = find.friends.amigos_pendentes
+        res.json(_find.length)
     })
 })
 
