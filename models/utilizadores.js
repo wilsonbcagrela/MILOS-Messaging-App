@@ -61,12 +61,14 @@ async function add_friends_req(id_quem_pede, nome, callback) {
             })
 
             let item = {}
-            item["id_destinatario"] = new ObjectID(id_destinatario._id),
-                item["status"] = "waiting_accepted"
+            item["id"] = new ObjectID(id_destinatario._id),
+            item["name"] = id_destinatario.name,
+            item["status"] = "waiting_accepted"
             amigos_pendentes.push(item)
             item = {}
-            item["id_origem"] = new ObjectID(id_quem_pede),
-                item["status"] = "to_be_accepted"
+            item["id"] = new ObjectID(id_quem_pede),
+            item["name"] = result.name,
+            item["status"] = "to_be_accepted"
             _amigos_pend_destinatario.push(item)
 
 

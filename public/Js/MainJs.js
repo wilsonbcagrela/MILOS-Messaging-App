@@ -1,21 +1,46 @@
 let pendentes_cont = 0
 window.setInterval(function () {
-    $.post("./pedidos_pendentes")
+    $.post("./pedidos_pendentes_count")
         .always(function (data) {
-            if (data.length != pendentes_cont) {
-                pendentes_cont = data.length
+            if (data != pendentes_cont) {
+                pendentes_cont = data
                 if (pendentes_cont != 0) {
                     $('#btn_pendentes').removeClass('invisible')
-                    $('#btn_pendentes_').text(data.length)
+                    $('#btn_pendentes_').text(data)
                 } else $('#btn_pendentes').addClass('invisible')
             }
-
         })
 
 }, 900);
 
 lista_de_amigos()
 lista_de_chats()
+
+function __amigos_pend_mod() {
+    $.post("./pedidos_pendentes").always(function (data) {
+        $("#modal_ped_pend").empty()
+        data.forEach(element => {
+            
+            if(element.status == "waiting_accepted") {
+                $("#modal_ped_pend").append('<h5>PENDENTES DE SEREM ACEITES (:s) :</h5>')
+                $("#modal_ped_pend").append('<img src="'+element.img+'" alt="imagem de perfil" width="30" height="30"></img>')
+                $("#modal_ped_pend").append(element.name)
+                $("#modal_ped_pend").append('<div class="btn-group" role="group">')
+                $("#modal_ped_pend").append('<button type="button" class="btn btn-success">ACEITAR</button>')
+                $("#modal_ped_pend").append('<button type="button" class="btn btn-danger">REJEITAR</button>')
+                $("#modal_ped_pend").append('</div>')
+            } else {
+                $("#modal_ped_pend").append('<h5>POR ACEITAR:</h5>')
+                $("#modal_ped_pend").append('<img src="'+element.img+'" alt="imagem de perfil" width="30" height="30"></img>')
+                $("#modal_ped_pend").append(element.name)
+                $("#modal_ped_pend").append('<div class="btn-group" role="group">')
+                $("#modal_ped_pend").append('<button type="button" class="btn btn-success">ACEITAR</button>')
+                $("#modal_ped_pend").append('<button type="button" class="btn btn-danger">REJEITAR</button>')
+                $("#modal_ped_pend").append('</div>')
+            }
+        })
+    })
+}
 
 function lista_de_amigos() {
     $.post("./lista_amigos", (data) => {
@@ -37,6 +62,10 @@ function lista_de_amigos() {
                 '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
                 'k="procurar_amigos()">Adicionar amigos</button></div>'
             )
+            
+                
+
+            
         }
     })
 
