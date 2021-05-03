@@ -9,6 +9,7 @@ $corHeader: #000000;
     border: 0;
     font-family: sans-serif;
 }
+
 body {
     background-color: $corCorpo !important;
     color: white;
@@ -25,16 +26,19 @@ header {
     align-items: center;
     // justify-content:space-evenly;
     padding: 2px;
+
     .logo {
         position: relative;
         left: 15px;
     }
-    h3{
+
+    h3 {
         position: relative;
         left: 25px;
     }
 }
-.Mensagem:hover{
+
+.Mensagem:hover {
     background: lightgrey;
 }
 .maingrid{

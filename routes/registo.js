@@ -4,9 +4,13 @@ const http = require("http")
 const path = require("path")
 const fs = require("fs.extra")
 const multer = require('multer')
-const {v4: uuidv4} = require('uuid')
+const {
+    v4: uuidv4
+} = require('uuid')
 const tempFolder = './tmp/' // folder for temporary files, must exist
-const upload = multer({dest: tempFolder})
+const upload = multer({
+    dest: tempFolder
+})
 const registoUser = require('../models/utilizadores')
 const router = express.Router()
 
@@ -17,14 +21,17 @@ if (!fs.existsSync(tempFolder)) {
 let redirectHome = (req, res, next) => {
     if (req.session.userId) {
         res.redirect('/')
-    } else 
+    } else
         next()
 }
 
 router.get('/', redirectHome, (req, res, next) => {
     var erro = 0
     var mostraUSer = 0;
-    res.render('registo.ejs', {erro: erro, mostraUSer: mostraUSer})
+    res.render('registo.ejs', {
+        erro: erro,
+        mostraUSer: mostraUSer
+    })
 })
 
 router.post('/', upload.single('UserPicture'), (req, res, next) => {
@@ -49,7 +56,9 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
                     return res.redirect("/")
                 } else {
                     var erro = 1
-                    return res.render('registo.ejs', {erro: erro})
+                    return res.render('registo.ejs', {
+                        erro: erro
+                    })
                 }
             }
         )
@@ -60,7 +69,7 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
             .file
             .path
 
-            registoUser
+        registoUser
             .insertUtilizador(
                 name,
                 req.body.userPassword,
@@ -69,7 +78,9 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
                 function (result) {
                     if (!result) {
                         var erro = 1
-                        return res.render('registo.ejs', {erro: erro})
+                        return res.render('registo.ejs', {
+                            erro: erro
+                        })
                     }
                 }
             )
@@ -78,7 +89,10 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
 
             if (err) {
                 console.log(err)
-                res.json({success: false, message: err})
+                res.json({
+                    success: false,
+                    message: err
+                })
                 return
             }
 

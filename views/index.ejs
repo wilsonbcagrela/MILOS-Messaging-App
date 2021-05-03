@@ -25,161 +25,37 @@
     <div class="pessoasOnline">
         <h3>Amigos</h3>
         <span class="lista_amigos"></span>
-
+        <div id="btn_pendentes" class="card-footer invisible">
+            <nav class="navbar navbar-light bg-light">
+                <form class="form-inline" style="margin-left: auto; margin-right: auto; ">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-toggle="modal"
+                        data-target="#exampleModal">Pedidos pendentes <span id="btn_pendentes_"
+                            class="badge bg-secondary"></span></button>
+                </form>
+            </nav>
+        </div>
     </div>
-</div>
+        <!-- Modal ADD AMIGOS -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">PEDIDOS DE AMIZADE / ESTADO DOS PEDIDOS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous"></script>
-
-    <script
-        src="https://cdn.socket.io/3.1.3/socket.io.min.js"
-        integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
-        crossorigin="anonymous"></script>
-
-    <script>
-        lista_de_amigos()
-        lista_de_chats()
-
-        function lista_de_amigos() {
-            $.post("./lista_amigos", (data) => {
-                if (JSON.stringify(data) == JSON.stringify({})) {
-                    $('.lista_amigos').empty()
-                    $(".lista_amigos").append('<p>NÃO TEM AMIGOS AINDA :C</p>')
-                    $(".lista_amigos").append(
-                        '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
-                        'k="procurar_amigos()">Adicionar amigos</button></div>'
-                    )
-                }
-                else {
-                    console.log(data)
-                    $('.lista_amigos').empty()
-                    data.forEach(element => {
-                        $(".lista_amigos").append('<p>'+element.name+'</p>')
-                    })
-                    
-                    $(".lista_amigos").append(
-                        '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
-                        'k="procurar_amigos()">Adicionar amigos</button></div>'
-                    )
-                }
-            })
-        }
-
-        function procurar_amigos() {
-            $('.lista_amigos').empty()
-            $(".lista_amigos").append('<div class="input-group mb-3">')
-            $(".lista_amigos").append(
-                '<input type="text" id="procurar_amigos" class="form-control" aria-label="Pesqu' +
-                'isar amigos" aria-describedby="button-addon2">'
-            )
-            $(".lista_amigos").append('<span id="_lista_amigos"></span>')
-            $(".lista_amigos").append(
-                '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-                'ck="lista_de_amigos()">Back</button></div>'
-            )
-            $(".lista_amigos").append('</div>')
-            procurar_amigos_find()
-        }
-
-        function add_amigo(nome) {
-            console.log(nome)
-            $.post("./add_amigos", {
-                name: nome
-            }, (data) => {
-                console.log(data)
-            }).always(function() {
-                lista_de_amigos()
-            })
-            
-        }
-
-        function procurar_amigos_find() {
-            $('#procurar_amigos').keyup(function () {
-                $('#_lista_amigos').empty()
-                if ($('#procurar_amigos').val() != "") {
-                    $('#_lista_amigos').append(
-                        '<div id="load_friends" class="spinner-border" role="status"></div>'
-                    )
-                    $.post("./find_friends", {
-                        friends: $('#procurar_amigos').val()
-                    }, (data) => {
-                        data.forEach(element => {
-                            $('#_lista_amigos').empty()
-                            $("#_lista_amigos").append("<br>" + element.name + " ")
-                            $('#_lista_amigos').append('<button id="add_amigo_btn" type="button" class="btn btn-info" onclick="add_amigo('+"'"+element.name+"'"+')">add</button><br>')
-                        })
-                        $('#load_friends').remove()
-                    })
-                }
-                $('#_lista_amigos').empty()
-            })
-        }
-
-        function lista_de_chats(){
-            $('.lista_chat').empty()
-            $(".lista_chat").append('<p>NÃO TEM CONVERSAS</p>')
-            $(".lista_chat").append(
-                '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
-                'k="cria_chats()">Criar conversa</button></div>'
-            )
-                
-        }
-        function cria_chats(){
-            $('.lista_chat').empty()
-            $(".lista_chat").append('<p>Nome da conversa:</p>')
-            $(".lista_chat").append('<input type="text" id="cria_chats" placeholder="Nome da conversa" class="form-control" aria-label="Nome da' +
-                'conversa" aria-describedby="button-addon2"><br>')
-            $(".lista_chat").append('Amigos que quer convidar:')
-            $.post("./lista_amigos", (data) => {
-                if (JSON.stringify(data) == JSON.stringify({})) {
-                    $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
-                }
-                else {
-                    data.forEach(element => {
-                        $(".lista_chat").append("<br>" + element.name + " ")
-                        $('.lista_chat').append('<button type="button" class="btn btn-info" onclick="#">add</button>')
-                    })
-                }
-                $(".lista_chat").append(
-                '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-                'ck="lista_de_chats()">Criar conversa</button></div>'
-                )
-                $(".lista_chat").append(
-                '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-                'ck="lista_de_chats()">Back</button></div>'
-                )
-            })
-
-        }
-
-        let socket = io();
-
-        socket.on('connect', function () {
-            socket.emit('join', 'dddsdjkfh1123'); //chat room id unique to two users
-        })
-
-        $("#botao").click(function () {
-            let textArea = $("#exampleFormControlTextarea1").val();
-            if (textArea) {
-                socket.emit('message', {
-                    room: 'dddsdjkfh1123',
-                    message: textArea,
-                    name: "nome"
-                });
-                $("#exampleFormControlTextarea1").val("");
-            }
-        })
-
-        socket.on('message', function (msg) {
-            console.log(msg)
-            let scroll = document.querySelector(".scrollable")
-            $("#messagens").append(
-                '<div class= "Mensagem"><div>' + utilizador.innerHTML + '</div><div>' + msg.message + '</div></div>'
-            )
-            scroll.scrollTo(0, document.body.scrollHeight);
-        })
-    </script>
-    <%- include('partials/footer.ejs') %>
+<%- include('partials/footer.ejs') %>
+<script src="../Js/MainJs.js"></script>

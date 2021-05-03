@@ -2,28 +2,18 @@
     <div class="card-body" style="min-height: 100vh;">
         <h3>Adicione amigos para poder falar com eles</h3>
         <div class="scrollable" style="overflow-y: auto; max-height: 84vh;">
-            <% for(var x in utilizador){ %> 
+            <% for(var x in utilizador){ %>
             <div>
-                <% if (utilizador[x].image == null) { %> 
-                    <img 
-                        src="uploads/milos.png" 
-                        alt="imagem de perfil" 
-                        width="30" 
-                        height="30"
-                    >
+                <% if (utilizador[x].image == null) { %>
+                <img src="uploads/milos.png" alt="imagem de perfil" width="30" height="30">
                 <% }else{ %>
-                    <img 
-                        src="<%-utilizador[x].image.slice(7)%>" 
-                        alt="imagem de perfil" 
-                        width="30" 
-                        height="30"
-                    >
-                <% } %> 
-                <%- utilizador[x].name %> 
-                <input type="submit" name="submit" value="Pedir Amizade"/>
+                <img src="<%-utilizador[x].image.slice(7)%>" alt="imagem de perfil" width="30" height="30">
+                <% } %>
+                <%- utilizador[x].name %>
+                <input type="submit" name="submit" value="Pedir Amizade" />
             </div>
-            <% } %> 
-        </div> 
+            <% } %>
+        </div>
         <a href="/">voltar a trás</a>
     </div>
 </div>

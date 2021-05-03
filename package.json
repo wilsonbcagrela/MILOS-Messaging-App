@@ -11,6 +11,8 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "bootstrap": "^5.0.0-beta3",
+    "bower": "^1.8.12",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-flash": "0.0.2",

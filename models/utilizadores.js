@@ -1,16 +1,16 @@
 var MongoClient = require('mongodb').MongoClient
-const mongoose = require('mongoose')
+let ObjectID = require('mongodb').ObjectID
 const bcrypt = require('bcrypt')
 const url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a" +
-        "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
-        "=MongoDB%20Compass&retryWrites=true&ssl=true" 
-        
+    "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
+    "=MongoDB%20Compass&retryWrites=true&ssl=true"
+
 let dbo
 
 MongoClient.connect(url, {
     useUnifiedTopology: true
 }, function (err, db) {
-    if (err) 
+    if (err)
         throw err
     dbo = db.db("G8")
 })
@@ -18,60 +18,89 @@ MongoClient.connect(url, {
 async function findNAME(nome) {
     return await dbo
         .collection("Utilizadores")
-        .findOne({name: nome})
+        .findOne({
+            name: nome
+        })
 }
 
 async function __findNAME(nome, callback) {
     return await callback(dbo
         .collection("Utilizadores")
-        .findOne({name: nome}))
+        .findOne({
+            name: nome
+        }))
 }
 
 
 async function findID(id, callback) {
     let ObjectID = require('mongodb').ObjectID
-    let find = await dbo.collection("Utilizadores").findOne({_id: new ObjectID(id)})
+    let find = await dbo.collection("Utilizadores").findOne({
+        _id: new ObjectID(id)
+    })
     return callback(find)
 }
 
-async function add_friends(id, nome, callback) {
-    let amigos = []
-    await findID(id,async function (result) {
+async function add_friends_req(id_quem_pede, nome, callback) {
+    let amigos_pendentes = []
+    await findID(id_quem_pede, async function (result) {
         let erro = false
-        amigos = result.friends
-        var BreakException = {};
+        amigos_pendentes = await result.friends.amigos_pendentes
+        var BreakException = {}
+        let id_destinatario = await findNAME(nome)
+        let _amigos_pend_destinatario = id_destinatario.friends.amigos_pendentes
 
         try {
-            await amigos.forEach(element => {
-                console.log(element.name +"=="+ nome)
-                if (element.name == nome) 
+            let temp1 = id_destinatario._id
+            await amigos_pendentes.forEach(element => {
+                let temp2 = element.id_destinatario
+                if (temp2.toString() == temp1.toString())
+                    throw BreakException
+                temp2 = element.id_origem
+                if (temp2.toString() == id_quem_pede)
                     throw BreakException
             })
 
-            console.log("oiiii")
-
             let item = {}
-            item["name"] = nome
-            amigos.push(item)
+            item["id_destinatario"] = new ObjectID(id_destinatario._id),
+                item["status"] = "waiting_accepted"
+            amigos_pendentes.push(item)
+            item = {}
+            item["id_origem"] = new ObjectID(id_quem_pede),
+                item["status"] = "to_be_accepted"
+            _amigos_pend_destinatario.push(item)
 
-            let ObjectID = require('mongodb').ObjectID
-            __id = new ObjectID(id)
 
-            return callback(dbo.collection("Utilizadores").updateOne({
-                _id: __id
+            let __result = []
+
+            let update1 = await dbo.collection("Utilizadores").updateMany({
+                _id: new ObjectID(id_quem_pede)
             }, {
                 $set: {
-                    "friends": amigos
+                    "friends.amigos_pendentes": amigos_pendentes
                 }
-            }))
+            })
+
+            __result.push(await update1.result.ok)
+
+            let update2 = await dbo.collection("Utilizadores").updateMany({
+                _id: new ObjectID(id_destinatario._id)
+            }, {
+                $set: {
+                    "friends.amigos_pendentes": _amigos_pend_destinatario
+                }
+            })
+
+            __result.push(await update2.result.ok)
+
+            return callback(__result)
 
         } catch (e) {
-                erro = true
-                return callback(erro)
-               
+            erro = true
+            return callback(erro)
+
         }
 
-        
+
 
     })
 
@@ -94,9 +123,12 @@ async function insertUtilizador(nome, password, conPassword, img, callback) {
                             password: hash,
                             image: img,
                             chat: [],
-                            friends: []
+                            friends: {
+                                amigos: [],
+                                amigos_pendentes: []
+                            },
                         }, function (err, res) {
-                            if (err) 
+                            if (err)
                                 throw err
                             console.log("Foi registado com sucesso :-D")
                         })
@@ -106,7 +138,7 @@ async function insertUtilizador(nome, password, conPassword, img, callback) {
 
             })
         })
-    } else 
+    } else
         return callback(false)
 }
 
@@ -114,7 +146,7 @@ async function loginUser(nome, password, callback) {
     let find = await findNAME(nome)
     if (find !== null) {
         bcrypt.compare(password, find.password, function (err, result) {
-            if (err) 
+            if (err)
                 console.log(err)
             if (result) {
                 console.log("palavra passe certa")
@@ -144,5 +176,5 @@ module.exports = {
     buscaTodosOsUsers,
     findID,
     __findNAME,
-    add_friends
+    add_friends_req
 }

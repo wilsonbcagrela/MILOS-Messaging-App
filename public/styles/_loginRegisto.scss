@@ -11,17 +11,21 @@
     height: 100vh;
     color: white !important;
     @include flexCenter();
+
     .loginForm,
     .registrationForm {
         @include flexCenter();
+
         form {
             @include flexCenter();
+
             input {
                 padding: 5px;
                 border: solid 1px black;
                 margin: 5px;
 
             }
+
             .inputfile {
                 width: 0.1px;
                 height: 0.1px;
@@ -31,7 +35,8 @@
                 z-index: -1;
 
             }
-            .inputfile + label {
+
+            .inputfile+label {
                 border-radius: 25px;
                 padding: 10px;
                 font-size: 1.25em;
