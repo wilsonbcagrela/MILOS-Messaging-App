@@ -1,6 +1,7 @@
 const express = require('express')
 var router = express.Router()
 let buscaUtiizadores = require('../models/utilizadores')
+let buscaConversas =require('../models/conversas')
 crypto = require('crypto')
 
 let mostraUSer //se utilizador estiver logged in ele mostra o link para fazer logout
@@ -175,6 +176,13 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
     })
 })
 
+router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
 
+    buscaConversas.criarCHAT(req.body.nome, async function (result) {
+        console.log(result)
+        console.log(req.body.nome)
+        res.json(await result)
+    });
+})
 
 module.exports = router

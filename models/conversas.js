@@ -13,18 +13,24 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function criarCHAT(userID, nameCHAT, userName, callback) {
+async function criarCHAT(nameChat, callback) {
     dbo
         .collection("Conversas")
-        .insertOne({
-            usersID: [userID], //inicialmente fica so o user que cria o chat, depois os outros entram ao aceitar o convite 
-            nameCHAT: nameCHAT,
-            userName: [userName],
-            mensagens: []
+        .insertOne({ 
+            nome: nameChat,
+            membros: [],
+            conversas: []
         })
     return callback(true)
 }
+async function buscaMensagens(NameChat){
+    dbo 
+        .collection("Conversas")
+        .find().toArray(function(err, result){
+            if(err) throw err;
 
+        });
+}
 module.exports = {
     criarCHAT
 }

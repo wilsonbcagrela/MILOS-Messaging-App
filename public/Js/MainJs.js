@@ -163,7 +163,7 @@ function lista_de_chats() {
 function cria_chats() {
     $('.lista_chat').empty()
     $(".lista_chat").append('<p>Nome da conversa:</p>')
-    $(".lista_chat").append('<input type="text" id="cria_chats" placeholder="Nome da conversa" class="form-control" aria-label="Nome da' +
+    $(".lista_chat").append('<input type="text" id="cria_chats" placeholder="Nome da conversa" class="nomeChat form-control" aria-label="Nome da' +
         'conversa" aria-describedby="button-addon2"><br>')
     $(".lista_chat").append('Amigos que quer convidar:')
     $.post("./lista_amigos", (data) => {
@@ -171,13 +171,15 @@ function cria_chats() {
             $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
         } else {
             data.forEach(element => {
-                $(".lista_chat").append(`<br>"${element.name}`)
+                $(".lista_chat").append(`<br>${element.name}`)
                 $('.lista_chat').append('<button type="button" class="btn btn-info" onclick="#">add</button>')
             })
         }
+        // let nomeConversa = document.querySelector(".nomeChat");
+        // '${nomeConversa}'
         $(".lista_chat").append(
             '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-            'ck="lista_de_chats()">Criar conversa</button></div>'
+            `ck="criaChatNaBaseDeDados()">Criar conversa</button></div>`
         )
         $(".lista_chat").append(
             '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
@@ -185,6 +187,17 @@ function cria_chats() {
         )
     })
 
+}
+function criaChatNaBaseDeDados(){
+    let nomeConversa = $("#cria_chats").val();
+    $.post("./criaChat", {
+        nome : nomeConversa
+    })
+}
+
+function menuToggle(){
+    const toggleMenu = document.querySelector('.menu');
+    toggleMenu.classList.toggle('active');
 }
 
 let socket = io();
@@ -195,11 +208,12 @@ socket.on('connect', function () {
 
 $("#botao").click(function () {
     let textArea = $("#exampleFormControlTextarea1").val();
+    // let nomeUSer = $("#utilizador").val();
     if (textArea) {
         socket.emit('message', {
             room: 'dddsdjkfh1123',
             message: textArea,
-            name: "nome"
+            name: utilizador.innerHTML
         });
         $("#exampleFormControlTextarea1").val("");
     }
@@ -209,7 +223,8 @@ socket.on('message', function (msg) {
     console.log(msg)
     let scroll = document.querySelector(".scrollable")
     $("#messagens").append(
-        '<div class= "Mensagem"><div>' + utilizador.innerHTML + '</div><div>' + msg.message + '</div></div>'
+        '<div class= "Mensagem"><div>' + msg.name + '</div><div>' + msg.message + '</div></div>'
     )
     scroll.scrollTo(0, document.body.scrollHeight);
 })
+
