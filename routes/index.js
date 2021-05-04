@@ -62,8 +62,18 @@ router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
-
-    return res.json("ola")
+    buscaConversas.buscaChat(async function (result) { 
+        // console.log(result) 
+        let nomesChats = []
+        for (let index = 0; index < result.length; index++) {
+            
+            nomesChats.push(result[index].nome)
+        }
+        console.log(nomesChats) 
+        res.json(nomesChats)
+        // res.json(await result)
+        // return res.json("ola")
+    })
 
 })
 

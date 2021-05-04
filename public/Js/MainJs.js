@@ -152,12 +152,21 @@ function procurar_amigos_find() {
 
 function lista_de_chats() {
     $('.lista_chat').empty()
-    $(".lista_chat").append('<p>NÃO TEM CONVERSAS</p>')
-    $(".lista_chat").append(
-        '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
-        'k="cria_chats()">Criar conversa</button></div>'
-    )
+    $.post("./lista_chat", (data) => {
 
+        if (JSON.stringify(data) == JSON.stringify([])) {
+            $(".lista_chat").append('<p>NÃO TEM CONVERSAS</p>')
+        }else {
+            $('.lista_chat').empty()
+            data.forEach(element => {
+                $(".lista_chat").append(`<p>${element}</p>`)
+            })
+        }
+        $(".lista_chat").append(
+            '<div class="d-grid gap-2"><button class="btn btn-primary" type="button" onclic' +
+            'k="cria_chats()">Criar conversa</button></div>'
+        )
+    })
 }
 
 function cria_chats() {
@@ -175,8 +184,6 @@ function cria_chats() {
                 $('.lista_chat').append('<button type="button" class="btn btn-info" onclick="#">add</button>')
             })
         }
-        // let nomeConversa = document.querySelector(".nomeChat");
-        // '${nomeConversa}'
         $(".lista_chat").append(
             '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             `ck="criaChatNaBaseDeDados()">Criar conversa</button></div>`
@@ -186,12 +193,14 @@ function cria_chats() {
             'ck="lista_de_chats()">Back</button></div>'
         )
     })
-
 }
 function criaChatNaBaseDeDados(){
     let nomeConversa = $("#cria_chats").val();
     $.post("./criaChat", {
         nome : nomeConversa
+    }).always(function (data) {
+        console.log(data)
+        lista_de_chats()
     })
 }
 

@@ -1,4 +1,5 @@
 var MongoClient = require('mongodb').MongoClient
+let ObjectID = require('mongodb').ObjectID
 
 const url = "mongodb+srv://G8:8xKieDpip2IgbQad@clusterdbw.1dbjr.mongodb.net/G8?authSource=a" +
     "dmin&replicaSet=atlas-bek8xj-shard-0&w=majority&readPreference=primary&appname" +
@@ -23,14 +24,22 @@ async function criarCHAT(nameChat, callback) {
         })
     return callback(true)
 }
-async function buscaMensagens(NameChat){
+async function buscaChat(callback){
     dbo 
         .collection("Conversas")
         .find().toArray(function(err, result){
             if(err) throw err;
-
+            return callback(result)
         });
 }
+async function findIdConversa(id, callback) {
+    let find = await dbo.collection("Conversas").findOne({
+        _id: new ObjectID(id)
+    })
+    return callback(find)
+}
 module.exports = {
-    criarCHAT
+    criarCHAT,
+    buscaChat,
+    findIdConversa
 }
