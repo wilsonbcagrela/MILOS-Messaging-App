@@ -34,7 +34,7 @@ function __amigos_pend_mod() {
 
             if (element.status == "waiting_accepted") {
                 $("#modal_ped_pend").append('<h5>PENDENTES DE SEREM ACEITES (:s) :</h5>')
-                $("#modal_ped_pend").append(`<img src="${element.img}" alt="imagem de perfil" width="30" height="30"></img>`)
+                $("#modal_ped_pend").append(`<img src="${element.img.replace('public/','')}" alt="imagem de perfil" width="30" height="30"></img>`)
                 $("#modal_ped_pend").append(element.name)
                 $("#modal_ped_pend").append('<div class="btn-group" role="group">')
                 $("#modal_ped_pend").append(`<button type="button" class="btn btn-danger" onclick="rejeitar_pedido_de_amizade('${element.id}')">ELIMINAR</button>`)
@@ -53,7 +53,6 @@ function __amigos_pend_mod() {
 }
 
 let pendentes_cont = 0
-
 function btn_amg_pend_temp() {
     $.post("./pedidos_pendentes_count")
         .always(function (data) {
