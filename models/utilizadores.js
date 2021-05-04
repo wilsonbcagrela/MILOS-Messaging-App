@@ -15,6 +15,29 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
+async function aceitar_pedido_de_amizade(id1,id2,callback){
+    let result = []
+    let result1 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2)} } })
+    result.push(result1.result)
+    let result2 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1)} } })
+    result.push(result2.result)
+    let result3 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id2)},{$push:{"friends.amigos": new ObjectID(id1)}})
+    result.push(result3.result)
+    let result4 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id1)},{$push:{"friends.amigos": new ObjectID(id2)}})
+    result.push(result4.result)                                                                                                                              
+    return callback(result)
+}
+
+async function eliminar_pedido_de_amizade(id1,id2,callback){
+    
+    let result = []
+    let result1 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2)} } } )
+    result.push(result1.result)
+    let result2 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1)} } } )
+    result.push(result2.result)
+    return callback(result)
+}
+
 async function findNAME(nome) {
     return await dbo
         .collection("Utilizadores")
@@ -33,7 +56,6 @@ async function __findNAME(nome, callback) {
 
 
 async function findID(id, callback) {
-    let ObjectID = require('mongodb').ObjectID
     let find = await dbo.collection("Utilizadores").findOne({
         _id: new ObjectID(id)
     })
@@ -52,22 +74,20 @@ async function add_friends_req(id_quem_pede, nome, callback) {
         try {
             let temp1 = id_destinatario._id
             await amigos_pendentes.forEach(element => {
-                let temp2 = element.id_destinatario
+                let temp2 = element.id
                 if (temp2.toString() == temp1.toString())
                     throw BreakException
-                temp2 = element.id_origem
+                temp2 = element.id
                 if (temp2.toString() == id_quem_pede)
                     throw BreakException
             })
 
             let item = {}
             item["id"] = new ObjectID(id_destinatario._id),
-            item["name"] = id_destinatario.name,
             item["status"] = "waiting_accepted"
             amigos_pendentes.push(item)
             item = {}
             item["id"] = new ObjectID(id_quem_pede),
-            item["name"] = result.name,
             item["status"] = "to_be_accepted"
             _amigos_pend_destinatario.push(item)
 
@@ -178,5 +198,7 @@ module.exports = {
     buscaTodosOsUsers,
     findID,
     __findNAME,
-    add_friends_req
+    add_friends_req,
+    eliminar_pedido_de_amizade,
+    aceitar_pedido_de_amizade
 }

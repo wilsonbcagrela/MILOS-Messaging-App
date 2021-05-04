@@ -66,15 +66,24 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
 
 })
 
-router.post('/lista_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaUtiizadores.findID(req.session.userId, function (find) {
-        return res.json(find.friends.amigos)
+router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        let _find = await find.friends.amigos
+        let nomes = []
+        for (let index = 0; index < _find.length; index++) {
+            await buscaUtiizadores.findID(_find[index] , async function (find) {
+                let item = {}
+                item["id"] = find._id,
+                item["name"] = find.name
+                nomes.push(item)
+            })
+        }
+        res.json(nomes)
     })
 })
 
 router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaUtiizadores.add_friends_req(req.session.userId, req.body.name, async function (result) {
-        console.log("testessss")
         console.log(result)
         res.json(await result)
     })
@@ -87,26 +96,41 @@ router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, n
         let __result = []
         for (let index = 0; index < _find.length; index++) {
             await buscaUtiizadores.findID(_find[index].id, function (find) {
-                var img = (find.image == null) ? './uploads/milos.png':find.image
+                var img = (find.image == null) ? './uploads/milos.png' : find.image
                 let item = {}
-                const salt = crypto.randomBytes(16).toString('hex'); 
-                console.log(crypto.pbkdf2Sync(_find[index].id, salt, 1000, 64, `sha512`).toString(`hex`))
-                item["id"] = "1",
-                item["name"] = find.name,
-                item["img"] = img,
-                item["status"] = _find[index].status
+                item["id"] = _find[index].id,
+                    item["name"] = find.name,
+                    item["img"] = img,
+                    item["status"] = _find[index].status
                 __result.push(item)
             })
         }
-        console.log(__result)
         res.json(__result)
-    })   
+    })
 })
 
 router.post('/pedidos_pendentes_count', verificaUtilizadorFezLogin, async (req, res, next) => {
-    await buscaUtiizadores.findID(req.session.userId, function (find) {
-        let _find = find.friends.amigos_pendentes
-        res.json(_find.length)
+    try{
+        await buscaUtiizadores.findID(req.session.userId, function (find) {
+            let _find = find.friends.amigos_pendentes
+            res.json(_find.length)
+        })
+    }catch (e) {
+        console.log(e)
+      }
+})
+
+router.post('/rejeitar_pedido_de_amizade', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.eliminar_pedido_de_amizade(req.session.userId, req.body.id, async (result) => {
+        console.log(result)
+        res.json(true)
+    })
+})
+
+router.post('/aceitar_pedido_de_amizade', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.aceitar_pedido_de_amizade(req.session.userId, req.body.id, async (result) => {
+        console.log(result)
+        res.json(true)
     })
 })
 
@@ -119,11 +143,17 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 
                     let gravar = true
                     let temp = element.friends.amigos_pendentes
+                    let temp2 = element.friends.amigos
 
-                    temp.forEach(element2 => {
-                        if (element2.id_origem == req.session.userId || element2.id_destinatario == req.session.userId)
+                    for (let index = 0; index < temp.length; index++) {
+                        if (temp[index].id == req.session.userId)
                             gravar = false
-                    })
+                    }
+
+                    for (let index = 0; index < temp2.length; index++) {
+                        if (temp2[index] == req.session.userId)
+                            gravar = false
+                    }
 
                     if (gravar) {
                         let item = {}
