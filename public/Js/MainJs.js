@@ -32,14 +32,14 @@ function __amigos_pend_mod() {
 
             if (element.status == "waiting_accepted") {
                 $("#modal_ped_pend").append('<h5>PENDENTES DE SEREM ACEITES (:s) :</h5>')
-                $("#modal_ped_pend").append('<img src="' + element.img + '" alt="imagem de perfil" width="30" height="30"></img>')
+                $("#modal_ped_pend").append(`<img src="${element.img}" alt="imagem de perfil" width="30" height="30"></img>`)
                 $("#modal_ped_pend").append(element.name)
                 $("#modal_ped_pend").append('<div class="btn-group" role="group">')
                 $("#modal_ped_pend").append(`<button type="button" class="btn btn-danger" onclick="rejeitar_pedido_de_amizade('${element.id}')">ELIMINAR</button>`)
                 $("#modal_ped_pend").append('</div>')
             } else {
                 $("#modal_ped_pend").append('<h5>POR ACEITAR:</h5>')
-                $("#modal_ped_pend").append('<img src="' + element.img + '" alt="imagem de perfil" width="30" height="30"></img>')
+                $("#modal_ped_pend").append(`<img src="${element.img}" alt="imagem de perfil" width="30" height="30"></img>`)
                 $("#modal_ped_pend").append(element.name)
                 $("#modal_ped_pend").append('<div class="btn-group" role="group">')
                 $("#modal_ped_pend").append(`<button type="button" class="btn btn-success" onclick="aceitar_pedido_de_amizade('${element.id}')">ACEITAR</button>`)
@@ -78,7 +78,7 @@ function lista_de_amigos() {
             console.log(data)
             $('.lista_amigos').empty()
             data.forEach(element => {
-                $(".lista_amigos").append('<p>' + element.name + '</p>')
+                $(".lista_amigos").append(`<p>${element.name}</p>`)
             })
 
             $(".lista_amigos").append(
@@ -129,8 +129,8 @@ function procurar_amigos_find() {
             }, (data) => {
                 $('#_lista_amigos').empty()
                 data.forEach(element => {
-                    $("#_lista_amigos").append("<br>" + element.name + " ")
-                    $('#_lista_amigos').append('<button id="add_amigo_btn" type="button" class="btn btn-info" onclick="add_amigo(' + "'" + element.name + "'" + ')">add</button><br>')
+                    $("#_lista_amigos").append(`<br>${element.name}`)
+                    $('#_lista_amigos').append(`<button id="add_amigo_btn" type="button" class="btn btn-info" onclick="add_amigo('${element.name}')">add</button><br>`)
                 })
                 $('#load_friends').remove()
             })
@@ -160,7 +160,7 @@ function cria_chats() {
             $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
         } else {
             data.forEach(element => {
-                $(".lista_chat").append("<br>" + element.name + " ")
+                $(".lista_chat").append(`<br>"${element.name}`)
                 $('.lista_chat').append('<button type="button" class="btn btn-info" onclick="#">add</button>')
             })
         }
