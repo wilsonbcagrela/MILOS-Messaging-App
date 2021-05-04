@@ -17,14 +17,16 @@ MongoClient.connect(url, {
 
 async function aceitar_pedido_de_amizade(id1,id2,callback){
     let result = []
-    let result1 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2)} } })
+    let result1 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2), "status":"to_be_accepted"} } })
     result.push(result1.result)
-    let result2 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1)} } })
+    let result2 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1), "status":"waiting_accepted"} } })
     result.push(result2.result)
-    let result3 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id2)},{$push:{"friends.amigos": new ObjectID(id1)}})
-    result.push(result3.result)
-    let result4 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id1)},{$push:{"friends.amigos": new ObjectID(id2)}})
-    result.push(result4.result)                                                                                                                              
+    if(result1.result.nModified != 0 || result2.result.nModified != 0) {
+        let result3 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id2)},{$push:{"friends.amigos": new ObjectID(id1)}})
+        result.push(result3.result)
+        let result4 = await dbo.collection("Utilizadores").update({_id: new ObjectID(id1)},{$push:{"friends.amigos": new ObjectID(id2)}})
+        result.push(result4.result)                  
+    }                                                                                                            
     return callback(result)
 }
 

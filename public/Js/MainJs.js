@@ -12,6 +12,7 @@ function aceitar_pedido_de_amizade(id){
         "id": id
     }).always(function (data) {
         $('#exampleModal').modal('hide')
+        lista_de_amigos()
     })
 }
 
@@ -21,6 +22,7 @@ function rejeitar_pedido_de_amizade(id){
         "id": id
     }).always(function (data) {
         $('#exampleModal').modal('hide')
+        lista_de_amigos()
     })
 }
 
