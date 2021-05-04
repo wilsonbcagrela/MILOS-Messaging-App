@@ -15,36 +15,94 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function aceitar_pedido_de_amizade(id1,id2,callback){
+async function aceitar_pedido_de_amizade(id1, id2, callback) {
     let result = []
-    let result1 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2), "status":"to_be_accepted"} } })
+    let result1 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id1)
+    }, {
+        $pull: {
+            "friends.amigos_pendentes": {
+                "id": new ObjectID(id2),
+                "status": "to_be_accepted"
+            }
+        }
+    })
     result.push(result1.result)
-    let result2 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1), "status":"waiting_accepted"} } })
+    let result2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id2)
+    }, {
+        $pull: {
+            "friends.amigos_pendentes": {
+                "id": new ObjectID(id1),
+                "status": "waiting_accepted"
+            }
+        }
+    })
     result.push(result2.result)
-    if(result1.result.nModified != 0 || result2.result.nModified != 0) {
-        let result3 = await dbo.collection("Utilizadores").updateOne({_id: new ObjectID(id2)},{$push:{"friends.amigos": new ObjectID(id1)}})
+    if (result1.result.nModified != 0 || result2.result.nModified != 0) {
+        let result3 = await dbo.collection("Utilizadores").updateOne({
+            _id: new ObjectID(id2)
+        }, {
+            $push: {
+                "friends.amigos": new ObjectID(id1)
+            }
+        })
         result.push(result3.result)
-        let result4 = await dbo.collection("Utilizadores").updateOne({_id: new ObjectID(id1)},{$push:{"friends.amigos": new ObjectID(id2)}})
-        result.push(result4.result)                  
-    }                                                                                                            
+        let result4 = await dbo.collection("Utilizadores").updateOne({
+            _id: new ObjectID(id1)
+        }, {
+            $push: {
+                "friends.amigos": new ObjectID(id2)
+            }
+        })
+        result.push(result4.result)
+    }
     return callback(result)
 }
 
-async function apagar_amigo(id1,id2,callback){
+async function apagar_amigo(id1, id2, callback) {
     let result = []
-    let result1 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos": new ObjectID(id2) } } )
+    let result1 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id1)
+    }, {
+        $pull: {
+            "friends.amigos": new ObjectID(id2)
+        }
+    })
     result.push(result1.result)
-    let result2 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos": new ObjectID(id1) } } )
+    let result2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id2)
+    }, {
+        $pull: {
+            "friends.amigos": new ObjectID(id1)
+        }
+    })
     result.push(result2.result)
     return callback(result)
 }
 
-async function eliminar_pedido_de_amizade(id1,id2,callback){
-    
+async function eliminar_pedido_de_amizade(id1, id2, callback) {
+
     let result = []
-    let result1 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id2)} } } )
+    let result1 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id1)
+    }, {
+        $pull: {
+            "friends.amigos_pendentes": {
+                "id": new ObjectID(id2)
+            }
+        }
+    })
     result.push(result1.result)
-    let result2 = await dbo.collection("Utilizadores").updateOne({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos_pendentes": { "id": new ObjectID(id1)} } } )
+    let result2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id2)
+    }, {
+        $pull: {
+            "friends.amigos_pendentes": {
+                "id": new ObjectID(id1)
+            }
+        }
+    })
     result.push(result2.result)
     return callback(result)
 }
@@ -95,11 +153,11 @@ async function add_friends_req(id_quem_pede, nome, callback) {
 
             let item = {}
             item["id"] = new ObjectID(id_destinatario._id),
-            item["status"] = "waiting_accepted"
+                item["status"] = "waiting_accepted"
             amigos_pendentes.push(item)
             item = {}
             item["id"] = new ObjectID(id_quem_pede),
-            item["status"] = "to_be_accepted"
+                item["status"] = "to_be_accepted"
             _amigos_pend_destinatario.push(item)
 
 

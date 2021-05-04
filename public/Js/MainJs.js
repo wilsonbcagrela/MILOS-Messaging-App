@@ -6,7 +6,7 @@ window.setInterval(function () {
 lista_de_amigos()
 lista_de_chats()
 
-function aceitar_pedido_de_amizade(id){
+function aceitar_pedido_de_amizade(id) {
     console.log(id)
     $.post("./aceitar_pedido_de_amizade", {
         "id": id
@@ -16,7 +16,7 @@ function aceitar_pedido_de_amizade(id){
     })
 }
 
-function rejeitar_pedido_de_amizade(id){
+function rejeitar_pedido_de_amizade(id) {
     console.log(id)
     $.post("./rejeitar_pedido_de_amizade", {
         "id": id

@@ -71,10 +71,10 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
         let _find = await find.friends.amigos
         let nomes = []
         for (let index = 0; index < _find.length; index++) {
-            await buscaUtiizadores.findID(_find[index] , async function (find) {
+            await buscaUtiizadores.findID(_find[index], async function (find) {
                 let item = {}
                 item["id"] = find._id,
-                item["name"] = find.name
+                    item["name"] = find.name
                 nomes.push(item)
             })
         }
@@ -110,14 +110,14 @@ router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, n
 })
 
 router.post('/pedidos_pendentes_count', verificaUtilizadorFezLogin, async (req, res, next) => {
-    try{
+    try {
         await buscaUtiizadores.findID(req.session.userId, function (find) {
             let _find = find.friends.amigos_pendentes
             res.json(_find.length)
         })
-    }catch (e) {
+    } catch (e) {
         console.log(e)
-      }
+    }
 })
 
 router.post('/rejeitar_pedido_de_amizade', verificaUtilizadorFezLogin, async (req, res, next) => {
