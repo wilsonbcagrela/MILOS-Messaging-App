@@ -30,6 +30,15 @@ async function aceitar_pedido_de_amizade(id1,id2,callback){
     return callback(result)
 }
 
+async function apagar_amigo(id1,id2,callback){
+    let result = []
+    let result1 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id1) },{ $pull: { "friends.amigos": new ObjectID(id2) } } )
+    result.push(result1.result)
+    let result2 = await dbo.collection("Utilizadores").update({ _id: new ObjectID(id2) },{ $pull: { "friends.amigos": new ObjectID(id1) } } )
+    result.push(result2.result)
+    return callback(result)
+}
+
 async function eliminar_pedido_de_amizade(id1,id2,callback){
     
     let result = []
@@ -202,5 +211,6 @@ module.exports = {
     __findNAME,
     add_friends_req,
     eliminar_pedido_de_amizade,
-    aceitar_pedido_de_amizade
+    aceitar_pedido_de_amizade,
+    apagar_amigo
 }

@@ -134,6 +134,13 @@ router.post('/aceitar_pedido_de_amizade', verificaUtilizadorFezLogin, async (req
     })
 })
 
+router.post('/apagar_amigo', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaUtiizadores.apagar_amigo(req.session.userId, req.body.id, async (result) => {
+        console.log(result)
+        res.json(true)
+    })
+})
+
 router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
     let nome = []
     buscaUtiizadores.buscaTodosOsUsers(async function (result) {
