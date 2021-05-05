@@ -210,7 +210,7 @@ router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
 
 router.post('/guardaMensagem', verificaUtilizadorFezLogin, (req, res, next) => {
 
-    buscaConversas.insereMensagem(req.body.nome, req.body.message, async function (result) {
+    buscaConversas.insereMensagem(req.body.nome, req.body.message, req.body.nameUser, req.body.time, async function (result) {
         console.log(result)
         res.json(await result)
     });

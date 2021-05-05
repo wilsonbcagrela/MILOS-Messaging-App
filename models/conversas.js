@@ -46,12 +46,14 @@ async function findNameConversa(nomeChat, callback) {
         })
     return callback(resultado)
 }
-async function insereMensagem(nomeChat, mensagem, callback) {
+async function insereMensagem(nomeChat, mensagem, user, hora, callback) {
     await findNameConversa(nomeChat, async function (result) {
         console.log(result)
         let mensagens = []
         mensagens = await result.conversas
+        mensagens.push(user)
         mensagens.push(mensagem)
+        mensagens.push(hora)
         await dbo.collection("Conversas").updateMany({
             nome: nomeChat
             

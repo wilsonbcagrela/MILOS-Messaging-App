@@ -151,6 +151,8 @@ function procurar_amigos_find() {
     })
 }
 
+//CHATS ======================================================================================
+
 function lista_de_chats() {
     $('.lista_chat').empty()
     $.post("./lista_chat", (data) => {
@@ -213,11 +215,14 @@ function menuToggle(){
 function buscaMensagens(){
     $('.mensagem').empty()
     $.post("./lista_mensagens", (data) => {
-        data.forEach(element => {
-            $('.mensagem').append('<div class= "mensagemUser"><div>' + element + '</div><div></div></div>')
-        })
+        if (JSON.stringify(data) == JSON.stringify([])) {
+            $(".mensagem").append('<p>NÃO TEM mensagens</p>')
+        }else {
+            data.forEach(element => {
+                $('.mensagem').append('<div class= "mensagemUser"><div>' + element + '</div><div></div></div>')
+            })
+        }
     })
-    // $('.mensagem').append('<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>')
 }
 
 let socket = io();
