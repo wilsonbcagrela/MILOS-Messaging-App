@@ -39,15 +39,35 @@ async function findIdChat(id, callback) {
     return callback(find)
 }
 async function findNameConversa(nomeChat, callback) {
-    return await callback(dbo
+    let resultado = await dbo
         .collection("Conversas")
         .findOne({
             nome: nomeChat
-        }))
+        })
+    return callback(resultado)
 }
+async function insereMensagem(nomeChat, mensagem, callback) {
+    await findNameConversa(nomeChat, async function (result) {
+        console.log(result)
+        let mensagens = []
+        mensagens = await result.conversas
+        mensagens.push(mensagem)
+        await dbo.collection("Conversas").updateMany({
+            nome: nomeChat
+            
+        }, {
+            $set: {
+                conversas: mensagens
+            }
+        })
+    })
+
+}
+
 module.exports = {
     criarCHAT,
     buscaChat,
     findNameConversa,
-    findIdChat
+    findIdChat,
+    insereMensagem
 }

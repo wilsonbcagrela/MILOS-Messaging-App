@@ -5,6 +5,7 @@ window.setInterval(function () {
 
 lista_de_amigos()
 lista_de_chats()
+buscaMensagens()
 
 function aceitar_pedido_de_amizade(id) {
     console.log(id)
@@ -194,6 +195,7 @@ function cria_chats() {
         )
     })
 }
+
 function criaChatNaBaseDeDados(){
     let nomeConversa = $("#cria_chats").val();
     $.post("./criaChat", {
@@ -208,6 +210,15 @@ function menuToggle(){
     const toggleMenu = document.querySelector('.menu');
     toggleMenu.classList.toggle('active');
 }
+function buscaMensagens(){
+    $('.mensagem').empty()
+    $.post("./lista_mensagens", (data) => {
+        data.forEach(element => {
+            $('.mensagem').append('<div class= "mensagemUser"><div>' + element + '</div><div></div></div>')
+        })
+    })
+    // $('.mensagem').append('<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>')
+}
 
 let socket = io();
 
@@ -216,13 +227,22 @@ socket.on('connect', function () {
 })
 
 $("#botao").click(function () {
+    const hora = new Date
     let textArea = $("#exampleFormControlTextarea1").val();
-    // let nomeUSer = $("#utilizador").val();
+    let nomeConversa = "Trabalho de grupo";
+    // let me = $(".nomeChat").val();
     if (textArea) {
+        $.post("./guardaMensagem", {
+            nome: nomeConversa,
+            message: textArea,
+            nameUser: utilizador.innerHTML,
+            time: hora.toLocaleTimeString()
+        })
         socket.emit('message', {
             room: 'dddsdjkfh1123',
             message: textArea,
-            name: utilizador.innerHTML
+            name: utilizador.innerHTML,
+            time: hora.toLocaleTimeString()
         });
         $("#exampleFormControlTextarea1").val("");
     }
@@ -232,7 +252,7 @@ socket.on('message', function (msg) {
     console.log(msg)
     let scroll = document.querySelector(".scrollable")
     $("#messagens").append(
-        '<div class= "Mensagem"><div>' + msg.name + '</div><div>' + msg.message + '</div></div>'
+        '<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>'
     )
     scroll.scrollTo(0, document.body.scrollHeight);
 })

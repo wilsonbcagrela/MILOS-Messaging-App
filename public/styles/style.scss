@@ -38,9 +38,7 @@ header {
     }
 }
 
-.Mensagem:hover {
-    background: lightgrey;
-}
+
 .maingrid{
     display: grid;
     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
@@ -54,7 +52,8 @@ header {
         justify-content: center;
     }
     .conversas{
-        background-color: white;
+        border-radius: 25px;
+        background-color: #FAFAFA;
         grid-column: span 3;
         padding: 10px;
         margin: 5px;
@@ -68,7 +67,7 @@ header {
             cursor: pointer;
 
             &:hover {
-                background-color: grey;
+                background-color: lightgrey;
                 color: black;
             }
         }
@@ -76,8 +75,9 @@ header {
     .content-mensagens{
         // display: flex;
         // justify-content:center;
+        border-radius: 25px;
         padding: 10px;
-        background-color: white;
+        background-color: #FAFAFA;
         grid-column: span 7;
         margin: 5px;
         .scrollable{
@@ -87,6 +87,15 @@ header {
             .mensagem{
                 border: 1px solid grey;
                 min-height: 65vh;
+                border-radius: 25px;
+                .mensagemUser {
+                    padding: 5px;
+
+                    &:hover{
+                        background: lightgrey;
+                        border-radius: 25px;
+                    }
+                }
             }
         }
         .writtinZone{
@@ -111,8 +120,9 @@ header {
     }
 
     .pessoasOnline{
+        border-radius: 25px;
         grid-column: span 2;
-        background-color: white;
+        background-color: #FAFAFA;
         padding: 10px;
         margin: 5px;
     }
