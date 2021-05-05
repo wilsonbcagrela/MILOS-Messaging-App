@@ -243,7 +243,7 @@ header h3 {
 .maingrid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)(12);
+  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: normal;
           column-gap: normal;
@@ -251,11 +251,44 @@ header h3 {
       grid-template-rows: 90vh;
 }
 
+.maingrid .titulo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .maingrid .conversas {
   background-color: white;
   grid-column: span 3;
   padding: 10px;
   margin: 5px;
+}
+
+.maingrid .conversas .conversaschat {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 25px;
+  padding: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.maingrid .conversas .conversaschat:hover {
+  background-color: grey;
+  color: black;
 }
 
 .maingrid .content-mensagens {
@@ -279,7 +312,7 @@ header h3 {
 .maingrid .content-mensagens .writtinZone {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)(12);
+  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: 1rem;
           column-gap: 1rem;

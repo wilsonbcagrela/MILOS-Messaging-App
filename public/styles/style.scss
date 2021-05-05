@@ -48,12 +48,30 @@ header {
     // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-template-rows: 90vh;
     // grid-auto-rows: minmax(90vh, 100vh);
-   
+   .titulo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .conversas{
         background-color: white;
         grid-column: span 3;
         padding: 10px;
         margin: 5px;
+        .conversaschat{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+            padding: 10px;
+            border: 1px solid black;
+            cursor: pointer;
+
+            &:hover {
+                background-color: grey;
+                color: black;
+            }
+        }
     }
     .content-mensagens{
         // display: flex;

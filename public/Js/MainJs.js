@@ -159,7 +159,7 @@ function lista_de_chats() {
         }else {
             $('.lista_chat').empty()
             data.forEach(element => {
-                $(".lista_chat").append(`<p>${element}</p>`)
+                $(".lista_chat").append(`<div class = "conversaschat" >${element}</div><br>`)
             })
         }
         $(".lista_chat").append(
@@ -176,7 +176,7 @@ function cria_chats() {
         'conversa" aria-describedby="button-addon2"><br>')
     $(".lista_chat").append('Amigos que quer convidar:')
     $.post("./lista_amigos", (data) => {
-        if (JSON.stringify(data) == JSON.stringify({})) {
+        if (JSON.stringify(data) == JSON.stringify([])) {
             $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
         } else {
             data.forEach(element => {
