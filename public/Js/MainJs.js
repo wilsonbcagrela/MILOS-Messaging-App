@@ -197,7 +197,7 @@ function cria_chats() {
 function criaChatNaBaseDeDados(){
     let nomeConversa = $("#cria_chats").val();
     $.post("./criaChat", {
-        nome : nomeConversa
+        nome : nomeConversa,
     }).always(function (data) {
         console.log(data)
         lista_de_chats()

@@ -260,6 +260,25 @@ function buscaTodosOsUsers(callback) {
             return callback(result)
         });
 }
+async function verificaSeTemChat(id_quem_pede, callback){
+    await findID(id_quem_pede, async function (result) {
+        return callback(result)
+    })
+}
+async function insereChat(idUser, nameChat, callback) {
+    await findID(idUser, async function (result) {
+        await dbo.collection("Utilizadores").updateMany({
+            _id: new ObjectID(idUser)
+            
+        }, {
+            $set: {
+                chat: [nameChat]
+            }
+        })
+    })
+
+}
+
 
 module.exports = {
     insertUtilizador,
@@ -270,5 +289,7 @@ module.exports = {
     add_friends_req,
     eliminar_pedido_de_amizade,
     aceitar_pedido_de_amizade,
-    apagar_amigo
+    apagar_amigo,
+    insereChat,
+    verificaSeTemChat
 }

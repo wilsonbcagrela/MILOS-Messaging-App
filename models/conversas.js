@@ -14,12 +14,12 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function criarCHAT(nameChat, callback) {
+async function criarCHAT(nameChat, utilizarAdmin, callback) {
     dbo
         .collection("Conversas")
         .insertOne({ 
             nome: nameChat,
-            membros: [],
+            membros: [utilizarAdmin],
             conversas: []
         })
     return callback(true)
@@ -32,14 +32,22 @@ async function buscaChat(callback){
             return callback(result)
         });
 }
-async function findIdConversa(id, callback) {
+async function findIdChat(id, callback) {
     let find = await dbo.collection("Conversas").findOne({
         _id: new ObjectID(id)
     })
     return callback(find)
 }
+async function findNameConversa(nomeChat, callback) {
+    return await callback(dbo
+        .collection("Conversas")
+        .findOne({
+            nome: nomeChat
+        }))
+}
 module.exports = {
     criarCHAT,
     buscaChat,
-    findIdConversa
+    findNameConversa,
+    findIdChat
 }

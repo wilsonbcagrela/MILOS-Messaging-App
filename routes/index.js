@@ -61,20 +61,18 @@ router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
         })
 })
 
-router.post('/lista_chat', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaConversas.buscaChat(async function (result) { 
-        // console.log(result) 
+router.post('/lista_chat', verificaUtilizadorFezLogin, async (req, res, next) => {
+
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        console.log(find) 
         let nomesChats = []
-        for (let index = 0; index < result.length; index++) {
+        for (let index = 0; index < find.chat.length; index++) {
             
-            nomesChats.push(result[index].nome)
+            nomesChats.push(find.chat[index])
         }
         console.log(nomesChats) 
         res.json(nomesChats)
-        // res.json(await result)
-        // return res.json("ola")
     })
-
 })
 
 router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
@@ -188,9 +186,12 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 
 router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
 
-    buscaConversas.criarCHAT(req.body.nome, async function (result) {
+    buscaConversas.criarCHAT(req.body.nome, req.session.userName, async function (result) {
         console.log(result)
         console.log(req.body.nome)
+        res.json(await result)
+    });
+    buscaUtiizadores.insereChat(req.session.userId, req.body.nome, async function (result) {
         res.json(await result)
     });
 })
