@@ -236,7 +236,7 @@ $("#botao").click(function () {
     let textArea = $("#exampleFormControlTextarea1").val();
     let nomeConversa = "Trabalho de grupo";
     // let me = $(".nomeChat").val();
-    if (textArea) {
+   if (textArea) {
         $.post("./guardaMensagem", {
             nome: nomeConversa,
             message: textArea,
@@ -248,7 +248,7 @@ $("#botao").click(function () {
             message: textArea,
             name: utilizador.innerHTML,
             time: hora.toLocaleTimeString()
-        });
+        })
         $("#exampleFormControlTextarea1").val("");
     }
 })

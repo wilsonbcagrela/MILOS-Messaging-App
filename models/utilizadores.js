@@ -261,22 +261,7 @@ function buscaTodosOsUsers(callback) {
         });
 }
 
-async function insereChat(idUser, nameChat, callback) {
-    await findID(idUser, async function (result) {
-        let chatsUser = []
-        chatsUser = await result.chat
-        chatsUser.push(nameChat)
-        await dbo.collection("Utilizadores").updateMany({
-            _id: new ObjectID(idUser)
-            
-        }, {
-            $set: {
-                chat: chatsUser
-            }
-        })
-    })
 
-}
 
 
 module.exports = {
@@ -288,6 +273,5 @@ module.exports = {
     add_friends_req,
     eliminar_pedido_de_amizade,
     aceitar_pedido_de_amizade,
-    apagar_amigo,
-    insereChat
+    apagar_amigo
 }

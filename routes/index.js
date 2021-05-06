@@ -7,7 +7,6 @@ crypto = require('crypto')
 let mostraUSer //se utilizador estiver logged in ele mostra o link para fazer logout
 let ProcuraUtilizadores // quando esta variavel for 1, ira mostrar a card de todos os utilizadores
 
-
 let verificaUtilizadorFezLogin = (req, res, next) => {
     if (!req.session.userId) {
         mostraUSer = 0
@@ -197,23 +196,22 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
-
-    buscaConversas.criarCHAT(req.body.nome, req.session.userName, async function (result) {
+    //criarCHAT(id, nameChat ,membros, callback) {
+    buscaConversas.criarCHAT(req.session.userId, req.body.nome,[], async function (result) {
         console.log(result)
         console.log(req.body.nome)
         res.json(await result)
-    });
-    buscaUtiizadores.insereChat(req.session.userId, req.body.nome, async function (result) {
+    })
+    /*buscaUtiizadores.insereChat(req.session.userId, req.body.nome, async function (result) {
         res.json(await result)
-    });
+    });*/
 })
 
 router.post('/guardaMensagem', verificaUtilizadorFezLogin, (req, res, next) => {
-
-    buscaConversas.insereMensagem(req.body.nome, req.body.message, req.body.nameUser, req.body.time, async function (result) {
+    buscaConversas.insereMensagem(req.session.userId, req.body, async function (result) {
         console.log(result)
         res.json(await result)
-    });
+    })
 })
 
 module.exports = router

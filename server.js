@@ -37,10 +37,13 @@ app.use('/', indexRouter)
 app.use('/login', indexLogin)
 app.use('/registo', indexRegisto)
 
-io.on('connection', (socket) => {
+const conversas = require("./models/conversas")
 
+io.on('connection', (socket) => {
     socket.on('join', function (room) {
+        
         socket.join(room)
+        //console.log(socket)
         socket.room = room
         console.log("User Joined the room: " + socket.room)
     })

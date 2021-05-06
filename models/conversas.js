@@ -14,23 +14,45 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function criarCHAT(nameChat, utilizarAdmin, callback) {
-    dbo
+async function criarCHAT(id, nameChat ,membros, callback) {
+    
+    let result = []
+
+    result1 = await dbo
         .collection("Conversas")
-        .insertOne({ 
+        .insertOne({
             nome: nameChat,
-            membros: [utilizarAdmin],
+            owner: new ObjectID(id),
+            membros: membros,
             conversas: []
         })
+    
+    result.push(result1)
+
+    let _chat = {}
+    _chat['id'] = new ObjectID(result1.ops[0]._id),
+    _chat['status'] = 'pending_to_be_accepted'
+
+    result2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+
+    }, {
+        $push: {
+            chat: _chat
+        }
+    })
+
+    result.push(result2)
+
     return callback(true)
 }
-async function buscaChat(callback){
-    dbo 
+async function buscaChat(callback) {
+    dbo
         .collection("Conversas")
-        .find().toArray(function(err, result){
-            if(err) throw err;
+        .find().toArray(function (err, result) {
+            if (err) throw err;
             return callback(result)
-        });
+        })
 }
 async function findIdChat(id, callback) {
     let find = await dbo.collection("Conversas").findOne({
@@ -46,22 +68,15 @@ async function findNameConversa(nomeChat, callback) {
         })
     return callback(resultado)
 }
-async function insereMensagem(nomeChat, mensagem, user, hora, callback) {
+async function insereMensagem(id, data, callback) {
+    let mensagens
     await findNameConversa(nomeChat, async function (result) {
         console.log(result)
-        let mensagens = []
         mensagens = await result.conversas
-        mensagens.push(user)
-        mensagens.push(mensagem)
-        mensagens.push(hora)
-        await dbo.collection("Conversas").updateMany({
-            nome: nomeChat
-            
-        }, {
-            $set: {
-                conversas: mensagens
-            }
-        })
+        let item = {}
+        item["user_id"] = id,
+            item["data"] = data
+        mensagens.push(item)
     })
 
 }
