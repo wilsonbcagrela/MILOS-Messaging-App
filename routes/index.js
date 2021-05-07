@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router()
 let buscaUtiizadores = require('../models/utilizadores')
-let buscaConversas =require('../models/conversas')
+let buscaConversas = require('../models/conversas')
 crypto = require('crypto')
 
 let mostraUSer //se utilizador estiver logged in ele mostra o link para fazer logout
@@ -60,18 +60,47 @@ router.get('/logout', verificaUtilizadorFezLogin, (req, res, next) => {
         })
 })
 
+
+router.post('/abrir_conversa', verificaUtilizadorFezLogin, async (req, res, next) => {
+
+    let chat_id = []
+    let resposta
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        chat_id = await find.chat
+    })
+
+    for (let index = 0; index < chat_id.length; index++) {
+        if (chat_id[index].id == req.body.id) {
+            resposta = chat_id[index]
+            break
+        }
+    }
+
+    //console.log(resposta)
+    res.json(resposta)
+
+})
+
 router.post('/lista_chat', verificaUtilizadorFezLogin, async (req, res, next) => {
 
+    let chat_id
+    let resposta = []
+
     await buscaUtiizadores.findID(req.session.userId, async function (find) {
-        // console.log(find) 
-        let nomesChats = []
-        for (let index = 0; index < find.chat.length; index++) {
-            
-            nomesChats.push(find.chat[index])
-        }
-        // console.log(nomesChats) 
-        res.json(nomesChats)
+        chat_id = await find.chat
     })
+
+    for (let index = 0; index < chat_id.length; index++) {
+        await buscaConversas.findIdChat(chat_id[index].id, async function (find) {
+            let list = {}
+            list['id'] = await find._id,
+                list['nome'] = await find.nome
+            resposta.push(list)
+        })
+    }
+    console.log(resposta)
+    res.json(resposta)
+
 })
 
 router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
@@ -89,7 +118,7 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
         res.json(nomes)
     })
 })
-router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, next) => {
+/*router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, next) => {
     let nomeConversa = "Trabalho de grupo";
     await buscaConversas.findNameConversa(nomeConversa, async function (find) {
         console.log(find) 
@@ -101,7 +130,24 @@ router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, nex
         console.log(nomesChats) 
         res.json(nomesChats)
     })
+})*/
+
+router.post('/aceitar_conv_conversa', verificaUtilizadorFezLogin, (req, res, next) => {
+
+    buscaConversas.aceitar_conv_conversa(req.session.userId,req.body.id, async function (result){
+        res.json(result)
+    })
+
 })
+
+router.post('/rejeitar_conv_conversa', verificaUtilizadorFezLogin, (req, res, next) => {
+
+    buscaConversas.rejeitar_conv_conversa(req.session.userId,req.body.id, async function (result){
+        res.json(result)
+    })
+
+})
+
 router.post('/add_amigos', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaUtiizadores.add_friends_req(req.session.userId, req.body.name, async function (result) {
         console.log(result)
@@ -196,15 +242,13 @@ router.post('/find_friends', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 
 router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
-    //criarCHAT(id, nameChat ,membros, callback) {
-    buscaConversas.criarCHAT(req.session.userId, req.body.nome,[], async function (result) {
+    let membros = (req.body.membros == undefined) ? [] : req.body.membros
+    console.log(membros)
+    buscaConversas.criarCHAT(req.session.userId, req.body.nome, membros, async function (result) {
         console.log(result)
         console.log(req.body.nome)
         res.json(await result)
     })
-    /*buscaUtiizadores.insereChat(req.session.userId, req.body.nome, async function (result) {
-        res.json(await result)
-    });*/
 })
 
 router.post('/guardaMensagem', verificaUtilizadorFezLogin, (req, res, next) => {

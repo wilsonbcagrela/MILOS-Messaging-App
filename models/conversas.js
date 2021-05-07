@@ -14,8 +14,57 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function criarCHAT(id, nameChat ,membros, callback) {
-    
+async function aceitar_conv_conversa(id,id_conversa,callback) {
+
+
+    let result = []
+
+    result1 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+    }, {
+        $pull: {
+            "chat": {
+                "id": new ObjectID(id_conversa)
+            }
+        }
+    })
+
+    result.push(result1.result)
+
+    let result2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+    }, {
+        $push: {
+            "chat": {
+                "id": new ObjectID(id_conversa),
+                "status": "accepted"
+            }
+        }
+    })
+
+    result.push(result2.result)
+
+    console.log(result)
+    return callback(result)
+}
+
+async function rejeitar_conv_conversa(id,id_conversa,callback) {
+    let result = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+    }, {
+        $pull: {
+            "chat": {
+                "id": new ObjectID(id_conversa)
+            }
+        }
+    })
+
+    console.log(result.result)
+    return callback(result.result)
+}
+
+async function criarCHAT(id, nameChat, membros, callback) {
+
     let result = []
 
     result1 = await dbo
@@ -26,12 +75,13 @@ async function criarCHAT(id, nameChat ,membros, callback) {
             membros: membros,
             conversas: []
         })
-    
+
     result.push(result1)
 
     let _chat = {}
     _chat['id'] = new ObjectID(result1.ops[0]._id),
-    _chat['status'] = 'pending_to_be_accepted'
+        _chat['status'] = 'accepted'
+    //_chat['status'] = 'pending_to_be_accepted'
 
     result2 = await dbo.collection("Utilizadores").updateOne({
         _id: new ObjectID(id)
@@ -43,6 +93,33 @@ async function criarCHAT(id, nameChat ,membros, callback) {
     })
 
     result.push(result2)
+
+    if (membros.length > 0) {
+
+        _membros = []
+        membros.forEach(element => {
+            _membros.push(new ObjectID(element))
+        })
+
+        _chat = {}
+        _chat['id'] = new ObjectID(result1.ops[0]._id),
+            _chat['status'] = 'pending_to_be_accepted'
+
+        result3 = await dbo.collection("Utilizadores").updateOne({
+            _id: {
+                $in: _membros
+            }
+
+        }, {
+            $push: {
+                chat: _chat
+            }
+        })
+
+        result.push(result3)
+
+
+    }
 
     return callback(true)
 }
@@ -86,5 +163,7 @@ module.exports = {
     buscaChat,
     findNameConversa,
     findIdChat,
-    insereMensagem
+    insereMensagem,
+    aceitar_conv_conversa,
+    rejeitar_conv_conversa
 }
