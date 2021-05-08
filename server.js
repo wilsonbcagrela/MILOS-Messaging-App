@@ -40,15 +40,24 @@ app.use('/registo', indexRegisto)
 const conversas = require("./models/conversas")
 
 io.on('connection', (socket) => {
+
     socket.on('join', function (room) {
         
         socket.join(room)
-        //console.log(socket)
-        socket.room = room
+        console.log(room)
+        socket.room = null
         console.log("User Joined the room: " + socket.room)
     })
 
+    socket.on('switchRoom', function(newroom){
+		socket.leave(socket.room);
+		socket.join(newroom);
+		socket.room = newroom;
+        console.log("User Joined the room: " + socket.room)
+	})
+
     socket.on('message', function (data) {
+        console.log(data)
         io
             .sockets
             .in(data.room)
@@ -56,6 +65,7 @@ io.on('connection', (socket) => {
     })
 
 })
+
 mongoConfigs.connect(function (err) {
     if (!err) {
         server.listen(port, () => {

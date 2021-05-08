@@ -1,22 +1,32 @@
-let amigos_para_add = []
+var amigos_para_add = []
+var socket = io.connect()
+socket.on('connect', function () {})
 
+socket.on('message', function (msg) {
+    let scroll = document.querySelector(".scrollable")
+    $("#messagens").append(
+        '<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>'
+    )
+    scroll.scrollTo(0, document.body.scrollHeight);
+})
 
 lista_de_chats()
-/*buscaMensagens()
 
-
-function buscaMensagens() {
+function buscaMensagens(id) {
     $('.mensagem').empty()
-    $.post("./lista_mensagens", (data) => {
-        if (JSON.stringify(data) == JSON.stringify([])) {
-            $(".mensagem").append('<p>NÃO TEM mensagens</p>')
-        } else {
+    $.post("./lista_mensagens", {
+        id:id
+    }).always(function (data) {
+        if (JSON.stringify(data) != JSON.stringify([])) {
+            $('#load_conversas').remove()
             data.forEach(element => {
-                $('.mensagem').append('<div class= "mensagemUser"><div>' + element + '</div><div></div></div>')
+                $("#messagens").append(
+                    '<div class= "mensagemUser"><div>' + element.owner + ' hoje às ' + element.date + '</div><div>' + element.message + '</div></div>'
+                )
             })
         }
     })
-}*/
+}
 
 function criaChatNaBaseDeDados() {
     let nomeConversa = $("#cria_chats").val();
@@ -42,9 +52,9 @@ function lista_de_chats() {
                 $(".lista_chat").append(`<a id="${element.id}" class="list-group-item list-group-item-action " aria-current="true" onclick="abrir_conversa('${element.id}','${element.nome}')">` +
                     `<div class="d-flex w-100 justify-content-between">` +
                     `<h5 class="mb-1">${element.nome}</h5>` +
-                    `<small>3 days ago</small>` +
+                    //`<small>3 days ago</small>` +
                     `</div>` +
-                    `<p class="mb-1">Some placeholder content in a paragraph.</p>` +
+                    //`<p class="mb-1">Some placeholder content in a paragraph.</p>` +
                     `</a>`)
             })
         }
@@ -55,7 +65,7 @@ function lista_de_chats() {
     })
 }
 
-function rejeitar_conv_conversa(id){
+function rejeitar_conv_conversa(id) {
     $.post("./rejeitar_conv_conversa", {
         id: id
     }).always(function (data) {
@@ -64,7 +74,7 @@ function rejeitar_conv_conversa(id){
     })
 }
 
-function aceitar_conv_conversa(id){
+function aceitar_conv_conversa(id) {
     $.post("./aceitar_conv_conversa", {
         id: id
     }).always(function (data) {
@@ -73,7 +83,10 @@ function aceitar_conv_conversa(id){
     })
 }
 
-function abrir_conversa(id,nome) {
+
+
+
+function abrir_conversa(id, nome) {
     //$(`#${id}`).addClass("active")
     let resposta
     $.post("./abrir_conversa", {
@@ -81,24 +94,31 @@ function abrir_conversa(id,nome) {
     }).always(function (data) {
         resposta = data
         //console.log(data)
-        if (resposta.status != "accepted") {
+        if (resposta.status == "pending_to_be_accepted") {
             $('#_aceitar_convite_title').append(`Nome do chat: ${nome}`)
             $('#_aceitar_convite_footer').append(`<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="rejeitar_conv_conversa('${id}')">Rejeito</button>`)
             $('#_aceitar_convite_footer').append(`<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="aceitar_conv_conversa('${id}')">Aceito</button>`)
             $('#_aceitar_convite').modal("show")
-        } else {
+        } else if (resposta.status == "accepted") {
+            $('.content-mensagens').empty()
             $('.content-mensagens').append(
-                `<div class="scrollable">
-                    <div id="messagens" class="mensagem"></div>
+               ` <div class="scrollable">
+               <span id="load_conversas" class="spinner-border" role="status"></span>
+                    <div id="messagens" class="mensagem">
+                        
+                    </div>
                 </div>
 
                 <div class="writtinZone">
                     <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                     <div class="icons"> emojis e mandar ficheiros</div>
-                    <button type="button" id="botao" class="send btn btn-primary btn-lg">ENVIAR
+                    <button type="button" id="botao" class="send btn btn-primary btn-lg" onclick="enviar_msg_db('${id}')">ENVIAR
                     </button>
                 </div>`
             )
+
+            socket.emit('switchRoom', id)
+            buscaMensagens(id)
         }
     })
 }
@@ -167,39 +187,30 @@ function cria_chats() {
     })
 }
 
-let socket = io();
 
-socket.on('connect', function () {
-    socket.emit('join', 'dddsdjkfh1123'); //chat room id unique to two users
-})
 
-$("#botao").click(function () {
+function enviar_msg_db(id) {
     const hora = new Date
-    let textArea = $("#exampleFormControlTextarea1").val();
-    let nomeConversa = "Trabalho de grupo";
+    let textArea = $("#exampleFormControlTextarea1").val()
     // let me = $(".nomeChat").val();
+    //console.log(socket[index])
+    //console.log(utilizador.innerHTML)
     if (textArea) {
         $.post("./guardaMensagem", {
-            nome: nomeConversa,
-            message: textArea,
-            nameUser: utilizador.innerHTML,
-            time: hora.toLocaleTimeString()
+            id: id,
+            //nome: nomeConversa,
+            message: textArea
+            //nameUser: utilizador.innerHTML,
+            //time: hora.toLocaleTimeString()
+        }).always(function (data) {
+            console.log(data)
+            socket.emit('message', {
+                room: id,
+                name: utilizador.innerHTML,
+                message: textArea,
+                time: hora.toLocaleTimeString()
+            })
+            $("#exampleFormControlTextarea1").val("");
         })
-        socket.emit('message', {
-            room: 'dddsdjkfh1123',
-            message: textArea,
-            name: utilizador.innerHTML,
-            time: hora.toLocaleTimeString()
-        })
-        $("#exampleFormControlTextarea1").val("");
     }
-})
-
-socket.on('message', function (msg) {
-    console.log(msg)
-    let scroll = document.querySelector(".scrollable")
-    $("#messagens").append(
-        '<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>'
-    )
-    scroll.scrollTo(0, document.body.scrollHeight);
-})
+}

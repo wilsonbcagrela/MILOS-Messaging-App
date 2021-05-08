@@ -14,7 +14,7 @@ MongoClient.connect(url, {
     dbo = db.db("G8")
 })
 
-async function aceitar_conv_conversa(id,id_conversa,callback) {
+async function aceitar_conv_conversa(id, id_conversa, callback) {
 
 
     let result = []
@@ -48,7 +48,7 @@ async function aceitar_conv_conversa(id,id_conversa,callback) {
     return callback(result)
 }
 
-async function rejeitar_conv_conversa(id,id_conversa,callback) {
+async function rejeitar_conv_conversa(id, id_conversa, callback) {
     let result = await dbo.collection("Utilizadores").updateOne({
         _id: new ObjectID(id)
     }, {
@@ -147,16 +147,25 @@ async function findNameConversa(nomeChat, callback) {
 }
 async function insereMensagem(id, data, callback) {
     let mensagens
-    await findNameConversa(nomeChat, async function (result) {
-        console.log(result)
-        mensagens = await result.conversas
-        let item = {}
-        item["user_id"] = id,
-            item["data"] = data
-        mensagens.push(item)
-    })
+    console.log(data.id)
 
+    let resultado = await dbo
+        .collection("Conversas")
+        .updateOne({
+            _id: new ObjectID(data.id)
+        }, {
+            $push: {
+                conversas:{
+                    owner: ObjectID(id),
+                    date: new Date().toLocaleTimeString(),
+                    message: data.message
+                }
+            }
+        })
+    
+    callback(resultado.result)
 }
+
 
 module.exports = {
     criarCHAT,
