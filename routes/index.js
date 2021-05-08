@@ -160,7 +160,7 @@ router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, n
         let __result = []
         for (let index = 0; index < _find.length; index++) {
             await buscaUtiizadores.findID(_find[index].id, function (find) {
-                var img = (find.image == null) ? './uploads/milos.png' : find.image
+                var img = (find.image == null) ? 'public/uploads/milos.png' : find.image
                 let item = {}
                 item["id"] = _find[index].id,
                     item["name"] = find.name,

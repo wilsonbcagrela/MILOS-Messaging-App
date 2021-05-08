@@ -31,17 +31,16 @@ function __amigos_pend_mod() {
     $.post("./pedidos_pendentes").always(function (data) {
         $("#modal_ped_pend").empty()
         data.forEach(element => {
-
             if (element.status == "waiting_accepted") {
                 $("#modal_ped_pend").append('<h5>PENDENTES DE SEREM ACEITES (:s) :</h5>')
-                $("#modal_ped_pend").append(`<img src="${element.img.replace('public/','')}" alt="imagem de perfil" width="30" height="30"></img>`)
+                $("#modal_ped_pend").append(`<img src="${element.img.slice(7)}" alt="imagem de perfil" width="50" height="50"></img>`)
                 $("#modal_ped_pend").append(element.name)
                 $("#modal_ped_pend").append('<div class="btn-group" role="group">')
                 $("#modal_ped_pend").append(`<button type="button" class="btn btn-danger" onclick="rejeitar_pedido_de_amizade('${element.id}')">ELIMINAR</button>`)
                 $("#modal_ped_pend").append('</div>')
             } else {
                 $("#modal_ped_pend").append('<h5>POR ACEITAR:</h5>')
-                $("#modal_ped_pend").append(`<img src="${element.img}" alt="imagem de perfil" width="30" height="30"></img>`)
+                $("#modal_ped_pend").append(`<img src="${element.img.slice(7)}" alt="imagem de perfil" width="50" height="50"></img>`)
                 $("#modal_ped_pend").append(element.name)
                 $("#modal_ped_pend").append('<div class="btn-group" role="group">')
                 $("#modal_ped_pend").append(`<button type="button" class="btn btn-success" onclick="aceitar_pedido_de_amizade('${element.id}')">ACEITAR</button>`)

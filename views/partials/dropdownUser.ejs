@@ -2,7 +2,12 @@
 <!-- <link rel="stylesheet" href="styles/dropdownUser.css"> -->
 <div class="action">
     <div class="profile" onclick="menuToggle();">
-        <img src="uploads/milos.png"></img>
+        <% if (UserImage == 'public/uploads/milos.png') { %>
+            <img src="uploads/milos.png" alt="imagem de perfil"></img>
+        <% }else{ %>
+            <img src="<%-UserImage.slice(7)%>" alt="imagem de perfil"></img>
+        <% } %>
+        <!-- <img src="uploads/milos.png"></img> -->
     </div>
     <div class = "menu">
         <h3 id="utilizador"><%- UserName %></h3>
