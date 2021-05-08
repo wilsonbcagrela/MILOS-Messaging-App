@@ -57,18 +57,9 @@ header {
         grid-column: span 3;
         padding: 10px;
         margin: 5px;
-        .conversaschat{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 25px;
-            padding: 10px;
-            border: 1px solid black;
-            cursor: pointer;
-
-            &:hover {
-                background-color: lightgrey;
-                color: black;
+        .lista_chat{
+            a{
+                cursor: pointer;
             }
         }
     }
@@ -80,6 +71,11 @@ header {
         background-color: #FAFAFA;
         grid-column: span 7;
         margin: 5px;
+        .tituloDaConversa{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .scrollable{
             overflow-y: auto; 
             max-height: 65vh;
@@ -126,7 +122,22 @@ header {
         padding: 10px;
         margin: 5px;
     }
-    @media screen and (max-width: 600px){
+    .lista_amigos{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        p{
+            padding: 5px; 
+            &:hover{
+                
+                background-color: lightgrey;
+                color: black;
+            }
+        }
+
+    }
+    @media screen and (max-width: 800px){
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
         .writtinZone{
