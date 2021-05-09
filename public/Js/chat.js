@@ -17,7 +17,7 @@ function buscaMensagens(id) {
     $.post("./lista_mensagens", {
         id: id
     }).always(function (data) {
-        let html
+        let html = ''
         if (JSON.stringify(data) != JSON.stringify([])) {
             data.forEach(element => {             
                 html+='<div class= "mensagemUser"><div>' + element.owner + ' hoje às ' + element.date + '</div><div>' + element.message + '</div></div>' 
