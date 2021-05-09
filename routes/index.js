@@ -118,14 +118,11 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
     })
 })
 
-async function _joel_cache(temp2, temp){
+async function _cache(cache, temp,){
     let pesquisar = true
-    for (let index = 0; index < temp2.length; index++) {
-        if (temp2[index].id.equals(temp.owner)) {
-            temp.owner = temp2[index].name
-            pesquisar = false
-            break
-        }
+    if(cache.has(temp.owner.toString())){
+        temp.owner = cache.get(temp.owner.toString())
+        pesquisar = false
     }
     return pesquisar
 }
@@ -133,15 +130,12 @@ async function _joel_cache(temp2, temp){
 router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaConversas.findIdChat(req.body.id, async function (result) {
         let temp = result.conversas
-        var temp2 = []
+        var cache = new Map()
         for (let index = 0; index < temp.length; index++) {
-            let pesquisar = await _joel_cache(temp2,temp[index])
+            let pesquisar = await _cache(cache,temp[index])
             if (pesquisar) {
                 await buscaUtiizadores.findID(temp[index].owner, async function (_result) {
-                    let list = {}
-                    list['name'] = _result.name,
-                    list['id'] = temp[index].owner
-                    temp2.push(list)
+                    cache.set(temp[index].owner.toString(), _result.name)
                     temp[index].owner = _result.name
                 })
             }
