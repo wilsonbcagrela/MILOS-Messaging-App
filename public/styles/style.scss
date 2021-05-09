@@ -76,6 +76,12 @@ header {
             align-items: center;
             justify-content: center;
         }
+        .imagePerfil{
+            border-radius: 50px;
+            border: 1px solid black;
+            margin: 5px;
+            background-color: lightgray;
+        }
         .scrollable{
             overflow-y: auto; 
             max-height: 65vh;

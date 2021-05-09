@@ -11,7 +11,7 @@ socket.on('message', function (msg) {
 })
 
 lista_de_chats()
-
+mostraPerfil()
 function buscaMensagens(id) {
     $('.mensagem').empty()
     $.post("./lista_mensagens", {
@@ -44,7 +44,13 @@ function buscaMensagens(id) {
         
     })
 }
-
+function mostraPerfil(){
+    $('.content-mensagens').empty()
+    $('.content-mensagens').append('<h1>Bem vindo ao milos</h1>')
+    $('.content-mensagens').append('<img  class = "imagePerfil" src="'+$('.UserImage').attr('src')+'"height = "150px" width = "150px"></img>')
+    $('.content-mensagens').append(utilizador.innerHTML)
+    
+}
 function criaChatNaBaseDeDados() {
     let nomeConversa = $("#cria_chats").val();
     $.post("./criaChat", {

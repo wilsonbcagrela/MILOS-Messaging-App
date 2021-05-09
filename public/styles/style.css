@@ -111,6 +111,7 @@
   top: 0;
   left: 0;
   max-width: 100%;
+  max-height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -238,7 +239,7 @@ header h3 {
 .maingrid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)(12);
+  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: normal;
           column-gap: normal;
@@ -290,6 +291,13 @@ header h3 {
           justify-content: center;
 }
 
+.maingrid .content-mensagens .imagePerfil {
+  border-radius: 50px;
+  border: 1px solid black;
+  margin: 5px;
+  background-color: lightgray;
+}
+
 .maingrid .content-mensagens .scrollable {
   overflow-y: auto;
   max-height: 65vh;
@@ -314,7 +322,7 @@ header h3 {
 .maingrid .content-mensagens .writtinZone {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)(12);
+  -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: 1rem;
           column-gap: 1rem;
@@ -383,12 +391,3 @@ header h3 {
   }
 }
 /*# sourceMappingURL=style.css.map */
-
-.spinner{
-  position: relative;
-  top: 50%;
-  left: 50%;
-  margin-left: -50px;
-  margin-top: -50px;
-}
-

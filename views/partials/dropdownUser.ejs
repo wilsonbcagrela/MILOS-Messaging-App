@@ -3,16 +3,16 @@
 <div class="action">
     <div class="profile" onclick="menuToggle();">
         <% if (UserImage == 'public/uploads/milos.png') { %>
-            <img src="uploads/milos.png" alt="imagem de perfil"></img>
+            <img class = "UserImage" src="uploads/milos.png" alt="imagem de perfil"></img>
         <% }else{ %>
-            <img src="<%-UserImage.slice(7)%>" alt="imagem de perfil"></img>
+            <img class = "UserImage" src="<%-UserImage.slice(7)%>" alt="imagem de perfil"></img>
         <% } %>
         <!-- <img src="uploads/milos.png"></img> -->
     </div>
     <div class = "menu">
         <h3 id="utilizador"><%- UserName %></h3>
         <ul>
-            <li><img src="uploads/milos.png"><a href="#">Profile</a></img></li>
+            <li><img src="uploads/milos.png"><a href="/">Profile</a></img></li>
             <li><img src="uploads/milos.png"><a href="/logout">Logout</a></img></li>
             
         </ul>
