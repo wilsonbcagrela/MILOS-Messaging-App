@@ -118,13 +118,33 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
     })
 })
 
+async function _joel_cache(temp2, temp){
+    let pesquisar = true
+    for (let index = 0; index < temp2.length; index++) {
+        if (temp2[index].id.equals(temp.owner)) {
+            temp.owner = temp2[index].name
+            pesquisar = false
+            break
+        }
+    }
+    return pesquisar
+}
+
 router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, next) => {
-    await buscaConversas.findIdChat(req.body.id, async function (result){
+    await buscaConversas.findIdChat(req.body.id, async function (result) {
         let temp = result.conversas
+        var temp2 = []
         for (let index = 0; index < temp.length; index++) {
-            await buscaUtiizadores.findID(temp[index].owner, async function (_result){
-                temp[index].owner = _result.name
-            })
+            let pesquisar = await _joel_cache(temp2,temp[index])
+            if (pesquisar) {
+                await buscaUtiizadores.findID(temp[index].owner, async function (_result) {
+                    let list = {}
+                    list['name'] = _result.name,
+                    list['id'] = temp[index].owner
+                    temp2.push(list)
+                    temp[index].owner = _result.name
+                })
+            }
         }
         res.json(temp)
     })
@@ -132,7 +152,7 @@ router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, nex
 
 router.post('/aceitar_conv_conversa', verificaUtilizadorFezLogin, (req, res, next) => {
 
-    buscaConversas.aceitar_conv_conversa(req.session.userId,req.body.id, async function (result){
+    buscaConversas.aceitar_conv_conversa(req.session.userId, req.body.id, async function (result) {
         res.json(result)
     })
 
@@ -140,7 +160,7 @@ router.post('/aceitar_conv_conversa', verificaUtilizadorFezLogin, (req, res, nex
 
 router.post('/rejeitar_conv_conversa', verificaUtilizadorFezLogin, (req, res, next) => {
 
-    buscaConversas.rejeitar_conv_conversa(req.session.userId,req.body.id, async function (result){
+    buscaConversas.rejeitar_conv_conversa(req.session.userId, req.body.id, async function (result) {
         res.json(result)
     })
 

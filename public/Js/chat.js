@@ -15,16 +15,33 @@ lista_de_chats()
 function buscaMensagens(id) {
     $('.mensagem').empty()
     $.post("./lista_mensagens", {
-        id:id
+        id: id
     }).always(function (data) {
+        let html
         if (JSON.stringify(data) != JSON.stringify([])) {
-            $('#load_conversas').remove()
-            data.forEach(element => {
-                $("#messagens").append(
-                    '<div class= "mensagemUser"><div>' + element.owner + ' hoje às ' + element.date + '</div><div>' + element.message + '</div></div>'
-                )
+            data.forEach(element => {             
+                html+='<div class= "mensagemUser"><div>' + element.owner + ' hoje às ' + element.date + '</div><div>' + element.message + '</div></div>' 
             })
         }
+        $('#load_conversas').remove()
+        $('.content-mensagens').append(
+            `<div class="scrollable">
+               
+                    <div id="messagens" class="mensagem">
+                        
+                    </div>
+                </div>
+
+                <div class="writtinZone">
+                    <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                    <div class="icons"> emojis e mandar ficheiros</div>
+                    <button type="button" id="botao" class="send btn btn-primary btn-lg" onclick="enviar_msg_db('${id}')">ENVIAR
+                    </button>
+                </div>`)
+        $('#messagens').append(html)
+        
+
+        
     })
 }
 
@@ -101,22 +118,7 @@ function abrir_conversa(id, nome) {
             $('#_aceitar_convite').modal("show")
         } else if (resposta.status == "accepted") {
             $('.content-mensagens').empty()
-            $('.content-mensagens').append(
-               ` <div class="scrollable">
-               <span id="load_conversas" class="spinner-border" role="status"></span>
-                    <div id="messagens" class="mensagem">
-                        
-                    </div>
-                </div>
-
-                <div class="writtinZone">
-                    <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-                    <div class="icons"> emojis e mandar ficheiros</div>
-                    <button type="button" id="botao" class="send btn btn-primary btn-lg" onclick="enviar_msg_db('${id}')">ENVIAR
-                    </button>
-                </div>`
-            )
-
+            $('.content-mensagens').append(`<span id="load_conversas" class="spinner-border spinner" role="status"></span>`)
             socket.emit('switchRoom', id)
             buscaMensagens(id)
         }
