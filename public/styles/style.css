@@ -208,7 +208,7 @@
 }
 
 body {
-  background-color: #121212 !important;
+  background-color: #090b1a !important;
   color: white;
   height: 100%;
 }
@@ -239,7 +239,7 @@ header h3 {
 .maingrid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[12];
+  -ms-grid-columns: (1fr)(12);
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: normal;
           column-gap: normal;
@@ -322,7 +322,7 @@ header h3 {
 .maingrid .content-mensagens .writtinZone {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[12];
+  -ms-grid-columns: (1fr)(12);
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: 1rem;
           column-gap: 1rem;
