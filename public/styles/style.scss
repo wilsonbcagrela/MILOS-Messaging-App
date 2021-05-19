@@ -21,7 +21,8 @@ header {
     // position: fixed;
     background-color: $corHeader;
     color: white;
-    height: 60px;
+    // height: 60px;
+    min-height: 10vh;
     display: flex;
     align-items: center;
     // justify-content:space-evenly;
@@ -42,9 +43,11 @@ header {
 .maingrid{
     display: grid;
     grid-template-columns: repeat(12, 1fr); // ira fazer com que o grid tenha 12 colunas
+    // grid-template-rows: minmax(120px, auto) repeat(5,100px);
     column-gap: normal;
     // grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-template-rows: 90vh;
+    // grid-template-rows: 90vh;
+    min-height: 90vh;
     // grid-auto-rows: minmax(90vh, 100vh);
    .titulo{
         display: flex;
@@ -71,16 +74,21 @@ header {
         background-color: #FAFAFA;
         grid-column: span 7;
         margin: 5px;
+        h1{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .tituloDaConversa{
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .imagePerfil{
-            border-radius: 50px;
+            // border-radius: 100px;
             border: 1px solid black;
             margin: 5px;
-            background-color: lightgray;
+            // background-color: lightgray;
         }
         .scrollable{
             overflow-y: auto; 
@@ -132,7 +140,7 @@ header {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         p{
             padding: 5px; 
             &:hover{
@@ -143,9 +151,19 @@ header {
         }
 
     }
-    @media screen and (max-width: 800px){
+    #_lista_amigos{
+        button{
+            margin: 15px;
+        }
+    }
+    @media screen and (max-width: 900px){
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
+        .conversas{
+            display: none;
+        }
+        .pessoasOnline{
+            display: none;
+        }
         .writtinZone{
             .textArea{
                 grid-column: span 10;

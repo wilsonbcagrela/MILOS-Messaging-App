@@ -216,7 +216,7 @@ body {
 header {
   background-color: #000000;
   color: white;
-  height: 60px;
+  min-height: 10vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -243,8 +243,7 @@ header h3 {
       grid-template-columns: repeat(12, 1fr);
   -webkit-column-gap: normal;
           column-gap: normal;
-  -ms-grid-rows: 90vh;
-      grid-template-rows: 90vh;
+  min-height: 90vh;
 }
 
 .maingrid .titulo {
@@ -279,6 +278,18 @@ header h3 {
   margin: 5px;
 }
 
+.maingrid .content-mensagens h1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .maingrid .content-mensagens .tituloDaConversa {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -292,10 +303,8 @@ header h3 {
 }
 
 .maingrid .content-mensagens .imagePerfil {
-  border-radius: 50px;
   border: 1px solid black;
   margin: 5px;
-  background-color: lightgray;
 }
 
 .maingrid .content-mensagens .scrollable {
@@ -362,9 +371,8 @@ header h3 {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .maingrid .lista_amigos p {
@@ -376,10 +384,20 @@ header h3 {
   color: black;
 }
 
-@media screen and (max-width: 800px) {
+.maingrid #_lista_amigos button {
+  margin: 15px;
+}
+
+@media screen and (max-width: 900px) {
   .maingrid {
     -ms-grid-columns: (minmax(300px, 1fr))[auto-fit];
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .maingrid .conversas {
+    display: none;
+  }
+  .maingrid .pessoasOnline {
+    display: none;
   }
   .maingrid .writtinZone .textArea {
     grid-column: span 10;

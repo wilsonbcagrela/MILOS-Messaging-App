@@ -47,9 +47,8 @@ function buscaMensagens(id) {
 function mostraPerfil(){
     $('.content-mensagens').empty()
     $('.content-mensagens').append('<h1>Bem vindo ao milos</h1>')
-    $('.content-mensagens').append('<img  class = "imagePerfil" src="'+$('.UserImage').attr('src')+'"height = "150px" width = "150px"></img>')
-    $('.content-mensagens').append(utilizador.innerHTML)
-    
+    $('.content-mensagens').append('<img  class = "imagePerfil" src="'+$('.UserImage').attr('src')+'"height = "200px" width = "200px"></img>')
+    $('.content-mensagens').append(`<h2 class = "nomeUtilizadorPerfil">` + utilizador.innerHTML + `</h2>`)
 }
 function criaChatNaBaseDeDados() {
     let nomeConversa = $("#cria_chats").val();
