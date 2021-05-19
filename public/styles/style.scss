@@ -158,12 +158,12 @@ header {
     }
     @media screen and (max-width: 900px){
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        .conversas{
-            display: none;
-        }
-        .pessoasOnline{
-            display: none;
-        }
+        // .conversas{
+        //     display: none;
+        // }
+        // .pessoasOnline{
+        //     display: none;
+        // }
         .writtinZone{
             .textArea{
                 grid-column: span 10;

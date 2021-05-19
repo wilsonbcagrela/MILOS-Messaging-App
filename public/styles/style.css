@@ -393,12 +393,6 @@ header h3 {
     -ms-grid-columns: (minmax(300px, 1fr))[auto-fit];
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
-  .maingrid .conversas {
-    display: none;
-  }
-  .maingrid .pessoasOnline {
-    display: none;
-  }
   .maingrid .writtinZone .textArea {
     grid-column: span 10;
     grid-row: span 1 / auto;
