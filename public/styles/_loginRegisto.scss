@@ -8,14 +8,16 @@
 
 .container {
 
-    height: 100vh;
+    height: 90vh;
     color: white !important;
     @include flexCenter();
 
     .loginForm,
     .registrationForm {
         @include flexCenter();
-
+        border: solid 2px black;
+        padding: 20px;
+        // background-color: darkslategrey;
         form {
             @include flexCenter();
 
