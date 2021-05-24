@@ -15,9 +15,9 @@
     .loginForm,
     .registrationForm {
         @include flexCenter();
-        border: solid 2px black;
-        padding: 20px;
-        // background-color: darkslategrey;
+        border: solid 1px rgba(255,255,255,.4);
+        padding: 55px;
+        background-color: #1b2e4f;
         form {
             @include flexCenter();
 
@@ -43,14 +43,14 @@
                 padding: 10px;
                 font-size: 1.25em;
                 font-weight: 700;
-                color: white;
-                background-color: #1212FF;
+                color: #010b1c;
+                background-color: white;
                 display: inline-block;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: blue;
-                    color: black;
+                    background-color: #010b1c;
+                    color: white;
                 }
             }
         }
