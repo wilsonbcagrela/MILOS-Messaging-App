@@ -60,7 +60,17 @@ function criaChatNaBaseDeDados() {
         lista_de_chats()
     })
 }
-
+function atualizaChatNaBaseDeDados(id) {
+    let nomeConversa = $("#cria_chats").val();
+    $.post("./atualizaChat", {
+        id: id,
+        nome: nomeConversa,
+        membros: amigos_para_add
+    }).always(function (data) {
+        console.log(data)
+        lista_de_chats()
+    })
+}
 function lista_de_chats() {
     $('.lista_chat').empty()
     $.post("./lista_chat", (data) => {
@@ -72,12 +82,12 @@ function lista_de_chats() {
             data.forEach(element => {
                 console.log(element)
                 $(".lista_chat").append(`<a id="${element.id}" class="list-group-item list-group-item-action " aria-current="true" onclick="abrir_conversa('${element.id}','${element.nome}')">` +
-                    `<div class="d-flex w-100 justify-content-between">` +
+                    `<div class="d-flex justify-content-between">` +
                     `<h5 class="mb-1">${element.nome}</h5>` +
                     //`<small>3 days ago</small>` +
                     `</div>` +
                     //`<p class="mb-1">Some placeholder content in a paragraph.</p>` +
-                    `</a>`)
+                    `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">atualiza conversa</button>`)
             })
         }
         $(".lista_chat").append(
@@ -194,7 +204,38 @@ function cria_chats() {
     })
 }
 
+function atualiza_chats(id, nome) {
+    $('.lista_chat').empty()
+    $(".lista_chat").append('<p>Mude o nome da conversa:</p>')
+    $(".lista_chat").append('<input type="text" id="cria_chats" class="nomeChat form-control" aria-label="Mude o nome da' +
+        'conversa" aria-describedby="button-addon2" value = "'+ nome+ '"><br>')
+    $(".lista_chat").append('Amigos que quer convidar:')
+    $.post("./lista_amigos", (data) => {
+        if (JSON.stringify(data) == JSON.stringify([])) {
+            $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
+        } else {
+            let amigos_add_html = `<span id="amigos_add">`
+            data.forEach(element => {
 
+                amigos_add_html += `<p id="add_${element.id}">${element.name}<button " type="button" class="btn btn-link" onclick="add_amigo_criar_chat('${element.id}','${element.name}')">Adicionar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg></button></p>`
+            })
+            amigos_add_html += `</span>`
+            $(".lista_chat").append(amigos_add_html)
+
+        }
+        $(".lista_chat").append(
+            '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+            `ck="atualizaChatNaBaseDeDados('${id}')">Guardar alterações</button></div>`
+        )
+        $(".lista_chat").append(
+            '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+            'ck="lista_de_chats()">Back</button></div>'
+        )
+    })
+}
 
 function enviar_msg_db(id) {
     const hora = new Date

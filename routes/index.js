@@ -262,7 +262,16 @@ router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
         res.json(await result)
     })
 })
-
+router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
+    let membros = (req.body.membros == undefined) ? [] : req.body.membros
+    console.log(membros)
+    console.log(req.body.id)
+    buscaConversas.atualizaCHAT(req.session.userId, req.body.nome, membros, req.body.id, async function (result) {
+        console.log(result)
+        
+        res.json(await result)
+    })
+})
 router.post('/guardaMensagem', verificaUtilizadorFezLogin, (req, res, next) => {
     buscaConversas.insereMensagem(req.session.userId, req.body, async function (result) {
         res.json(await result)

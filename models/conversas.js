@@ -62,7 +62,55 @@ async function rejeitar_conv_conversa(id, id_conversa, callback) {
     console.log(result.result)
     return callback(result.result)
 }
+async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
+    let result = []
+     
+    result1 = await dbo
+        .collection("Conversas")
+        .updateOne({
+            _id: new ObjectID(idConversa)
+    
+        }, {
+            $set: {
+                nome: nameChat
+            },
+            $push: {
+                membros: membros
+            }
+       
+        })
 
+    result.push(result1)
+
+    if (membros.length > 0) {
+
+        _membros = []
+        membros.forEach(element => {
+            _membros.push(new ObjectID(element))
+        })
+
+        __chat = {}
+        __chat['id'] = new ObjectID(idConversa),
+            __chat['status'] = 'pending_to_be_accepted'
+
+        result2 = await dbo.collection("Utilizadores").updateOne({
+            _id: {
+                $in: _membros
+            }
+
+        }, {
+            $push: {
+                chat: __chat
+            }
+        })
+
+        result.push(result2)
+
+
+    }
+
+    return callback(true)
+}
 async function criarCHAT(id, nameChat, membros, callback) {
 
     let result = []
@@ -174,5 +222,6 @@ module.exports = {
     findIdChat,
     insereMensagem,
     aceitar_conv_conversa,
-    rejeitar_conv_conversa
+    rejeitar_conv_conversa,
+    atualizaCHAT
 }
