@@ -56,8 +56,10 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
                     return res.redirect("/")
                 } else {
                     var erro = 1
+                    var mostraUSer = 0;
                     return res.render('registo.ejs', {
-                        erro: erro
+                        erro: erro,
+                        mostraUSer: mostraUSer
                     })
                 }
             }
@@ -77,9 +79,11 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
                 uploadsFolder + fileName,
                 function (result) {
                     if (!result) {
+                        var mostraUSer = 0;
                         var erro = 1
                         return res.render('registo.ejs', {
-                            erro: erro
+                            erro: erro,
+                            mostraUSer: mostraUSer
                         })
                     }
                 }
