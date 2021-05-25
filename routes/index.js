@@ -110,7 +110,7 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
             await buscaUtiizadores.findID(_find[index], async function (find) {
                 let item = {}
                 item["id"] = find._id,
-                    item["name"] = find.name
+                item["name"] = find.name
                 nomes.push(item)
             })
         }

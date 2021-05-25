@@ -73,28 +73,35 @@ header {
         }
     }
     .content-mensagens{
-        // display: flex;
-        // justify-content:center;
         border-radius: 25px;
         padding: 10px;
         background-color: #FAFAFA;
         grid-column: span 7;
         margin: 5px;
-        h1{
+        h1, h2{
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+        }
+        h2{
+            margin-top: 50px;
+        }
+        .nomeUtilizadorPerfil{
+            float: auto;
+            font-size: 2rem !important;
+            left: 0px;
+            
         }
         .tituloDaConversa{
             display: flex;
             align-items: center;
             justify-content: center;
+            
         }
         .imagePerfil{
-            // border-radius: 100px;
             border: 1px solid black;
             margin: 5px;
-            // background-color: lightgray;
         }
         .scrollable{
             overflow-y: auto; 

@@ -46,9 +46,10 @@ function buscaMensagens(id) {
 }
 function mostraPerfil(){
     $('.content-mensagens').empty()
-    $('.content-mensagens').append('<h1>Bem vindo ao milos</h1>')
-    $('.content-mensagens').append('<img  class = "imagePerfil" src="'+$('.UserImage').attr('src')+'"height = "200px" width = "200px"></img>')
-    $('.content-mensagens').append(`<h2 class = "nomeUtilizadorPerfil">` + utilizador.innerHTML + `</h2>`)
+    $('.content-mensagens').append(`<h1>Bem vindo ao milos ` + utilizador.innerHTML + `</h1>`)
+    $('.content-mensagens').append('<div class="d-flex justify-content-center"><img  class = "imagePerfil" src="'+$('.UserImage').attr('src')+'"height = "200px" width = "200px"></img></div>')
+    // $('.content-mensagens').append(`<div class = "nomeUtilizadorPerfil">Nome do Utilizador: ` + utilizador.innerHTML + `</div>`)
+    $('.content-mensagens').append(`<h2>Faça novos amigos e inicie novas conversas</h2>`)
 }
 function criaChatNaBaseDeDados() {
     let nomeConversa = $("#cria_chats").val();

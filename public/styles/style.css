@@ -283,7 +283,7 @@ header h3 {
   margin: 5px;
 }
 
-.maingrid .content-mensagens h1 {
+.maingrid .content-mensagens h1, .maingrid .content-mensagens h2 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -293,6 +293,17 @@ header h3 {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  padding: 20px;
+}
+
+.maingrid .content-mensagens h2 {
+  margin-top: 50px;
+}
+
+.maingrid .content-mensagens .nomeUtilizadorPerfil {
+  float: auto;
+  font-size: 2rem !important;
+  left: 0px;
 }
 
 .maingrid .content-mensagens .tituloDaConversa {
