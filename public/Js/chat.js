@@ -1,31 +1,47 @@
 var amigos_para_add = []
 var socket = io.connect()
+
+
+
 socket.on('connect', function () {})
 
 socket.on('message', function (msg) {
     let scroll = document.querySelector(".scrollable")
     $("#messagens").append(
-        '<div class= "mensagemUser"><div>' + msg.name + ' hoje às ' + msg.time + '</div><div>' + msg.message + '</div></div>'
-    )
-    scroll.scrollTo(0, document.body.scrollHeight);
+        '<div class= "mensagemUser"><div> <img src="'+msg.image+'" width="15" height="15"> "' + msg.name + '" enviou hoje às ' + msg.time + `</div><p>${msg.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+
+        )
+    scroll.scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
 })
 
 lista_de_chats()
 mostraPerfil()
-function buscaMensagens(id) {
+function buscaMensagens (id,nome) {
     $('.mensagem').empty()
     $.post("./lista_mensagens", {
         id: id
     }).always(function (data) {
+        console.log(data)
         let html = ''
         if (JSON.stringify(data) != JSON.stringify([])) {
-            data.forEach(element => {             
-                html+='<div class= "mensagemUser"><div>' + element.owner + ' hoje às ' + element.date + '</div><div>' + element.message + '</div></div>' 
-            })
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                if(index == data.length-1)
+                    html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="15" height="15"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+                else
+                    html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="15" height="15"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+            }
         }
         $('#load_conversas').remove()
         $('.content-mensagens').append(
-            `<div class="scrollable">
+            `
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                    <h4>${nome}</h4>
+                </div>
+            </nav>
+
+            <div class="scrollable">
                
                     <div id="messagens" class="mensagem">
                         
@@ -39,9 +55,7 @@ function buscaMensagens(id) {
                     </button>
                 </div>`)
         $('#messagens').append(html)
-        
-
-        
+        document.querySelector(".scrollable").scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
     })
 }
 function mostraPerfil(){
@@ -88,7 +102,7 @@ function lista_de_chats() {
                     //`<small>3 days ago</small>` +
                     `</div>` +
                     //`<p class="mb-1">Some placeholder content in a paragraph.</p>` +
-                    `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">atualiza conversa</button>`)
+                    `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
             })
         }
         $(".lista_chat").append(
@@ -136,7 +150,8 @@ function abrir_conversa(id, nome) {
             $('.content-mensagens').empty()
             $('.content-mensagens').append(`<span id="load_conversas" class="spinner-border spinner" role="status"></span>`)
             socket.emit('switchRoom', id)
-            buscaMensagens(id)
+            buscaMensagens(id,nome)
+            
         }
     })
 }
@@ -255,7 +270,8 @@ function enviar_msg_db(id) {
             console.log(data)
             socket.emit('message', {
                 room: id,
-                name: utilizador.innerHTML,
+                name: data.name,
+                image: data.image,
                 message: textArea,
                 time: hora.toLocaleTimeString()
             })

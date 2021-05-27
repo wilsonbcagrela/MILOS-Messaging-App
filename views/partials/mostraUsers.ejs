@@ -7,7 +7,7 @@
                 <% if (utilizador[x].image == null) { %>
                 <img src="uploads/milos.png" alt="imagem de perfil" width="30" height="30">
                 <% }else{ %>
-                <img src="<%-utilizador[x].image.slice(7)%>" alt="imagem de perfil" width="30" height="30">
+                <img src="<%-utilizador[x].image%>" alt="imagem de perfil" width="30" height="30">
                 <% } %>
                 <%- utilizador[x].name %>
                 <input type="submit" name="submit" value="Pedir Amizade" />

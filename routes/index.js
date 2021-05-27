@@ -22,7 +22,7 @@ router.get('/', verificaUtilizadorFezLogin, (req, res, next) => {
     if (req.session.imagem == null) {
         return res.render('index.ejs', {
             UserName: req.session.userName,
-            UserImage: 'public/uploads/milos.png',
+            UserImage: '/uploads/milos.png',
             mostraUSer: mostraUSer,
             ProcuraUtilizadores: ProcuraUtilizadores
         })
@@ -118,10 +118,12 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
     })
 })
 
-async function _cache(cache, temp,){
+async function _cache(cache, temp){
     let pesquisar = true
     if(cache.has(temp.owner.toString())){
-        temp.owner = cache.get(temp.owner.toString())
+        let result = cache.get(temp.owner.toString())
+        temp.owner = result.name
+        temp.image_owner = result.image
         pesquisar = false
     }
     return pesquisar
@@ -135,8 +137,18 @@ router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, nex
             let pesquisar = await _cache(cache,temp[index])
             if (pesquisar) {
                 await buscaUtiizadores.findID(temp[index].owner, async function (_result) {
-                    cache.set(temp[index].owner.toString(), _result.name)
-                    temp[index].owner = _result.name
+                    if(_result.image != null){
+                        console.log(_result.image)
+                        cache.set(temp[index].owner.toString(), {name: _result.name, image: "/uploads/" + result.image})
+                        temp[index].owner = _result.name
+                        temp[index].image_owner = "/uploads/${result.image}"
+                    }
+                    else{
+                        cache.set(temp[index].owner.toString(), {name: _result.name, image: "/uploads/milos.png"})
+                        temp[index].owner = _result.name
+                        temp[index].image_owner = "/uploads/milos.png"
+                    }
+                        
                 })
             }
         }
@@ -174,7 +186,7 @@ router.post('/pedidos_pendentes', verificaUtilizadorFezLogin, async (req, res, n
         let __result = []
         for (let index = 0; index < _find.length; index++) {
             await buscaUtiizadores.findID(_find[index].id, function (find) {
-                var img = (find.image == null) ? 'public/uploads/milos.png' : find.image
+                var img = (find.image == null) ? '/uploads/milos.png' : find.image
                 let item = {}
                 item["id"] = _find[index].id,
                     item["name"] = find.name,
@@ -272,10 +284,18 @@ router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
         res.json(await result)
     })
 })
-router.post('/guardaMensagem', verificaUtilizadorFezLogin, (req, res, next) => {
-    buscaConversas.insereMensagem(req.session.userId, req.body, async function (result) {
-        res.json(await result)
+router.post('/guardaMensagem', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaConversas.insereMensagem(req.session.userId, req.body, async function (result) {
+        console.log(await result)
     })
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        console.log(find)
+        if(find.image != null)
+            res.json({name: find.name, image: `"/uploads/${find.image}"`})
+        else
+            res.json({name: find.name, image: "/uploads/milos.png"})
+    })
+    
 })
 
 module.exports = router
