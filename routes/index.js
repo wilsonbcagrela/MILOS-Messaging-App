@@ -117,7 +117,52 @@ router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) 
         res.json(nomes)
     })
 })
+router.post('/verificaSeAmigoEstaNaConversa', verificaUtilizadorFezLogin, async (req, res, next) => {
 
+    let amigos
+    let amigosNaConversa
+    let amigosNaConversaString
+    let amigosNomes = []
+    let item
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        amigos = await find.friends.amigos
+    })
+    console.log(amigos)
+    console.log(req.body.id)
+
+    await buscaConversas.findIdChat(req.body.id, async function (find){
+        amigosNaConversa = await find.membros
+    })
+    console.log(JSON.stringify(amigosNaConversa))
+    amigosNaConversaString = JSON.stringify(amigosNaConversa)
+    for (let index = 0; index < amigos.length; index++) {
+        if(amigosNaConversa.length != 0){
+            let amigosString = JSON.stringify(amigos[index])
+            if(!amigosNaConversaString.includes(amigosString)){
+                console.log(amigosNaConversaString.includes(amigosString))
+                await buscaUtiizadores.findID(amigos[index], async function (find) {
+                    item = {}
+                    item["id"] = find._id,
+                    item["name"] = find.name
+                    amigosNomes.push(item)
+                })
+            }
+
+        }else{
+            console.log(index)
+            await buscaUtiizadores.findID(amigos[index], async function (find) {
+                item = {}
+                item["id"] = find._id,
+                item["name"] = find.name
+                amigosNomes.push(item)
+            })
+            
+        }
+    }
+    console.log(amigosNomes)
+    res.json(amigosNomes)
+
+})
 async function _cache(cache, temp){
     let pesquisar = true
     if(cache.has(temp.owner.toString())){
@@ -276,11 +321,9 @@ router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
 })
 router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
     let membros = (req.body.membros == undefined) ? [] : req.body.membros
-    console.log(membros)
-    console.log(req.body.id)
+
     buscaConversas.atualizaCHAT(req.session.userId, req.body.nome, membros, req.body.id, async function (result) {
-        console.log(result)
-        
+
         res.json(await result)
     })
 })

@@ -226,10 +226,13 @@ function atualiza_chats(id, nome) {
     $(".lista_chat").append('<input type="text" id="cria_chats" class="nomeChat form-control" aria-label="Mude o nome da' +
         'conversa" aria-describedby="button-addon2" value = "'+ nome+ '"><br>')
     $(".lista_chat").append('Amigos que quer convidar:')
-    $.post("./lista_amigos", (data) => {
+    $.post("./verificaSeAmigoEstaNaConversa", {
+        id: id,
+    }).always(function (data) {
         if (JSON.stringify(data) == JSON.stringify([])) {
-            $(".lista_chat").append('<p>NÃO TEM AMIGOS</p>')
+            $(".lista_chat").append('<p>NÃO TEM AMIGOS PARA ADICIONAR</p>')
         } else {
+           
             let amigos_add_html = `<span id="amigos_add">`
             data.forEach(element => {
 
