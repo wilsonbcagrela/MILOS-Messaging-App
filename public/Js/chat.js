@@ -99,10 +99,12 @@ function lista_de_chats() {
                 $(".lista_chat").append(`<a id="${element.id}" class="list-group-item list-group-item-action " aria-current="true" onclick="abrir_conversa('${element.id}','${element.nome}')">` +
                     `<div class="d-flex justify-content-between">` +
                     `<h5 class="mb-1">${element.nome}</h5>` +
-                    //`<small>3 days ago</small>` +
-                    `</div>` +
-                    //`<p class="mb-1">Some placeholder content in a paragraph.</p>` +
-                    `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
+                    `</div>`)
+                if(element.dono){
+                    $(".lista_chat").append(  `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
+                }
+                
+
             })
         }
         $(".lista_chat").append(

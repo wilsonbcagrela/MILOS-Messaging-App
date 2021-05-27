@@ -94,7 +94,11 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, async (req, res, next) =>
         await buscaConversas.findIdChat(chat_id[index].id, async function (find) {
             let list = {}
             list['id'] = await find._id,
-                list['nome'] = await find.nome
+            list['nome'] = await find.nome
+            if(find.owner == req.session.userId){
+                list['dono'] = true
+            }
+            console.log(list)
             resposta.push(list)
         })
     }
