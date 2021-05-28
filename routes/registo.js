@@ -76,7 +76,7 @@ router.post('/', upload.single('UserPicture'), (req, res, next) => {
                 name,
                 req.body.userPassword,
                 req.body.userConfirmedPassword,
-                uploadsFolder + fileName,
+                uploadsFolder.replace("public","") + fileName,
                 function (result) {
                     if (!result) {
                         var mostraUSer = 0;
