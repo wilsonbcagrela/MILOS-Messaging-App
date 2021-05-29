@@ -148,27 +148,33 @@ header {
         background-color: #FAFAFA;
         padding: 10px;
         margin: 5px;
-    }
-    .lista_amigos{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        p{
-            padding: 5px; 
-            &:hover{
-                
-                background-color: lightgrey;
-                color: black;
+        position: relative;
+        #btn_pendentes{
+            position: absolute;
+            bottom: 0;
+        }
+        .lista_amigos{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            p{
+                padding: 5px; 
+                &:hover{
+                    
+                    background-color: lightgrey;
+                    color: black;
+                }
+            }
+    
+        }
+        #_lista_amigos{
+            button{
+                margin: 15px;
             }
         }
+    }
 
-    }
-    #_lista_amigos{
-        button{
-            margin: 15px;
-        }
-    }
     @media screen and (max-width: 900px){
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         // .conversas{

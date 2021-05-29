@@ -91,7 +91,7 @@ async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
 
         __chat = {}
         __chat['id'] = new ObjectID(idConversa),
-            __chat['status'] = 'pending_to_be_accepted'
+        __chat['status'] = 'pending_to_be_accepted'
 
         result2 = await dbo.collection("Utilizadores").updateOne({
             _id: {
@@ -128,7 +128,7 @@ async function criarCHAT(id, nameChat, membros, callback) {
 
     let _chat = {}
     _chat['id'] = new ObjectID(result1.ops[0]._id),
-        _chat['status'] = 'accepted'
+    _chat['status'] = 'accepted'
     //_chat['status'] = 'pending_to_be_accepted'
 
     result2 = await dbo.collection("Utilizadores").updateOne({
@@ -213,7 +213,53 @@ async function insereMensagem(id, data, callback) {
     
     callback(resultado.result)
 }
+async function ApagaConversa(id, membros, idConversa) {
+    let result = []
+    let resultado = await dbo
+        .collection("Conversas")
+        .deleteOne({
+            _id: new ObjectID(idConversa)
+        })
+    result.push(resultado)
+    _chat = {}
+    _chat['id'] = new ObjectID(idConversa)
+    _chat['status'] = 'accepted'
 
+    let resultado2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+    
+        }, {
+            $pull: {
+                "chat": {
+                    "id": new ObjectID(idConversa)
+                }
+            }
+        })
+    result.push(resultado2)
+
+    _membros = []
+
+    membros.forEach(element => {
+
+        _membros.push(new ObjectID(element))
+
+    })
+    let resultado3 = await dbo.collection("Utilizadores").updateOne({
+        _id: {
+            $in: _membros
+        }
+
+    }, {
+        $pull: {
+            "chat": {
+                "id": new ObjectID(idConversa)
+            }
+        }
+    })
+
+    result.push(resultado3)
+    // callback(true)
+}
 
 module.exports = {
     criarCHAT,
@@ -223,5 +269,6 @@ module.exports = {
     insereMensagem,
     aceitar_conv_conversa,
     rejeitar_conv_conversa,
-    atualizaCHAT
+    atualizaCHAT,
+    ApagaConversa
 }

@@ -374,9 +374,15 @@ header h3 {
   background-color: #FAFAFA;
   padding: 10px;
   margin: 5px;
+  position: relative;
 }
 
-.maingrid .lista_amigos {
+.maingrid .pessoasOnline #btn_pendentes {
+  position: absolute;
+  bottom: 0;
+}
+
+.maingrid .pessoasOnline .lista_amigos {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -391,16 +397,16 @@ header h3 {
       justify-content: space-around;
 }
 
-.maingrid .lista_amigos p {
+.maingrid .pessoasOnline .lista_amigos p {
   padding: 5px;
 }
 
-.maingrid .lista_amigos p:hover {
+.maingrid .pessoasOnline .lista_amigos p:hover {
   background-color: lightgrey;
   color: black;
 }
 
-.maingrid #_lista_amigos button {
+.maingrid .pessoasOnline #_lista_amigos button {
   margin: 15px;
 }
 

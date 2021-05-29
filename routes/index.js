@@ -167,6 +167,17 @@ router.post('/verificaSeAmigoEstaNaConversa', verificaUtilizadorFezLogin, async 
     res.json(amigosNomes)
 
 })
+
+router.post('/ApagaChat', verificaUtilizadorFezLogin, async (req, res, next) => {
+    let amigosNaConversa
+    await buscaConversas.findIdChat(req.body.id, async function (find){
+        amigosNaConversa = await find.membros
+    })
+    buscaConversas.ApagaConversa(req.session.userId, amigosNaConversa ,req.body.id)
+
+    res.json("success")
+})
+
 async function _cache(cache, temp){
     let pesquisar = true
     if(cache.has(temp.owner.toString())){

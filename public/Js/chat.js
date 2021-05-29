@@ -86,6 +86,14 @@ function atualizaChatNaBaseDeDados(id) {
         lista_de_chats()
     })
 }
+function ApagaChatNaBaseDeDados(id) {
+    $.post("./ApagaChat", {
+        id: id,
+    }).always(
+        location.reload()
+        // lista_de_chats()
+    )
+}
 function lista_de_chats() {
     $('.lista_chat').empty()
     $.post("./lista_chat", (data) => {
@@ -250,6 +258,10 @@ function atualiza_chats(id, nome) {
         $(".lista_chat").append(
             '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             `ck="atualizaChatNaBaseDeDados('${id}')">Guardar alterações</button></div>`
+        )
+        $(".lista_chat").append(
+            '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+            `ck="ApagaChatNaBaseDeDados('${id}')">Apagar Conversa</button></div>`
         )
         $(".lista_chat").append(
             '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
