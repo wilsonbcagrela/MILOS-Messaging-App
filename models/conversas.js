@@ -206,7 +206,8 @@ async function insereMensagem(id, data, callback) {
                 conversas:{
                     owner: ObjectID(id),
                     date: new Date().toLocaleTimeString(),
-                    message: data.message
+                    message: data.message,
+                    votacao: null
                 }
             }
         })
@@ -260,6 +261,24 @@ async function ApagaConversa(id, membros, idConversa) {
     result.push(resultado3)
     // callback(true)
 }
+async function insereVoting(id, data, callback) {
+    let resultado = await dbo
+        .collection("Conversas")
+        .updateOne({
+            _id: new ObjectID(data.id)
+        }, {
+            $push: {
+                conversas:{
+                    owner: ObjectID(id),
+                    date: new Date().toLocaleTimeString(),
+                    message: null,
+                    votacao: data.voting
+                }
+            }
+        })
+    
+    callback(resultado.result)
+}
 
 module.exports = {
     criarCHAT,
@@ -270,5 +289,6 @@ module.exports = {
     aceitar_conv_conversa,
     rejeitar_conv_conversa,
     atualizaCHAT,
-    ApagaConversa
+    ApagaConversa,
+    insereVoting
 }
