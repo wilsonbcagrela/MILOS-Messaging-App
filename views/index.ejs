@@ -6,7 +6,7 @@
     </div>
     <div class="content-mensagens">
 
-        
+
 
     </div>
 
@@ -41,24 +41,28 @@
         </div>
     </div>
 </div>
-  
-  <!-- Modal entrar no convite-->
-  <div class="modal fade" id="_aceitar_convite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+<!-- Modal entrar no convite-->
+<div class="modal fade" id="_aceitar_convite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 id="_aceitar_convite_title" class="modal-title" id="staticBackdropLabel"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="_aceitar_convite_title" class="modal-title" id="staticBackdropLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="_aceitar_convite_body" class="modal-body">
+                <p>Chat criado por:</p>
+                <p>Aceita entrar neste chat ??</p>
+            </div>
+            <div id="_aceitar_convite_footer" class="modal-footer">
+            </div>
         </div>
-        <div id="_aceitar_convite_body" class="modal-body">
-            <p>Chat criado por:</p>
-            <p>Aceita entrar neste chat ??</p>
-        </div>
-        <div id="_aceitar_convite_footer" class="modal-footer">
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Criar votação -->
+<span id="criar_votacao_modal"></span>
 
 <%- include('partials/footer.ejs') %>
 <script src="../Js/amigos.js"></script>

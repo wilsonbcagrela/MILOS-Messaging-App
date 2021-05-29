@@ -323,6 +323,7 @@ router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
         res.json(await result)
     })
 })
+
 router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
     let membros = (req.body.membros == undefined) ? [] : req.body.membros
 
@@ -331,8 +332,23 @@ router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
         res.json(await result)
     })
 })
+
 router.post('/guardaMensagem', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaConversas.insereMensagem(req.session.userId, req.body, async function (result) {
+        console.log(await result)
+    })
+    await buscaUtiizadores.findID(req.session.userId, async function (find) {
+        console.log(find)
+        if(find.image != null)
+            res.json({name: find.name, image: `"/uploads/${find.image}"`})
+        else
+            res.json({name: find.name, image: "/uploads/milos.png"})
+    })
+    
+})
+
+router.post('/envia_votacao', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaConversas.insereVoting(req.session.userId, req.body, async function (result) {
         console.log(await result)
     })
     await buscaUtiizadores.findID(req.session.userId, async function (find) {

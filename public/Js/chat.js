@@ -16,6 +16,8 @@ socket.on('message', function (msg) {
 
 lista_de_chats()
 mostraPerfil()
+
+var qtd_de_vot = 0
 function buscaMensagens (id,nome) {
     $('.mensagem').empty()
     $.post("./lista_mensagens", {
@@ -26,10 +28,53 @@ function buscaMensagens (id,nome) {
         if (JSON.stringify(data) != JSON.stringify([])) {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                if(index == data.length-1)
+                console.log(element)
+                if(element.message != null){
                     html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="15" height="15"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
-                else
-                    html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="15" height="15"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+                } 
+                else{
+                    console.log(element.votacao[0])
+                    let names = []
+                    let values = []
+
+                    html+=` <div class= "mensagemUser">
+                    <div> 
+                        <img src="${element.image_owner}" width="15" height="15"> "${element.owner}" enviou hoje às ${element.date} 
+                    </div>
+                    
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header">
+                            Pergunta:: ${element.votacao[0].titulo}`
+                            if(element.votacao[0].descrição == "") html+= `<br>Descrição:: "Não existe descrição" </div>`
+                            else html += `Descrição:: ${element.votacao[0].descrição} </div>`
+
+                    let array = element.votacao[0].opções
+                    html+= `<ul class="list-group list-group-flush">`
+                    for (let index = 0; index < array.length-1; index++) {
+                        const element1 = array[index]
+
+                        console.log(element1)
+                        html += `
+                                <li class="list-group-item">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="escolha_${qtd_de_vot}" id="escolha${index}_${qtd_de_vot}" onclick="voting_footer_update(${qtd_de_vot})">
+                                        <label class="form-check-label" for="escolha${index}_${qtd_de_vot}">
+                                            ${element1.name}
+                                        </label>
+                                    </div>
+                                </li>
+                                `
+                        
+                    }
+                                    
+                    html+= `        </ul>
+                                    <span id="voting_footer_btn_${qtd_de_vot}"></span>
+                                </div>
+                            </div>`
+                    
+                    qtd_de_vot++
+                    
+                }
             }
         }
         $('#load_conversas').remove()
@@ -38,6 +83,23 @@ function buscaMensagens (id,nome) {
             <nav class="navbar navbar-light bg-light">
                 <div class="container-fluid">
                     <h4>${nome}</h4>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="abrir_modal_voting('${id}')">
+                                Criar votação personalizada
+                        </button>
+                        <span class="dropdown">
+                            
+                            <a class=" dropdown btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opções do chat
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Partilhar conversa</a></li>
+                                <li><a class="dropdown-item" href="#">Editar conversa</a></li>
+                                <li><a class="dropdown-item" href="#">Eliminar conversa</a></li>
+                            </ul>
+                        </span>
+                        <button type="button" class="btn-close" aria-label="Close"></button>
+                    </div>
                 </div>
             </nav>
 
@@ -56,8 +118,159 @@ function buscaMensagens (id,nome) {
                 </div>`)
         $('#messagens').append(html)
         document.querySelector(".scrollable").scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
+
     })
 }
+
+function voting_footer_update(id){
+
+
+    $(`#voting_footer_btn_${id}`).empty()
+    $(`#voting_footer_btn_${id}`).append(`  <div class="card-footer text-end">
+                                                <button type="button" class="btn btn-success">Enviar</button>
+                                            </div>`
+                                        )
+                            
+
+}
+
+var opcoes_voting = 2
+function mais_opcoes_voting(){
+    opcoes_voting++
+    if(opcoes_voting > 2){
+        $("#menos_voting_btn").removeClass("invisible")
+        $("#menos_voting_btn").addClass("visible")
+    }
+    $('#mais_forms_voting').append(
+        `
+        <div class="form-floating mb-3" id="opção${opcoes_voting}_voting_div">
+            <input type="text" class="form-control" id="opção${opcoes_voting}_voting">
+            <label for="floatingInput">Opção ${opcoes_voting}</label>
+        </div>
+        
+        `
+    )
+}
+
+function menos_opcoes_voting(){
+    $(`#opção${opcoes_voting}_voting_div`).remove()
+    opcoes_voting--
+    if(opcoes_voting <= 2){
+        $("#menos_voting_btn").removeClass("visible")
+        $("#menos_voting_btn").addClass("invisible")
+    }
+    
+}
+
+function abrir_modal_voting(id){
+    $('#criar_votacao_modal').empty()
+    $('#criar_votacao_modal').append(
+        `
+            <div id="abrir_votacao_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Criar votação personalizada</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="title_voting">
+                                <label for="floatingInput">Titulo ..</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="descrição_voting" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Descrição</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="opção1_voting" value="Sim">
+                                <label for="floatingInput">Opção 1</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="opção2_voting" value="Não">
+                                <label for="floatingInput">Opção 2</label>
+                            </div>
+                            <span id="mais_forms_voting"></span>
+                            <button type="button" class="btn btn-primary btn-lg" onclick="mais_opcoes_voting()"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                    height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
+                                </svg>
+                                Mais opções 
+                            </button>
+                            <button id="menos_voting_btn" type="button" class="btn btn-danger btn-lg invisible" onclick="menos_opcoes_voting()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square-fill" viewBox="0 0 16 16">
+                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm2.5 7.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1z"/>
+                                </svg>
+                                Menos opções 
+                            </button>
+
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-success" onclick="enviar_voting_personalizada('${id}')">Criar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+    $("#abrir_votacao_modal").modal("show")
+    opcoes_voting = 2
+}
+
+function enviar_voting_personalizada(id){
+    let votação = []
+    let votação_ = {}
+    let opção = []
+    
+
+    if($('#title_voting').val() == "") {
+        $('#title_voting').addClass("is-invalid")
+        return 0
+    }
+    else    
+        votação_["titulo"] = $('#title_voting').val()
+    if($('#descrição_voting').val() == "")
+        votação_["descrição"] = null
+    else    
+        votação_["descrição"] = $('#descrição_voting').val()
+    for (let index = 1; index <= opcoes_voting; index++) {
+        if($(`#opção${index}_voting`).val() == "") {
+            $(`#opção${index}_voting`).addClass("is-invalid")
+            return 0
+        }
+        else {
+            let opção_ = {}
+            opção_["name"] = $(`#opção${index}_voting`).val()
+            opção_["value"] = []
+            opção.push(opção_)
+        }
+    }
+    let opção_ = {}
+    opção_["total"] = 0
+    opção.push(opção_)
+    votação_["opções"] = opção
+
+    votação.push(votação_)
+    console.log(votação)
+
+    $.post("./envia_votacao", {
+        id: id,
+        voting: votação
+    }).always(function (data) {
+        /*console.log(data)
+        socket.emit('message', {
+            room: id,
+            name: data.name,
+            image: data.image,
+            message: textArea,
+            time: hora.toLocaleTimeString()
+        })*/
+    })
+
+}
+
 function mostraPerfil(){
     $('.content-mensagens').empty()
     $('.content-mensagens').append(`<h1>Bem vindo ao milos ` + utilizador.innerHTML + `</h1>`)
