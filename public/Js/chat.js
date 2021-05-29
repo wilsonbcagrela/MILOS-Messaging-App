@@ -92,10 +92,10 @@ function buscaMensagens (id,nome) {
                             <a class=" dropdown btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 Opções do chat
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"> 
                                 <li><a class="dropdown-item" href="#">Partilhar conversa</a></li>
-                                <li><a class="dropdown-item" href="#">Editar conversa</a></li>
-                                <li><a class="dropdown-item" href="#">Eliminar conversa</a></li>
+                                <li><a class="dropdown-item"><button type="button"  onclick="atualiza_chats('${id}','${nome}')">Editar conversa</button></a></li>
+                                <li><a class="dropdown-item"><button type="button"  onclick="ApagaChatNaBaseDeDados('${id}')">Eliminar Conversa</button></a></li>
                             </ul>
                         </span>
                         <button type="button" class="btn-close" aria-label="Close"></button>
@@ -321,9 +321,9 @@ function lista_de_chats() {
                     `<div class="d-flex justify-content-between">` +
                     `<h5 class="mb-1">${element.nome}</h5>` +
                     `</div>`)
-                if(element.dono){
-                    $(".lista_chat").append(  `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
-                }
+                // if(element.dono){
+                //     $(".lista_chat").append(  `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
+                // }
                 
 
             })
@@ -472,10 +472,10 @@ function atualiza_chats(id, nome) {
             '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             `ck="atualizaChatNaBaseDeDados('${id}')">Guardar alterações</button></div>`
         )
-        $(".lista_chat").append(
-            '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-            `ck="ApagaChatNaBaseDeDados('${id}')">Apagar Conversa</button></div>`
-        )
+        // $(".lista_chat").append(
+        //     '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
+        //     `ck="ApagaChatNaBaseDeDados('${id}')">Apagar Conversa</button></div>`
+        // )
         $(".lista_chat").append(
             '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             'ck="lista_de_chats()">Back</button></div>'
