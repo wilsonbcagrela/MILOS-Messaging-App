@@ -2,6 +2,7 @@
 
 Abrir o projeto na linha de comandos
 Primeiro fazer:
+
  	npm install
 
 Após a instalação, nós usamos um script para iniciar o projeto:
