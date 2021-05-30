@@ -214,6 +214,30 @@ async function insereMensagem(id, data, callback) {
     
     callback(resultado.result)
 }
+async function SairConversa(id, idConversa) {
+    let result = []
+    let resultado = await dbo
+        .collection("Conversas")
+        .updateOne({
+            _id: new ObjectID(idConversa)
+        },{
+            $pull: {
+                membros: id
+            }
+        })
+    result.push(resultado)
+    let resultado2 = await dbo.collection("Utilizadores").updateOne({
+        _id: new ObjectID(id)
+    
+        }, {
+            $pull: {
+                "chat": {
+                    "id": new ObjectID(idConversa)
+                }
+            }
+        })
+    result.push(resultado2)
+}
 async function ApagaConversa(id, membros, idConversa) {
     let result = []
     let resultado = await dbo
@@ -290,5 +314,7 @@ module.exports = {
     rejeitar_conv_conversa,
     atualizaCHAT,
     ApagaConversa,
+    SairConversa,
     insereVoting
+
 }

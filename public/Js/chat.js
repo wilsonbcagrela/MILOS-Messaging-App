@@ -87,7 +87,7 @@ function buscaMensagens (id,nome) {
                     lists = (`<li><a class="dropdown-item"><button type="button"  onclick="atualiza_chats('${id}','${nome}')">Editar conversa</button></a></li>
                     <li><a class="dropdown-item"><button type="button"  onclick="ApagaChatNaBaseDeDados('${id}')">Eliminar Conversa</button></a></li>`)
                 }else{
-                    lists = (`<li><a class="dropdown-item"><button type="button" >Sair da Conversa</button></a></li>`)
+                    lists = (`<li><a class="dropdown-item"><button type="button" onclick="sairDaConversa('${id}')">Sair da Conversa</button></a></li>`)
                 }
             })
             $('.content-mensagens').append(
@@ -306,6 +306,14 @@ function atualizaChatNaBaseDeDados(id) {
         id: id,
         nome: nomeConversa,
         membros: amigos_para_add
+    }).always(function (data) {
+        console.log(data)
+        lista_de_chats()
+    })
+}
+function sairDaConversa(idConversa) {
+    $.post("./sairchat", {
+        id: idConversa
     }).always(function (data) {
         console.log(data)
         lista_de_chats()

@@ -117,7 +117,9 @@ router.post('/verifica_dono', verificaUtilizadorFezLogin, async (req, res, next)
     console.log(resposta)
     res.json(resposta)
 })
-
+router.post('/sairchat', verificaUtilizadorFezLogin, async (req, res, next) => {
+    await buscaConversas.SairConversa(req.session.userId,req.body.id )
+})
 router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaUtiizadores.findID(req.session.userId, async function (find) {
         let _find = await find.friends.amigos
