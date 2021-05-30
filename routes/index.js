@@ -190,9 +190,19 @@ router.post('/amigosNaConversa', verificaUtilizadorFezLogin, async (req, res, ne
     let amigos
     let amigosNaConversa = []
     let item
+    let owner
+    let ownerName
     await buscaConversas.findIdChat(req.body.id, async function (find){
         amigos = await find.membros
+        owner = await find.owner
     })
+    await buscaUtiizadores.findID(owner, async function (find) {
+        item = {}
+        item["id"] = find._id,
+        item["name"] = find.name
+        amigosNaConversa.push(item)
+    })
+    
     for (let index = 0; index < amigos.length; index++) {
         await buscaUtiizadores.findID(amigos[index], async function (find) {
             item = {}
@@ -373,7 +383,7 @@ router.post('/criaChat', verificaUtilizadorFezLogin, (req, res, next) => {
 router.post('/atualizaChat', verificaUtilizadorFezLogin, (req, res, next) => {
     let membros = (req.body.membros == undefined) ? [] : req.body.membros
 
-    buscaConversas.atualizaCHAT(req.session.userId, req.body.nome, membros, req.body.id, async function (result) {
+    buscaConversas.atualizaCHAT(req.body.nome, membros, req.body.id, async function (result) {
 
         res.json(await result)
     })

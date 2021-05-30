@@ -62,10 +62,17 @@ async function rejeitar_conv_conversa(id, id_conversa, callback) {
     console.log(result.result)
     return callback(result.result)
 }
-async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
+async function atualizaCHAT(nameChat, membros,idConversa, callback) {
     let result = []
-     
-    result1 = await dbo
+
+    if (membros.length > 0) {
+
+        _membros = []
+        membros.forEach(element => {
+            _membros.push(new ObjectID(element))
+        })
+
+        let result1 = await dbo
         .collection("Conversas")
         .updateOne({
             _id: new ObjectID(idConversa)
@@ -75,25 +82,19 @@ async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
                 nome: nameChat
             },
             $push: {
-                membros: membros
+                membros: {
+                    $each: _membros
+                }
             }
        
         })
 
-    result.push(result1)
-
-    if (membros.length > 0) {
-
-        _membros = []
-        membros.forEach(element => {
-            _membros.push(new ObjectID(element))
-        })
-
+        result.push(result1)
         __chat = {}
         __chat['id'] = new ObjectID(idConversa),
         __chat['status'] = 'pending_to_be_accepted'
 
-        result2 = await dbo.collection("Utilizadores").updateMany({
+        let result2 = await dbo.collection("Utilizadores").updateMany({
             _id: {
                 $in: _membros
             }
@@ -109,7 +110,7 @@ async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
 
     }
 
-    return callback(true)
+    return callback(result)
 }
 async function criarCHAT(id, nameChat, membros, callback) {
 
