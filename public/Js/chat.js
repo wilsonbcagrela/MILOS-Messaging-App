@@ -283,6 +283,9 @@ function enviar_voting_personalizada(id,nome){
         voting: votação
     }).always(function (data) {
         $("#abrir_votacao_modal").modal("hide")
+        $('.content-mensagens').empty()
+        $('.content-mensagens').append(`<span id="load_conversas" class="spinner-border spinner" role="status"></span>`)
+        socket.emit('switchRoom', id)
         buscaMensagens(id,nome)
         //location.reload()
         // console.log(data)
