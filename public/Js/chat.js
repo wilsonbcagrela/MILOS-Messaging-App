@@ -8,7 +8,7 @@ socket.on('connect', function () {})
 socket.on('message', function (msg) {
     let scroll = document.querySelector(".scrollable")
     $("#messagens").append(
-        '<div class= "mensagemUser"><div> <img src="'+msg.image+'" width="15" height="15"> "' + msg.name + '" enviou hoje às ' + msg.time + `</div><p>${msg.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+        '<div class= "mensagemUser"><div> <img src="'+msg.image+'" width="50" height="50"> "' + msg.name + '" enviou hoje às ' + msg.time + `</div><p>${msg.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
 
         )
     scroll.scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
@@ -29,8 +29,8 @@ function buscaMensagens (id,nome) {
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 console.log(element)
-                if(element.message != null){
-                    html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="15" height="15"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
+                if(element.message != null){ 
+                    html+='<div class= "mensagemUser"><div> <img src="'+element.image_owner+'" width="50" height="50"> "' + element.owner + '" enviou hoje às ' + element.date + `</div><p>${element.message.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p></div>`
                 } 
                 else{
                     console.log(element.votacao[0])
@@ -130,6 +130,17 @@ function buscaMensagens (id,nome) {
             $('#messagens').append(html)
             document.querySelector(".scrollable").scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
            
+        })
+    })
+    $('.mensagem').empty()
+    $.post("./amigosNaConversa", {
+        id: id
+    }).always(function (data) {
+        $('.lista_amigos').empty()
+        $("#tituloAmigos").empty();
+        $("#tituloAmigos").append('<p>Pessoas nesta conversa:</p>')
+        data.forEach(element => {
+            $(".lista_amigos").append(`<p>${element.name}</p>`)
         })
     })
 }
@@ -315,8 +326,7 @@ function sairDaConversa(idConversa) {
     $.post("./sairchat", {
         id: idConversa
     }).always(function (data) {
-        console.log(data)
-        lista_de_chats()
+        location.reload()
     })
 }
 function ApagaChatNaBaseDeDados(id) {
@@ -324,7 +334,6 @@ function ApagaChatNaBaseDeDados(id) {
         id: id,
     }).always(
         location.reload()
-        // lista_de_chats()
     )
 }
 function lista_de_chats() {
@@ -341,10 +350,6 @@ function lista_de_chats() {
                     `<div class="d-flex justify-content-between">` +
                     `<h5 class="mb-1">${element.nome}</h5>` +
                     `</div>`)
-                // if(element.dono){
-                //     $(".lista_chat").append(  `</a><button type="button" onclick="atualiza_chats('${element.id}','${element.nome}')">Editar conversa</button>`)
-                // }
-                
 
             })
         }
@@ -492,10 +497,6 @@ function atualiza_chats(id, nome) {
             '<br><br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             `ck="atualizaChatNaBaseDeDados('${id}')">Guardar alterações</button></div>`
         )
-        // $(".lista_chat").append(
-        //     '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
-        //     `ck="ApagaChatNaBaseDeDados('${id}')">Apagar Conversa</button></div>`
-        // )
         $(".lista_chat").append(
             '<br><div class="d-grid gap-2"><button type="button" class="btn btn-info" oncli' +
             'ck="lista_de_chats()">Back</button></div>'

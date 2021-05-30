@@ -339,6 +339,10 @@ header h3 {
   padding: 5px;
 }
 
+.maingrid .content-mensagens .scrollable .mensagem .mensagemUser img {
+  border-radius: 25px;
+}
+
 .maingrid .content-mensagens .scrollable .mensagem .mensagemUser:hover {
   background: lightgrey;
   border-radius: 25px;

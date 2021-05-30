@@ -119,6 +119,7 @@ router.post('/verifica_dono', verificaUtilizadorFezLogin, async (req, res, next)
 })
 router.post('/sairchat', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaConversas.SairConversa(req.session.userId,req.body.id )
+    res.json("yoo")
 })
 router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
     await buscaUtiizadores.findID(req.session.userId, async function (find) {
@@ -185,7 +186,23 @@ router.post('/verificaSeAmigoEstaNaConversa', verificaUtilizadorFezLogin, async 
     res.json(amigosNomes)
 
 })
-
+router.post('/amigosNaConversa', verificaUtilizadorFezLogin, async (req, res, next) => {
+    let amigos
+    let amigosNaConversa = []
+    let item
+    await buscaConversas.findIdChat(req.body.id, async function (find){
+        amigos = await find.membros
+    })
+    for (let index = 0; index < amigos.length; index++) {
+        await buscaUtiizadores.findID(amigos[index], async function (find) {
+            item = {}
+            item["id"] = find._id,
+            item["name"] = find.name
+            amigosNaConversa.push(item)
+        })
+    }
+    res.json(amigosNaConversa)
+})
 router.post('/ApagaChat', verificaUtilizadorFezLogin, async (req, res, next) => {
     let amigosNaConversa
     await buscaConversas.findIdChat(req.body.id, async function (find){
@@ -217,9 +234,9 @@ router.post('/lista_mensagens', verificaUtilizadorFezLogin, async (req, res, nex
                 await buscaUtiizadores.findID(temp[index].owner, async function (_result) {
                     if(_result.image != null){
                         console.log(_result.image)
-                        cache.set(temp[index].owner.toString(), {name: _result.name, image: "/uploads/" + result.image})
+                        cache.set(temp[index].owner.toString(), {name: _result.name, image: _result.image})
                         temp[index].owner = _result.name
-                        temp[index].image_owner = "/uploads/${result.image}"
+                        temp[index].image_owner = _result.image
                     }
                     else{
                         cache.set(temp[index].owner.toString(), {name: _result.name, image: "/uploads/milos.png"})

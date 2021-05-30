@@ -246,7 +246,7 @@ async function ApagaConversa(id, membros, idConversa) {
             _id: new ObjectID(idConversa)
         })
     result.push(resultado)
-    _chat = {}
+    let _chat = {}
     _chat['id'] = new ObjectID(idConversa)
     _chat['status'] = 'accepted'
 
@@ -262,10 +262,9 @@ async function ApagaConversa(id, membros, idConversa) {
         })
     result.push(resultado2)
 
-    _membros = []
-
+    let _membros = []
+    
     membros.forEach(element => {
-
         _membros.push(new ObjectID(element))
 
     })

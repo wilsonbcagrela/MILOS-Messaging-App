@@ -113,7 +113,9 @@ header {
                 border-radius: 25px;
                 .mensagemUser {
                     padding: 5px;
-
+                    img{
+                        border-radius: 25px;
+                    }
                     &:hover{
                         background: lightgrey;
                         border-radius: 25px;
