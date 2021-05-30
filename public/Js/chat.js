@@ -44,7 +44,7 @@ function buscaMensagens (id,nome) {
                     
                     <div class="card" style="width: 18rem;">
                         <div class="card-header">
-                            Pergunta:: ${element.votacao[0].titulo}`
+                            Pergunta:: ${element.votacao[0].titulo}<br>` 
                             if(element.votacao[0].descrição == "") html+= `<br>Descrição:: "Não existe descrição" </div>`
                             else html += `Descrição:: ${element.votacao[0].descrição} </div>`
 
@@ -282,14 +282,16 @@ function enviar_voting_personalizada(id){
         id: id,
         voting: votação
     }).always(function (data) {
-        /*console.log(data)
-        socket.emit('message', {
-            room: id,
-            name: data.name,
-            image: data.image,
-            message: textArea,
-            time: hora.toLocaleTimeString()
-        })*/
+        $("#abrir_votacao_modal").modal("hide")
+        location.reload()
+        // console.log(data)
+        // socket.emit('message', {
+        //     room: id,
+        //     name: data.name,
+        //     image: data.image,
+        //     message: textArea,
+        //     time: hora.toLocaleTimeString()
+        // })
     })
 
 }
