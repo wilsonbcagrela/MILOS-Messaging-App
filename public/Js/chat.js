@@ -96,7 +96,7 @@ function buscaMensagens (id,nome) {
                     <div class="container-fluid">
                         <h4>${nome}</h4>
                         <div>
-                            <button type="button" class="btn btn-sm btn-primary" onclick="abrir_modal_voting('${id}')">
+                            <button type="button" class="btn btn-sm btn-primary" onclick="abrir_modal_voting('${id}','${nome}')">
                                     Criar votação personalizada
                             </button>
                             <span class="dropdown">
@@ -185,7 +185,7 @@ function menos_opcoes_voting(){
     
 }
 
-function abrir_modal_voting(id){
+function abrir_modal_voting(id,nome){
     $('#criar_votacao_modal').empty()
     $('#criar_votacao_modal').append(
         `
@@ -232,7 +232,7 @@ function abrir_modal_voting(id){
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-success" onclick="enviar_voting_personalizada('${id}')">Criar</button>
+                            <button type="button" class="btn btn-success" onclick="enviar_voting_personalizada('${id}','${nome}')">Criar</button>
                         </div>
                     </div>
                 </div>
@@ -242,7 +242,7 @@ function abrir_modal_voting(id){
     opcoes_voting = 2
 }
 
-function enviar_voting_personalizada(id){
+function enviar_voting_personalizada(id,nome){
     let votação = []
     let votação_ = {}
     let opção = []
@@ -283,7 +283,8 @@ function enviar_voting_personalizada(id){
         voting: votação
     }).always(function (data) {
         $("#abrir_votacao_modal").modal("hide")
-        location.reload()
+        buscaMensagens(id,nome)
+        //location.reload()
         // console.log(data)
         // socket.emit('message', {
         //     room: id,
