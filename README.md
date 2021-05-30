@@ -1,6 +1,6 @@
 # MILOS---Messaging-Interactive-Link-Online-Session
 
-Abrir o projeto na linha de comandos
+Abrir o projeto na linha de comandos no diretorio principal do projeto
 
 Primeiro fazer:
 
