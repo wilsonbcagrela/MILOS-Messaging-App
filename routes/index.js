@@ -95,15 +95,27 @@ router.post('/lista_chat', verificaUtilizadorFezLogin, async (req, res, next) =>
             let list = {}
             list['id'] = await find._id,
             list['nome'] = await find.nome
-            if(find.owner == req.session.userId){
-                list['dono'] = true
-            }
             console.log(list)
             resposta.push(list)
         })
     }
+
     res.json(resposta)
 
+})
+router.post('/verifica_dono', verificaUtilizadorFezLogin, async (req, res, next) => {
+    let resposta = []
+    await buscaConversas.findIdChat(req.body.id, async function (find) {
+        let list = {}
+        if(find.owner == req.session.userId){
+            list['dono'] = true
+        }else{
+            list['dono'] = false
+        }
+        resposta.push(list)
+    })
+    console.log(resposta)
+    res.json(resposta)
 })
 
 router.post('/lista_amigos', verificaUtilizadorFezLogin, async (req, res, next) => {
@@ -139,11 +151,15 @@ router.post('/verificaSeAmigoEstaNaConversa', verificaUtilizadorFezLogin, async 
     })
     console.log(JSON.stringify(amigosNaConversa))
     amigosNaConversaString = JSON.stringify(amigosNaConversa)
+
     for (let index = 0; index < amigos.length; index++) {
+
         if(amigosNaConversa.length != 0){
             let amigosString = JSON.stringify(amigos[index])
+
             if(!amigosNaConversaString.includes(amigosString)){
                 console.log(amigosNaConversaString.includes(amigosString))
+
                 await buscaUtiizadores.findID(amigos[index], async function (find) {
                     item = {}
                     item["id"] = find._id,

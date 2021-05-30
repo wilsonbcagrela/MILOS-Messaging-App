@@ -93,7 +93,7 @@ async function atualizaCHAT(id, nameChat, membros,idConversa, callback) {
         __chat['id'] = new ObjectID(idConversa),
         __chat['status'] = 'pending_to_be_accepted'
 
-        result2 = await dbo.collection("Utilizadores").updateOne({
+        result2 = await dbo.collection("Utilizadores").updateMany({
             _id: {
                 $in: _membros
             }
@@ -153,7 +153,7 @@ async function criarCHAT(id, nameChat, membros, callback) {
         _chat['id'] = new ObjectID(result1.ops[0]._id),
             _chat['status'] = 'pending_to_be_accepted'
 
-        result3 = await dbo.collection("Utilizadores").updateOne({
+        result3 = await dbo.collection("Utilizadores").updateMany({
             _id: {
                 $in: _membros
             }
@@ -245,7 +245,7 @@ async function ApagaConversa(id, membros, idConversa) {
         _membros.push(new ObjectID(element))
 
     })
-    let resultado3 = await dbo.collection("Utilizadores").updateOne({
+    let resultado3 = await dbo.collection("Utilizadores").updateMany({
         _id: {
             $in: _membros
         }

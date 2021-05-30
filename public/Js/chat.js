@@ -78,47 +78,59 @@ function buscaMensagens (id,nome) {
             }
         }
         $('#load_conversas').remove()
-        $('.content-mensagens').append(
-            `
-            <nav class="navbar navbar-light bg-light">
-                <div class="container-fluid">
-                    <h4>${nome}</h4>
-                    <div>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="abrir_modal_voting('${id}')">
-                                Criar votação personalizada
-                        </button>
-                        <span class="dropdown">
+        $.post("./verifica_dono", {
+            id: id
+        }).always(function (data) {
+            let lists
+            data.forEach(element => {
+                if(element.dono){                
+                    lists = (`<li><a class="dropdown-item"><button type="button"  onclick="atualiza_chats('${id}','${nome}')">Editar conversa</button></a></li>
+                    <li><a class="dropdown-item"><button type="button"  onclick="ApagaChatNaBaseDeDados('${id}')">Eliminar Conversa</button></a></li>`)
+                }else{
+                    lists = (`<li><a class="dropdown-item"><button type="button" >Sair da Conversa</button></a></li>`)
+                }
+            })
+            $('.content-mensagens').append(
+                `
+                <nav class="navbar navbar-light bg-light">
+                    <div class="container-fluid">
+                        <h4>${nome}</h4>
+                        <div>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="abrir_modal_voting('${id}')">
+                                    Criar votação personalizada
+                            </button>
+                            <span class="dropdown">
+                                
+                                <a class=" dropdown btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opções do chat
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"> 
+                                    <li><a class="dropdown-item" href="#">Partilhar conversa</a></li>
+                                    ${lists}               
+                                </ul>
+                            </span>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="scrollable">
+                
+                        <div id="messagens" class="mensagem">
                             
-                            <a class=" dropdown btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                Opções do chat
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink"> 
-                                <li><a class="dropdown-item" href="#">Partilhar conversa</a></li>
-                                <li><a class="dropdown-item"><button type="button"  onclick="atualiza_chats('${id}','${nome}')">Editar conversa</button></a></li>
-                                <li><a class="dropdown-item"><button type="button"  onclick="ApagaChatNaBaseDeDados('${id}')">Eliminar Conversa</button></a></li>
-                            </ul>
-                        </span>
-                        <button type="button" class="btn-close" aria-label="Close"></button>
+                        </div>
                     </div>
-                </div>
-            </nav>
 
-            <div class="scrollable">
-               
-                    <div id="messagens" class="mensagem">
-                        
-                    </div>
-                </div>
-
-                <div class="writtinZone">
-                    <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-                    <div class="icons"> emojis e mandar ficheiros</div>
-                    <button type="button" id="botao" class="send btn btn-primary btn-lg" onclick="enviar_msg_db('${id}')">ENVIAR
-                    </button>
-                </div>`)
-        $('#messagens').append(html)
-        document.querySelector(".scrollable").scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
-
+                    <div class="writtinZone">
+                        <textarea class="textArea form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                        <div class="icons"> emojis e mandar ficheiros</div>
+                        <button type="button" id="botao" class="send btn btn-primary btn-lg" onclick="enviar_msg_db('${id}')">ENVIAR
+                        </button>
+                    </div>`)
+            $('#messagens').append(html)
+            document.querySelector(".scrollable").scrollTo(0,  document.querySelector(".scrollable").scrollHeight);
+           
+        })
     })
 }
 
