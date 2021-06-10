@@ -304,6 +304,7 @@ async function insereVoting(id, data, callback) {
     callback(resultado.result)
 }
 
+
 module.exports = {
     criarCHAT,
     buscaChat,
